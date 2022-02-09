@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Widget Development</title>
+    <link href="../Content/normalize.css" rel="stylesheet" type="text/css" />
+    <link href="../Content/site.css" rel="stylesheet" type="text/css" />
+    <link href="../Content/dashboard.css" rel="stylesheet" type="text/css" />
+    <link href="../Content/widgets/rssnews.css" rel="stylesheet" type="text/css" />
+    <script src="../Scripts/jquery-1.7.2.js" type="text/javascript"></script>
+    <script src="../Scripts/jquery-ui-1.8.20.js" type="text/javascript"></script>
+    <script src="../Scripts/modernizr-2.7.2.js" type="text/javascript"></script>
+    <script src="../Scripts/widgets/rssnews.js" type="text/javascript"></script>
+    <!--<script src="../Scripts/jquery.zrssfeed.js" type="text/javascript"></script>-->
+    <script src="../Scripts/jfeed/jrss.js" type="text/javascript"></script>
+    <script src="../Scripts/jfeed/jatom.js" type="text/javascript"></script>
+    <script src="../Scripts/jfeed/jfeeditem.js" type="text/javascript"></script>
+    <script src="../Scripts/jfeed/jfeed.js" type="text/javascript"></script>
+    <script src="../Scripts/dashboard.js" type="text/javascript"></script>
+</head>
+<body>
+    <div class="page">
+        <section id="main">
+            <div id="dashboard" class="dashboard">
+                <div id="dashboardcolumn0" class="dashboardcolumn ui-sortable">
+                    <div id="widget7" class="widget widget-rssnews editable" data-id="7" data-baseconf="{&quot;feeds&quot;:[{&quot;id&quot;:&quot;drnews&quot;,&quot;title&quot;:&quot;Alle nyheder&quot;,&quot;url&quot;:&quot;http://www.dr.dk/nyheder/service/feeds/allenyheder&quot;}]}"
+                        data-instanceconf="{&quot;selectedfeed&quot;:&quot;drnews&quot;}">
+                        <div class="widget-head">
+                            <img src="../Content/widgets/images/damconews-small.gif" alt="Logo" />
+                            <span>Damco News</span>
+                            <a class="delete noselection"></a>
+                            <a class="configuration noselection"></a>
+                        </div>
+                        <div class="widget-content">
+                            <div class="widget-config" style="display:none"> 
+                                <p>Click on the news category that should be displayed in this widget.</p>
+                                <ul class="configList">
+                                    <li class="configItem template" style="display:none"><a target="_blank"></a></li>
+                                </ul>
+                                <div>&nbsp;</div>
+                            </div>
+                            <div class="feedTitle" style="display:none"><a target="_parent"></a></div>
+                        </div>
+                    </div>
+                </div>
+                <div id="dashboardcolumn1" class="dashboardcolumn ui-sortable">
+                </div>
+                <div id="dashboardcolumn2" class="dashboardcolumn ui-sortable">
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

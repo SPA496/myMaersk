@@ -1,0 +1,2 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="menu.xsl"?><data><application><portalclass>REPORTING</portalclass></application><dropmenu class="greenmenu" id="search_menu"><item app="track" url="page?ref=/search&amp;search=">Track and trace</item><item app="reporting" url="page?action=extract_center&amp;search=">Search definitions</item></dropmenu></data>

@@ -1,0 +1,56 @@
+﻿@using myDamco.Models
+@model myDamco.Models.DashboardModel
+@{
+    ViewBag.Title = "myMaerskSCM Dashboard";
+}
+
+@{
+    <script type="text/javascript">
+         // Make sure we reload the page if we have updated the DOM with java script and someone uses the back button
+         if (document.cookie.match("invalidatebfcache=1")) {
+             document.cookie = "invalidatebfcache=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+             window.location.reload();
+         }
+    </script>
+}
+
+
+@if (Model.announcement != null)
+{
+    <div id="dashboard-announcements" class="ui-state-error ui-corner-all"><span id="announcement-icon" class="ui-icon ui-icon-alert"></span><span id="announcement-body">@Model.announcement.Description</span></div>
+}
+
+<div id="dashboard-widget-list">
+    <div id="addwidgetpadding">
+        <span class="action" id="addwidgetlink">
+            Add New Widget
+        </span>
+    </div>
+    <div id="widgetlist" style="display: none;">
+    @Html.Partial("_AddNewWidget", Model.Widgets)
+    </div>
+</div>
+
+<div id="dashboard-error-dialog" style="display:none">Operation failed with the following error description: <div id="error-description" class="ui-state-error ui-corner-all"></div></div>
+
+<div id="dashboard" class="dashboard">
+  @for (var i = 0; i < 3; i++)
+  { 
+    <div id="dashboardcolumn@(i)" class="dashboardcolumn ui-sortable" data-column="@(i)">
+    @foreach (var wi in Model.WidgetInstances.Where(r => r.DashboardColumn == i))
+    {
+        @Html.Partial("_WidgetInstance", new WidgetModel(Model.Widgets[wi.Widget_Id], wi))
+    }
+    </div>
+  }
+</div>
+
+<div id="widgetcode" class="widgetcode">
+    @foreach (var w in Model.Widgets.Values)
+    {
+        if (File.Exists(Server.MapPath("~/Views/Dashboard/Widgets/_" + w.Template + ".cshtml")))
+        {
+            @Html.Partial("Widgets/_" + w.Template, w)
+        }
+    }
+</div>

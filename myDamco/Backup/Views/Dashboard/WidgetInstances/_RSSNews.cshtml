@@ -1,0 +1,38 @@
+﻿@model myDamco.Models.WidgetModel
+@{
+    Html.Resource("~/Content/dashboard.css");
+    Html.Resource("~/Scripts/dashboard.js");
+    Html.Resource("~/Content/widgets/rssnews.css");
+    Html.Resource("~/Scripts/jfeed/jfeed.js");
+    Html.Resource("~/Scripts/jfeed/jfeeditem.js");
+    Html.Resource("~/Scripts/jfeed/jatom.js");
+    Html.Resource("~/Scripts/jfeed/jrss.js");
+    Html.Resource("~/Scripts/widgets/rssnews.js");
+}
+
+<div class="configuration" style="display:none"> 
+    <p>Click on the news category that should be displayed in this widget.</p>
+    <div class="configList">
+        <a class="configItem template" style="display:none"></a>
+    </div>
+</div>
+
+<div class="feed-content">
+    <div class="feedDate template" style="display:none"></div>
+    <div class="feedTitle template" style="display:none"><a target="_blank"></a></div>
+    <div class="feedEmpty template" style="display:none">The news category is empty.</div>
+</div>
+
+<img class="loadingspinner" style="display:none" src="@Url.Content("~/Content/images/wait_15.gif")" alt="Loading" />
+
+<div class="serviceError" style="display:none">News service failed with the following error description: <div class="errorDescription"></div></div>
+
+<div class="bottom-options">
+    <div class="action newer noselection" style="display:none"><div class="icon"></div>Newer</div>
+    <div class="action older noselection" style="display:none">Older<div class="icon"></div></div>
+    <div class="archive noselection" style="display:none"><a class="action" target="_blank">Show Archive</a></div>
+</div>
+
+
+
+

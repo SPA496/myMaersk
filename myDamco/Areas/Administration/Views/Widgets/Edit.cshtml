@@ -1,0 +1,318 @@
+﻿@model myDamco.Database.Widget
+
+@{
+    ViewBag.Title = "Edit";
+
+    Html.Resource("~/Scripts/jsoneditor/jsoneditor.js");
+    Html.Resource("~/Scripts/jsoneditor/jsoneditor.css");
+}
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+        
+
+
+<script type="text/javascript">
+    $(function () {
+        $(".Schema").each(function (i, e) {
+            var div = $(".SchemaDiv", e);
+            var link = $("a", e);
+
+            link.click(function (e) {
+                div.show();
+                link.hide();
+                e.preventDefault();
+            });
+        });
+
+        
+        $("#save").click(function (ev) {
+            if(!validateInput())
+                ev.preventDefault();
+        });
+
+        $(".jsoneditrow").each(function (i, e) {
+            var container = $(".jsoneditor", this)[0];
+            var editor = new jsoneditor.JSONEditor(container);
+            $(this).data("editor", editor);
+
+            enableJsonEditor(this);
+
+            $("#save").click(function (ev) {
+                if ($(e).data("editorEnabled"))
+                    disableJsonEditor(e);
+            });
+            $("td:first a", this).click(function () {
+                var row = $(this).closest("tr");
+                var editorEnabled = row.data("editorEnabled");
+                if (editorEnabled)
+                    disableJsonEditor(row);
+                else
+                    enableJsonEditor(row);
+
+                return false;
+            });
+        });
+
+        function enableJsonEditor(row) {
+            var content = $("textarea.content", row);
+            var jsonObj;
+            try {
+                jsonObj = $.parseJSON(content.val())
+            }
+            catch (e) {
+                $(".jsoneditor", row).hide();
+                $('<p class="ui-state-error ui-corner-all" style="padding: 5px">The text is not valid JSON.<br>Please fix it.</p>').appendTo($(row)[0].childNodes[1]).delay(4000).fadeOut(400);
+                return;
+            }
+
+            $(".jsoneditor", row).show();
+            $("textarea.content", row).hide();
+            $(row).data("editorEnabled", true);
+            $(row).data("editor").set(jsonObj);
+        }
+
+        function disableJsonEditor(row) {
+            $(".jsoneditor", row).hide();
+            $("textarea.content", row).show();
+            $(row).data("editorEnabled", false);
+
+            var container = $(".jsoneditor", row)[0];
+
+            var editor = $(row).data("editor");
+
+            var json = editor.get();
+
+            var content = $(".content", row);
+            var str = JSON.stringify(json, null, 4);
+            content.val(str);
+        }
+
+        function validateInput() {
+            var valid = true;
+
+            $(".jsoneditrow").each(function (i, e) {
+                var content = $("textarea.content", e);
+                try {
+                    $.parseJSON(content.val());
+                }
+                catch (ex) {
+                    $('<p class="ui-state-error ui-corner-all" style="padding: 5px">The text is not valid JSON.<br>Please fix it.</p>').appendTo($(e)[0].childNodes[1]).delay(4000).fadeOut(400);
+                    valid = false;
+                }
+            });
+            return valid;
+        }
+    });
+</script>
+
+<style>
+td 
+{
+    vertical-align: top;
+}
+.content 
+{
+    min-height: 100px;
+}
+</style>
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model => model.Id)
+
+    <table>
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.UId)
+            </td>
+            <td>
+                @Html.EditorFor(model => model.UId)
+                @Html.ValidationMessageFor(model => model.UId)
+            </td>
+        </tr>
+
+
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.Title)
+            </td>
+            <td>
+                @Html.EditorFor(model => model.Title)
+                @Html.ValidationMessageFor(model => model.Title)
+            </td>
+        </tr>
+        
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.Icon)
+            </td>
+            <td>
+                @Html.EditorFor(model => model.Icon)
+                @Html.ValidationMessageFor(model => model.Icon)
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.ServiceURL)
+            </td>
+            <td>
+                @Html.EditorFor(model => model.ServiceURL)
+                @Html.ValidationMessageFor(model => model.ServiceURL)
+            </td>
+        </tr>
+
+
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.Description)
+            </td>
+            <td>
+                @Html.EditorFor(model => model.Description)
+                @Html.ValidationMessageFor(model => model.Description)
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.Category)
+            </td>
+            <td>
+                @Html.EditorFor(model => model.Category)
+                @Html.ValidationMessageFor(model => model.Category)
+            </td>
+        </tr>
+        
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.Template)
+            </td>
+            <td>
+                @Html.EditorFor(model => model.Template)
+                @Html.ValidationMessageFor(model => model.Template)
+            </td>
+        </tr>
+        
+        <tr class="jsoneditrow">
+            <td>
+                @Html.LabelFor(model => model.Configuration)
+                <br /><a href="#">View source</a>
+            </td>
+            <td>
+                <div class="jsoneditor" style="width: 800px;"></div>
+                @Html.TextAreaFor(model => model.Configuration, new { @class="content", style="width: 800px; height: 300px;" })
+                @Html.ValidationMessageFor(model => model.Configuration)
+            </td>
+        </tr>
+        
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.ConfigurationSchema)
+            </td>
+            <td class="Schema">
+                <a href="#">[Show Schema]</a>
+                <div class="SchemaDiv" style="display: none;">
+                    @Html.TextAreaFor(model => model.ConfigurationSchema, new { cols = 100, @rows = 20 })
+                    @Html.ValidationMessageFor(model => model.ConfigurationSchema)
+                </div>
+            </td>
+        </tr>
+ 
+        <tr class="jsoneditrow">
+            <td>
+                @Html.LabelFor(model => model.ServiceConfiguration)
+                <br /><a href="#">View source</a>
+            </td>
+            <td>
+                <div class="jsoneditor" style="width: 800px;"></div>
+                @Html.TextAreaFor(model => model.ServiceConfiguration, new { @class = "content", style = "width: 800px; height: 300px;" })
+                @Html.ValidationMessageFor(model => model.ServiceConfiguration)
+            </td>
+        </tr>
+        
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.ServiceConfigurationSchema)
+            </td>
+            <td class="Schema">
+                <a href="#">[Show Schema]</a>
+                <div class="SchemaDiv" style="display: none;">
+                    @Html.TextAreaFor(model => model.ServiceConfigurationSchema, new { cols = 100, @rows = 20 })
+                    @Html.ValidationMessageFor(model => model.ServiceConfigurationSchema)
+                </div>
+            </td>
+        </tr>
+ 
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.InstanceConfigurationSchema)
+            </td>
+            <td class="Schema">
+                <a href="#">[Show Schema]</a>
+                <div class="SchemaDiv" style="display: none;">
+                    @Html.TextAreaFor(model => model.InstanceConfigurationSchema, new { cols = 100, @rows = 20 })
+                    @Html.ValidationMessageFor(model => model.InstanceConfigurationSchema)
+                </div>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.ServiceURL)
+            </td>
+            <td>
+                @Html.EditorFor(model => model.ServiceURL)
+                @Html.ValidationMessageFor(model => model.ServiceURL)
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                UAM
+            </td>
+            <td>
+                @Html.EditorFor(model => model.UAMApplication):@Html.EditorFor(model => model.UAMFunction)
+
+                @Html.ValidationMessageFor(model => model.UAMApplication)
+                @Html.ValidationMessageFor(model => model.UAMFunction)
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.Editable)
+            </td>
+            <td>
+                @Html.EditorFor(model => model.Editable)
+                @Html.ValidationMessageFor(model => model.Editable)
+            </td>
+        </tr>
+
+        
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.Disabled)
+            </td>
+            <td>
+                @Html.EditorFor(model => model.Disabled)
+                @Html.ValidationMessageFor(model => model.Disabled)
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+            </td>
+            <td>
+                <input type="button" value="Cancel" onclick="document.location='@Url.Action("Index")'" id="updateWidgetCancelButton" />
+                <input type="submit" value="Save" id="save"/>
+            </td>
+        </tr>
+
+    </table>
+}
+
+<div>
+    
+</div>

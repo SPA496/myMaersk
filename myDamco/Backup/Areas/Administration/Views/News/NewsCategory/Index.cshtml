@@ -1,0 +1,388 @@
+﻿@model IEnumerable<myDamco.Database.NewsCategory>
+@{
+    ViewBag.Title = "NewsCategory";
+}
+@{
+
+    RouteValueDictionary currentRouteValues = new RouteValueDictionary(new {
+        start = ViewBag.Start,
+        itemsPerPage = ViewBag.ItemsPerPage,
+        orderBy = ViewBag.OrderBy,
+        desc = ViewBag.Desc
+    });
+}
+
+<div id="AjaxGridContainer">
+    <div class="create-new-wrapper"><a href="#insertEmptyRow" class="insertEmptyRow hidden createnew">Create new</a></div>
+    <table id="AjaxGrid">
+        <thead>
+            <tr>
+                <th data-column-name="Name" width="16">
+                </th>
+                <th data-column-name="Name" width="200">
+                    <span class="reorder">Name</span>
+                </th>
+                <th data-column-name="Language">
+                    <span class="reorder">Lan</span>
+                </th>
+                <th data-column-name="Description">
+                    <span class="reorder">Description</span>
+                </th>
+                <th data-column-name="Configuration">
+                    <span class="reorder">Configuration</span>
+                </th>
+                <th data-column-name="editUAMApplication">
+                    <span class="reorder">Edit rights</span>
+                </th>
+                <th data-column-name="editUAMFunction">
+                </th>
+                <th data-column-name="showUAMApplication">
+                    <span class="reorder">showapplication</span>
+                </th>
+                <th data-column-name="showUAMFunction">
+                    <span class="reorder"></span>
+                </th>
+                <th data-column-name="Name" width="16">
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @{Html.RenderAction("GridData", "NewsCategory", new { start = ViewBag.Start });}
+        </tbody>
+    </table>
+    
+    @* Edit category configuration dialog markup *@
+    <div class="editConfigurationDialog" title="Edit Configuration" style="display:none;">
+        <div class="errorContainer" style="position:absolute;right:0;top:0;"></div>
+        <textarea style="width:100%;height:100%;*height:200px;resize:none;" wrap="off"></textarea>
+    </div>
+    
+    @* Show category configuration dialog markup *@
+    <div class="showConfigurationDialog" title="Current Configuration" style="display:none;">
+        <textarea disabled='disabled' style='border:0;resize:none;width:100%;height:100%;*height:200px;color:#aaaaaa;background-color:white;' wrap="off"></textarea>
+    </div>
+
+</div>
+
+<style>
+    #AjaxGrid, #AjaxGrid input, #AjaxGrid button { clear: both; width: 100%; }
+    #AjaxGrid thead { white-space: nowrap; }
+    #AjaxGrid thead a, #AjaxGridContainer .AjaxGridNavigation a { text-decoration: none; }
+    #AjaxGrid .error { background-color: #f66; color: #000; }
+    #AjaxGridContainer .hidden { display: none; }
+    #AjaxGridContainer .AjaxGridNavigation input.pageNum { width: 2em; }
+    #AjaxGridContainer .AjaxGridNavigation .itemsPerPage { float: right; }
+</style>
+
+<script type="text/javascript">
+    (function ($, undefined) {
+        var totalRowCount = 999,
+            currentPage = 1,
+            pageCount = 0,
+            savedParams = {
+                start: 0,
+                itemsPerPage: 999
+            },
+            unloadWarningSet = false,
+            containerContext, gridContext, navigationContext;
+
+        $.ajaxSetup({ cache: false });
+
+        function reloadGrid(params) {
+            if (params.start === undefined || (params.start >= 0 && params.start < totalRowCount)) {
+                if (!unloadWarningSet || confirm('You have unsaved changes. Are you sure you want to reload the grid?')) {
+                    unloadWarningSet = false;
+                    $(window).unbind('beforeunload');
+
+                    $.extend(savedParams, params);
+                    currentPage = Math.floor(savedParams.start / savedParams.itemsPerPage) + 1;
+                    savedParams.start = (currentPage - 1) * savedParams.itemsPerPage;
+
+                    return $.get('@Html.Raw(Url.Action("GridData", "NewsCategory"))', savedParams).done(function (rows, status, xhr) {
+                        gridContext.find('tbody').html(rows);
+                        totalRowCount = Math.floor(xhr.getResponseHeader('X-Total-Row-Count'));
+                        pageCount = Math.ceil(totalRowCount / savedParams.itemsPerPage);
+
+                        gridContext.find('td').filter(':last-child').removeClass('hidden');
+                        navigationContext.find('input.pageNum').val(currentPage);
+                        navigationContext.find('span.pageCount').html(pageCount);
+                        navigationContext.find('.itemsPerPage select').val(savedParams.itemsPerPage);
+
+                        if (currentPage === 1) {
+                            navigationContext.find('a.prev, a.begin').each(disableLink);
+                        } else {
+                            navigationContext.find('span.prev, span.begin').each(enableLink);
+                        }
+                        if (currentPage === pageCount) {
+                            navigationContext.find('a.next, a.end').each(disableLink);
+                        } else {
+                            navigationContext.find('span.next, span.end').each(enableLink);
+                        }
+                    });
+                }
+            }
+            return $.Deferred().reject();
+        }
+
+
+        function createRow(row) {
+            var postParams = getPostParams(row);
+            $.post('@Html.Raw(Url.Action("Create", "NewsCategory"))', postParams)
+                .done(function (newRow) {
+                    row.replaceWith(newRow);
+                    totalRowCount++;
+                    clearUnloadWarning();
+                })
+                .fail(function () {
+                    row.addClass('error');
+                });
+        }
+
+        function makeRowEditable(row) {
+            $.get('@Html.Raw(Url.Action("Edit", "NewsCategory", new { id = "__ID__" }))'.replace(/__ID__/, row.data('pkey')), function (editableRow) {
+                row.replaceWith(editableRow);
+            });
+            setUnloadWarning();
+        }
+
+        function editRow(row) {
+            var postParams = getPostParams(row);
+            postParams.push({ name: 'Id', value: row.data('pkey') });
+            $.post('@Html.Raw(Url.Action("Edit", "NewsCategory", new { id = "__ID__" }))'.replace(/__ID__/, row.data('pkey')), postParams)
+                .done(function (newRow) {
+                    row.replaceWith(newRow);
+                    clearUnloadWarning();
+                })
+                .fail(function () {
+                    row.addClass('error');
+                });
+        }
+
+        function deleteRow(row) {
+            if (confirm('Are you sure you want to delete this row?')) {
+                $.post('@Html.Raw(Url.Action("Delete", "NewsCategory", new { id = "__ID__" }))'.replace(/__ID__/, row.data('pkey')))
+                    .done(function () {
+                        row.remove();
+                        totalRowCount--;
+                    })
+                    .fail(function () {
+                        alert('Row deletion failed.');
+                    });
+            }
+        }
+
+        function disableLink() {
+            var elem = $(this),
+                classes = elem.attr('class'),
+                href = elem.attr('href'),
+                html = elem.html();
+            elem.replaceWith($('<span data-href="' + href + '" class="' + classes + '">' + html + '</span>'));
+        }
+
+        function enableLink() {
+            var elem = $(this),
+                classes = elem.attr('class'),
+                href = elem.data('href'),
+                html = elem.html();
+            elem.replaceWith($('<a href="' + href + '" class="' + classes + '">' + html + '</a>'));
+        }
+
+        function getPostParams(row) {
+            return row.find(':input[name]:not(:disabled)').filter(':not(:checkbox), :checked').map(function () {
+                var input = $(this);
+                return { name: input.attr('name'), value: input.val() };
+            }).get();
+        }
+
+        function setUnloadWarning() {
+            if (!unloadWarningSet) {
+                unloadWarningSet = true;
+                $(window).bind('beforeunload', function () {
+                    return 'You have unsaved changes. Are you sure you want to leave?';
+                });
+            }
+        }
+
+        function clearUnloadWarning() {
+            gridContext.find('td').filter(':last-child').removeClass('hidden');
+            if (unloadWarningSet && $('.createRow, .editRow').length === 0) {
+                unloadWarningSet = false;
+                $(window).unbind('beforeunload');
+            }
+        }
+
+        $(function () {
+            containerContext = $('#AjaxGridContainer');
+            gridContext = containerContext.find('#AjaxGrid');
+            navigationContext = containerContext.find('.AjaxGridNavigation');
+
+            containerContext.find('.insertEmptyRow').removeClass('hidden');
+            navigationContext.find('input.pageNum').removeClass('hidden');
+            navigationContext.find('.itemsPerPage').removeClass('hidden');
+            navigationContext.find('span.pageNum').addClass('hidden');
+            gridContext.find('tr > *').filter(':last-child').removeClass('hidden');
+
+            navigationContext.delegate('a.prev', 'click', function (e) {
+                reloadGrid({ start: savedParams.start - savedParams.itemsPerPage });
+                e.preventDefault();
+            });
+            navigationContext.delegate('a.next', 'click', function (e) {
+                reloadGrid({ start: savedParams.start + savedParams.itemsPerPage });
+                e.preventDefault();
+            });
+            navigationContext.delegate('a.begin', 'click', function (e) {
+                reloadGrid({ start: 0 });
+                e.preventDefault();
+            });
+            navigationContext.delegate('a.end', 'click', function (e) {
+                reloadGrid({ start: (pageCount - 1) * savedParams.itemsPerPage });
+                e.preventDefault();
+            });
+            navigationContext.find('a.refresh').click(function (e) {
+                reloadGrid({});
+                e.preventDefault();
+            });
+
+            navigationContext.find('input.pageNum')
+                .keyup(function (e) {
+                    if (e.keyCode === 13) {
+                        $(this).blur();
+                    }
+                })
+                .blur(function () {
+                    var newPageNum = Number($(this).val());
+                    if (newPageNum >= 1 && newPageNum <= pageCount) {
+                        reloadGrid({ start: (newPageNum - 1) * savedParams.itemsPerPage });
+                    } else {
+                        $(this).val(currentPage);
+                    }
+                });
+
+            navigationContext.find('.itemsPerPage select').change(function () {
+                reloadGrid({ itemsPerPage: Number($(this).val()) });
+            });
+
+            gridContext.delegate('thead a.uparrow, thead a.downarrow', 'click', function (e) {
+                reorderByColumn(this);
+                e.preventDefault();
+            });
+            gridContext.find('thead a.reorder').click(function (e) {
+                var th = $(this).parent(),
+                    arrow = th.find('a.downarrow');
+                if (arrow.length === 0) {
+                    arrow = th.find('a.uparrow');
+                }
+                reorderByColumn(arrow[0]);
+                e.preventDefault();
+            });
+
+            $('.insertEmptyRow').click(function (e) {
+                $.get('@Html.Raw(Url.Action("Create", "NewsCategory"))', function (emptyRow) {
+                    gridContext.find('tbody').prepend(emptyRow);
+                });
+                setUnloadWarning();
+                e.preventDefault();
+            });
+            gridContext.delegate('.createRow', 'click', function () {
+                createRow($(this).closest('tr'));
+            });
+            gridContext.delegate('.cancelCreateRow', 'click', function () {
+                $(this).closest('tr').remove();
+                clearUnloadWarning();
+            });
+
+            gridContext.delegate('.makeRowEditable', 'click', function (e) {
+                makeRowEditable($(this).closest('tr'));
+                e.preventDefault();
+            });
+            gridContext.delegate('.editRow', 'click', function () {
+                editRow($(this).closest('tr'));
+            });
+            gridContext.delegate('.cancelEditRow', 'click', function () {
+                var row = $(this).closest('tr');
+                $.get('@Html.Raw(Url.Action("RowData", "NewsCategory", new { id = "__ID__" }))'.replace(/__ID__/, row.data('pkey')), function (newRow) {
+                    row.replaceWith(newRow);
+                    clearUnloadWarning();
+                });
+            });
+
+            gridContext.delegate('.deleteRow', 'click', function (e) {
+                deleteRow($(this).closest('tr').eq(0));
+                e.preventDefault();
+            });
+            
+            
+            @* Category Configuration dialogs *@
+            var showConfigurationDialog = $(".showConfigurationDialog", containerContext).dialog({
+                autoOpen:false, 
+                modal: true,
+                width: 700,
+                height:300,
+                buttons: {
+                    Ok: function () {
+                        $(this).dialog("close");
+                    }
+                }
+            });
+
+            var editConfigurationDialog = $(".editConfigurationDialog", containerContext).dialog({
+                autoOpen:false, 
+                modal: true,
+                width: 700,
+                height: 300,
+                buttons: {
+                    Ok: function () {
+                        var dialogTextarea = $("textarea", $(this));
+                        var rowTextarea = $(this).data("textarea");
+                        var errorContainer = $(".errorContainer", $(this));
+
+                        // check if valid JSON
+                        errorContainer.empty();
+                        try { $.parseJSON(dialogTextarea.val()); }
+                        catch (e) {
+                            //$(".jsoneditor", row).hide();
+                            $('<p class="ui-state-error ui-corner-all" style="padding: 5px">The text is not valid JSON.<br>Please fix it.</p>').appendTo(errorContainer).delay(4000).fadeOut(400);
+                            return;
+                        }
+
+                        // copy to row's textarea
+                        rowTextarea.val(dialogTextarea.val());
+                        
+                        $(this).dialog("close");
+                    },
+                    Cancel: function () {
+                        var errorContainer = $(".errorContainer", $(this));
+                        errorContainer.empty(); // <- in case cancel is pressed while an error was visible, so that it will not appear next time the dialog is opened.
+                        
+                        $(this).dialog("close");
+                    }
+                }
+            });
+            
+            @* open the show category configuration dialog *@
+            gridContext.delegate('.showConfiguration', 'click', function (e) {
+                var sourceTextarea = $("textarea", $(this).closest("td"));
+                var dialogTextarea = $("textarea", showConfigurationDialog);
+                dialogTextarea.val(sourceTextarea.val());
+                
+                showConfigurationDialog.dialog("open");
+
+                e.preventDefault();
+            });
+
+            @* open the edit category configuration dialog *@
+            gridContext.delegate('.editConfiguration', 'click', function (e) {
+                var sourceTextarea = $("textarea", $(this).closest("td"));
+                var dialogTextarea = $("textarea", editConfigurationDialog);
+                dialogTextarea.val(sourceTextarea.val());
+
+                editConfigurationDialog
+                    .data("textarea", sourceTextarea) @* a way to pass javascript variables to the dialog *@
+                    .dialog("open");
+
+                e.preventDefault();
+            });
+
+        });
+    })(jQuery);
+</script>

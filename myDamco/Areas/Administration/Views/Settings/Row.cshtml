@@ -1,0 +1,17 @@
+﻿@model myDamco.Database.Setting          
+
+<tr data-pkey="@Model.Id">
+    <td>
+        @Html.DisplayFor(modelItem => Model.Name)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => Model.Value)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => Model.Description)
+    </td>
+    <td>
+        <a href="#" class="makeRowEditable">Edit</a>
+    </td>
+</tr>
+

@@ -1,0 +1,53 @@
+﻿@model myDamco.Database.Widget
+
+@{
+    // This is to avoid the IE6 warning on https "This page contains both secure and nonsecure items" on each page load when the user has access to the performance-chart widget. 
+    // The problem was that we used src="" in the <iframe> tag which triggers the warning on https in IE6. The fix is to use src="javascript:false;" instead.
+    // See: - For the problem: http://stackoverflow.com/questions/13399886/ie67-causes-of-this-page-contains-both-secure-and-nonsecure-items
+    //      - For the fix:     http://stackoverflow.com/questions/541837/this-page-contains-both-secure-and-nonsecure-items-and-iframes
+    string emptySrc = "javascript:false;"; 
+}
+
+<iframe src="@emptySrc" id="ADFSFrame" onload="" style="width: 0; height: 0; position: absolute; left: -1000px; top: -1000px;" ></iframe>
+
+@{
+dynamic reportingWidgetConfiguration = Newtonsoft.Json.JsonConvert.DeserializeObject(Model.Configuration);
+var url = reportingWidgetConfiguration["ReportingConfigurationServiceUrl"] + "#ReportingIFrameHack";
+
+<script type="text/javascript">
+
+    $(function () {
+        if ($("#ADFSFrame").attr('src') == "@emptySrc" || $("#ADFSFrame").attr('src') == "" || $("#ADFSFrame").attr('src') == undefined) {
+            @* The purpose of this is to make sure that the user is also logged in to reporting, by making a request to reporting using the iframe (single sign on => this will log the user in), 
+               before our performancechart widgets start sending JSONP requests to reporting. (If the user is logged in to myDamco, but not logged in to reporting, the JSONP requests will fail, 
+               when reporting tries redirecting the requests to the ADFS login page, since it will return html instead of javascript. (Actually! This may not have been needed in the past, but with the new ADFS code on reporting it IS needed!))
+               (In other words: We want the browser to set the ADFS cookies on the reporting.damco.com domain, so that reporting knows the user is logged in, *before* we begin requesting JSONP from reporting) *@
+            $("#ADFSFrame").attr('src', "@url");
+            $("#ADFSFrame").load(ADFSReportingLoginComplete_internal);
+        }
+
+        setInterval(function () {
+            $('#ADFSFrame').unbind('load', ADFSReportingLoginComplete_internal);  @* Do not keep triggering this event. (We assume that the iframe has fully loaded at this point...) *@
+            $('#ADFSFrame').attr('src', $('#ADFSFrame').attr('src'));
+        }, 60000); @* Reload reporting URL every minute. This is to stay logged in to reporting. *@
+
+        var numLoadEventsCounter = 0;
+        function ADFSReportingLoginComplete_internal() {
+            numLoadEventsCounter++;
+            if (numLoadEventsCounter == 1) {
+                @* on the first iframe load event: init performance chart widgets (we might not have been logged into reporting yet - this could just be the first redirect (but we can't see into the future (we don't know if we will get more load events), so we try initing the widgets anyway - this could mean that we get non-javascript JSONP responses, and thus javascript errors in the console...)) *@
+                ADFSReportingLoginComplete();
+            } else {
+                @* on each subsequent load event (after possible ADFS redirect, etc): refresh performance chart widgets (we were not properly logged in to reporting at the previous load event(s), so we refresh to get the proper data now) *@
+                ADFSReportingLoginRefreshAllWidgets();
+                
+                @* If too many redirects: unbind event and accept total failure *@
+                if (numLoadEventsCounter == 20)
+                    $('#ADFSFrame').unbind('load', ADFSReportingLoginComplete_internal);
+            }
+        }
+
+    });
+   
+</script>
+}

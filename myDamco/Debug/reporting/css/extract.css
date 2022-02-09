@@ -1,0 +1,313 @@
+.exinfo {
+    padding-left: 22px;
+    background-repeat: no-repeat;
+    background-position: left center;
+}
+.status{
+   width:18px;
+   height:15px;
+   background-repeat:no-repeat;
+}
+.xrun {
+    background-image: url(../images/wait_15.gif);
+
+}
+
+.xque {
+    background-image: url(../images/status_inque.gif);
+
+}
+
+.xfailed {
+    background-image: url(../images/status_error.gif);
+
+}
+
+.xstopped {
+    background-image: url(../images/status_stopped.gif);
+
+}
+
+.xtimeout {
+    background-image: url(../images/status_timeout.gif);
+}
+
+.xok {
+    background-image: url(../images/status_ok.gif);
+
+}
+
+.record td {
+    white-space: nowrap;
+}
+.submitleft, .submitright{
+	width:16px;
+	height:16px;
+	border:1px solid #FFFFFF;
+	background-color:#FFFFFF;
+	background-repeat: no-repeat;
+	background-position: left top;
+}
+.submitleft{
+	background-image: url(../images/arrowleft.gif);
+
+
+}
+.submitright{
+	background-image: url(../images/arrowright.gif);
+
+}
+
+.databut {
+    white-space: nowrap;
+	padding-top: 1px;
+	padding-right: 3px;
+	padding-bottom: 1px;
+	padding-left: 3px;
+	font-size: 12px;
+	cursor:pointer;
+
+}
+.record .datalight {
+    background-color: #D0E4B1;
+}
+
+#extract_list {
+    table-layout: fixed;
+}
+
+#function_menu tr td.activ {
+    background-image: none;
+    background-color: #D6E3CC;
+}
+
+.expand {
+	width: 230px;
+	background-image: url(../images/expand.gif);
+	background-repeat: no-repeat;
+	background-position: right center;
+	cursor: pointer;
+
+}
+
+.fholder {
+    vertical-align: top;
+}
+
+.fieldlist_scroll {
+    width: 230px;
+    height: 160px;
+    overflow: auto;
+}
+
+table.uni {
+    width: 96%;
+
+}
+
+table.fieldlist {
+    width: 234px;
+}
+
+table.fixed tbody tr td {
+    width: 200px;
+    height: auto;
+    height: 200px;
+    overflow: scroll;
+}
+
+.timeline {
+    background-image: url(../images/timeline.gif);
+    width: 150px;
+    height: 20px;
+}
+
+.fieldlist_scroll div.field {
+    width: 210px;
+
+}
+
+.field {
+    font-size: 11px;
+    cursor: pointer;
+    margin: 1px;
+    font-family: Arial, Helvetica, sans-serif;
+
+}
+.findex{
+    background-image: url("../images/indexed.gif") ;
+    background-repeat: no-repeat;
+    background-position: right;
+}
+
+.datalight {
+    background-color: #D0E4B1;
+    cursor: pointer;
+}
+
+.calendar {
+	padding-right: 0;
+	padding-left: 0;
+	padding-bottom: 0;
+	width: 210px;
+	cursor: default;
+	padding-top: 0;
+}
+
+.calendarDay, .calendarweek {
+	font-size: 10px;
+	color: #666;
+	text-align: center;
+	cursor: pointer;
+	font-weight: bold;
+	background-color: #F0F0F0;
+	height:14px;
+}
+
+.calendarDaySelected {
+
+    cursor: pointer;
+    color: #000000;
+    background-color: #cccccc;
+    text-align: right;
+}
+
+.calendarweek {
+	background-color: #93C24A;
+
+
+}
+.cal_out{
+background-color:#CCCCCC
+
+}
+.cal_now{
+background-color:#3991CE
+
+}
+.cal_activ{
+    text-decoration:underline;
+}
+.big {
+    font-size: 12px;
+    font-weight: bold;
+    color: #333333;
+}
+
+.message-error {
+    color: red;
+
+}
+
+#xcon {
+    height: 400px;
+    overflow: auto;
+    margin-right: 0;
+
+}
+
+#fieldstb {
+    table-layout: fixed;
+
+}
+
+.nofloat {
+    position: static
+}
+
+.floatright {
+    float: right;
+}
+
+#ex_table td {
+    vertical-align: top;
+}
+
+#xcon td.data {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+#unilist td {
+    color: #FFFFFF;
+
+}
+#unilistholder{
+   padding:6px;
+}
+#unilist {
+
+    position: absolute;
+    z-index: 1;
+
+}
+
+#fieldstb .record table,table.tabletop {
+    table-layout: fixed;
+    width: 800px;
+}
+
+#fieldstb .record table th {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.col1 {
+    width: 154px;
+}
+
+.col2 {
+    width: 122px
+}
+
+.col3 {
+    width: 60px
+}
+
+.col4 {
+    width: 100px
+}
+
+.col5 {
+    width: 102px
+}
+
+.col6 {
+    width: 206px
+}
+.col6.error {
+
+	border: 1px solid #C00;
+	}
+.col7 {
+    width: 18px;
+    padding: 0;
+}
+
+.col8 {
+    width: 42px;
+}
+
+.col9 {
+    width: 20px;
+    padding: 0;
+}
+.colx{
+	width:100%;
+}
+.input80{
+	width:80%;
+}
+.celldiv {
+    overflow: hidden;
+    height: 14px;
+white-space: nowrap;
+}
+div.param{
+	width:250px;
+	margin-bottom:10px;
+}
+.dnload a{
+   padding:0px;
+}

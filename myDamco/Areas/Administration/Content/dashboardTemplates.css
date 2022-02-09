@@ -1,0 +1,168 @@
+﻿#tabs {
+    visibility: hidden; /* <- hide the tabs during pageload, until the javascript is applied, to avoid it looking bad while loading */
+}
+
+/* Create new Dashboard Template button */
+
+.create-new-wrapper-dashboardtemplates {
+    position:relative;
+}
+
+.top-button-grayout-overlay {
+    position:absolute;          /* <- to place it the same location as its sibling (the create button) */
+    width:100%;
+    height:100%;
+    padding:1px;
+    background-color:white;
+    opacity:0.85;               /* <- Ok that opacity doesn't work on IE6 and friends - the "create new" button will just disappear on those browsers */
+    display:none;
+}
+
+#refresh-cached-names-button {
+    background-image: url('../../../Content/images/allbut.gif'); 
+    background-position:0 -360px; 
+    background-repeat: no-repeat; 
+    padding:0 0 2px 20px; 
+    font-weight:bold; 
+    font-size:11px;
+    color:dimGray;
+}
+
+#refresh-cached-names-button.working {
+    background-image: url('../../../Content/images/wait_15.gif'); 
+    background-position:0 0; 
+}
+
+/**************************************
+ ***       THE EDIT DIALOG          ***
+ **************************************/
+
+.clear {
+    clear: both;
+}
+
+/* Left column */
+
+.editDialog {
+    min-width: 1000px;      /* Todo: Temp. Find a better way to avoid the second column dropping down below the first column (due to floating) if the width of the browser viewport is too small.*/
+    *width: 1000px;         /* --||-- */
+}
+
+.editDialogLeftColumn {
+    float: left;
+    *width: 500px;
+
+}
+
+.editDialogLeftColumnLabels {
+    float: left;
+}
+
+.editDialogLeftColumnInputs {
+    margin-left:180px;
+    margin-bottom:7px;
+}
+
+#loginNameTextfield {
+    width:100%;
+}
+
+#roleSelectorContainer {
+    vertical-align:top;
+    margin-right:-6px;          /* <- to make its contained <selector> line up with the other input boxes... */
+}
+
+#roleLoadingSpinner {
+    display:none; 
+    vertical-align:middle;
+}
+
+#descriptionTextarea {
+    vertical-align:top;
+    width:100%;
+}
+
+/* Right column */
+
+.editDialogRightColumn {
+    float:left; 
+    margin-left:50px;
+    border-left:1px solid #888888;
+    padding-left:50px;
+    /*_width: 500px;*/
+}
+
+.editDialogRightColumn_editmode {
+    min-height:560px;                       /* Todo: Temp. Find a better way to avoid the screen "jumping" when the height of the content changes (annoying) */
+    _height:560px;
+}
+
+.editDialogRightColumn_createmode {
+    min-height:360px;                       /* Todo: Temp. Find a better way to avoid the screen "jumping" when the height of the content changes (annoying) */
+    _height:360px;
+}
+
+.dashboardTemplatePreviewHeadline {
+    margin-bottom:0;
+    margin-top:0;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.dashboardTemplatePreviewInfo {
+    font-size:smaller;
+    margin-top:0;
+}
+
+.userDashboardPreviewHeadline {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+
+/* DashboardPreview.cshtml */
+
+.dashboardPreviewError {
+    color:red;
+    text-align:center;
+}
+
+.dashboardPreviewContainer {
+    text-align:center;
+    display:inline-block;
+    border:1px solid #aaa;
+    background-color:#fcfcfc;
+    padding:5px;
+    min-height: 200px;_height: 200px; /* TODO: this is just to make it look good with my editDialog-height-hack and dashboards which are not tall*/
+}
+
+.dashboardPreviewColumn {
+    width:100px;
+    min-height:1px;      /* Giving min-height of 1px so that if the left or middle coulmn is empty, they don't "collapse" and take up no space (they must still take up space */
+    _height:1px;         /*                                                                                                   so you can see which column the widgets are in) */
+    float:left;
+    margin-left:5px;
+    margin-right:5px;
+}
+
+.dashboardPreviewWidget {
+    min-height:50px;
+    _height:50px;
+    border:1px solid black;
+    padding:5px;
+    margin:5px 0 5px 0;
+    box-shadow: 5px 5px 10px #888888;
+    border-radius:5px;
+    font-size:smaller;
+    background-color:white;
+    word-wrap:break-word;           /* <- otherwise long widget-title without spaces will mess up the layout */
+}
+
+.dashboardPreviewWidgetTitle {
+    font-weight: bold;
+}
+
+.dashboardPreviewWidgetSubtitle {
+    font-size:8px;
+    padding-top:8px;
+}

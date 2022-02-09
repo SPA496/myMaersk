@@ -1,0 +1,712 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="myDamcoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityType Name="DashboardTemplate">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LoginCopiedFrom" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="RoleCopiedFrom" Type="int" Nullable="false" />
+          <Property Name="Role" Type="int" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="UpdatedAt" Type="datetime" Nullable="false" />
+          <Property Name="UpdatedBy" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CachedRoleName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="CachedOrganizationId" Type="int" Nullable="false" />
+          <Property Name="CachedOrganizationName" Type="nvarchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Downtime">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="From" Type="datetime" Nullable="false" />
+          <Property Name="To" Type="datetime" Nullable="false" />
+          <Property Name="NewsItem_Id" Type="int" Nullable="false" />
+          <Property Name="UAMApplication" Type="nvarchar" MaxLength="255" />
+          <Property Name="UAMFunction" Type="nvarchar" MaxLength="255" />
+          <Property Name="Message" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="ELMAH_Error">
+          <Key>
+            <PropertyRef Name="ErrorId" />
+          </Key>
+          <Property Name="ErrorId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Application" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="Host" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Type" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Source" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="Message" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="User" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="StatusCode" Type="int" Nullable="false" />
+          <Property Name="TimeUtc" Type="datetime" Nullable="false" />
+          <Property Name="Sequence" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AllXml" Type="ntext" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Navigation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UId" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Url" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Target" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="IECompatibilityMode" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Priority" Type="tinyint" Nullable="false" />
+          <Property Name="UAMApplication" Type="nvarchar" MaxLength="255" />
+          <Property Name="UAMFunction" Type="nvarchar" MaxLength="255" />
+          <Property Name="NewTab" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="NewsCategory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Language" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Downtime" Type="bit" Nullable="false" />
+          <Property Name="editUAMApplication" Type="nvarchar" MaxLength="255" />
+          <Property Name="editUAMFunction" Type="nvarchar" MaxLength="255" />
+          <Property Name="showUAMApplication" Type="nvarchar" MaxLength="255" />
+          <Property Name="showUAMFunction" Type="nvarchar" MaxLength="255" />
+          <Property Name="Configuration" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="NewsItem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Body" Type="nvarchar(max)" />
+          <Property Name="From" Type="datetime" Nullable="false" />
+          <Property Name="To" Type="datetime" />
+          <Property Name="NewsCategory_Id" Type="int" Nullable="false" />
+          <Property Name="CreatedAt" Type="datetime" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="UpdatedAt" Type="datetime" />
+          <Property Name="UpdatedBy" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Page">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UId" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Title" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="Body" Type="text" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Setting">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Value" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Widget">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UId" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Category" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Icon" Type="nvarchar" MaxLength="255" />
+          <Property Name="Template" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="TemplateHTML" Type="nvarchar(max)" />
+          <Property Name="TemplateInstanceHTML" Type="nvarchar(max)" />
+          <Property Name="TemplateCSS" Type="nvarchar(max)" />
+          <Property Name="TemplateJS" Type="nvarchar(max)" />
+          <Property Name="Configuration" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ServiceURL" Type="nvarchar" MaxLength="255" />
+          <Property Name="ServiceConfiguration" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ConfigurationSchema" Type="nvarchar(max)" />
+          <Property Name="ServiceConfigurationSchema" Type="nvarchar(max)" />
+          <Property Name="InstanceConfigurationSchema" Type="nvarchar(max)" />
+          <Property Name="Editable" Type="bit" Nullable="false" />
+          <Property Name="Disabled" Type="bit" Nullable="false" />
+          <Property Name="UAMApplication" Type="nvarchar" MaxLength="255" />
+          <Property Name="UAMFunction" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="WidgetInstance">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="255" />
+          <Property Name="Login" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Role" Type="int" Nullable="false" />
+          <Property Name="Configuration" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="DashboardColumn" Type="tinyint" Nullable="false" />
+          <Property Name="DashboardPriority" Type="tinyint" Nullable="false" />
+          <Property Name="Widget_Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="WidgetInstanceHistory">
+          <Key>
+            <PropertyRef Name="WidgetInstance_Id" />
+          </Key>
+          <Property Name="WidgetInstance_Id" Type="int" Nullable="false" />
+          <Property Name="Login" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Role" Type="int" Nullable="false" />
+          <Property Name="AddTime" Type="datetime" Nullable="false" />
+          <Property Name="DeleteTime" Type="datetime" />
+          <Property Name="Widget_Id" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Downtime_NewsItems">
+          <End Role="NewsItem" Type="Self.NewsItem" Multiplicity="1" />
+          <End Role="Downtime" Type="Self.Downtime" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NewsItem">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Downtime">
+              <PropertyRef Name="NewsItem_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NewsItems_NewsCategoies">
+          <End Role="NewsCategory" Type="Self.NewsCategory" Multiplicity="1" />
+          <End Role="NewsItem" Type="Self.NewsItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NewsCategory">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="NewsItem">
+              <PropertyRef Name="NewsCategory_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WidgetInstances_Widgets">
+          <End Role="Widget" Type="Self.Widget" Multiplicity="1" />
+          <End Role="WidgetInstance" Type="Self.WidgetInstance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Widget">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="WidgetInstance">
+              <PropertyRef Name="Widget_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WidgetInstancesHistory_Widgets">
+          <End Role="Widget" Type="Self.Widget" Multiplicity="1" />
+          <End Role="WidgetInstanceHistory" Type="Self.WidgetInstanceHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Widget">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="WidgetInstanceHistory">
+              <PropertyRef Name="Widget_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="myDamcoModelStoreContainer">
+          <EntitySet Name="DashboardTemplate" EntityType="Self.DashboardTemplate" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Downtime" EntityType="Self.Downtime" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ELMAH_Error" EntityType="Self.ELMAH_Error" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Navigation" EntityType="Self.Navigation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NewsCategory" EntityType="Self.NewsCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NewsItem" EntityType="Self.NewsItem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Page" EntityType="Self.Page" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Setting" EntityType="Self.Setting" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Widget" EntityType="Self.Widget" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WidgetInstance" EntityType="Self.WidgetInstance" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WidgetInstanceHistory" EntityType="Self.WidgetInstanceHistory" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Downtime_NewsItems" Association="Self.FK_Downtime_NewsItems">
+            <End Role="NewsItem" EntitySet="NewsItem" />
+            <End Role="Downtime" EntitySet="Downtime" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NewsItems_NewsCategoies" Association="Self.FK_NewsItems_NewsCategoies">
+            <End Role="NewsCategory" EntitySet="NewsCategory" />
+            <End Role="NewsItem" EntitySet="NewsItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WidgetInstances_Widgets" Association="Self.FK_WidgetInstances_Widgets">
+            <End Role="Widget" EntitySet="Widget" />
+            <End Role="WidgetInstance" EntitySet="WidgetInstance" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WidgetInstancesHistory_Widgets" Association="Self.FK_WidgetInstancesHistory_Widgets">
+            <End Role="Widget" EntitySet="Widget" />
+            <End Role="WidgetInstanceHistory" EntitySet="WidgetInstanceHistory" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="myDamcoModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="myDamcoEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Downtime" EntityType="myDamcoModel.Downtime" />
+          <EntitySet Name="ELMAH_Error" EntityType="myDamcoModel.ELMAH_Error" />
+          <EntitySet Name="Navigation" EntityType="myDamcoModel.Navigation" />
+          <EntitySet Name="NewsCategory" EntityType="myDamcoModel.NewsCategory" />
+          <EntitySet Name="NewsItem" EntityType="myDamcoModel.NewsItem" />
+          <EntitySet Name="Page" EntityType="myDamcoModel.Page" />
+          <EntitySet Name="Widget" EntityType="myDamcoModel.Widget" />
+          <EntitySet Name="WidgetInstance" EntityType="myDamcoModel.WidgetInstance" />
+          <AssociationSet Name="FK_Downtime_NewsItems" Association="myDamcoModel.FK_Downtime_NewsItems">
+            <End Role="NewsItem" EntitySet="NewsItem" />
+            <End Role="Downtime" EntitySet="Downtime" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NewsItems_NewsCategoies" Association="myDamcoModel.FK_NewsItems_NewsCategoies">
+            <End Role="NewsCategory" EntitySet="NewsCategory" />
+            <End Role="NewsItem" EntitySet="NewsItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WidgetInstances_Widgets" Association="myDamcoModel.FK_WidgetInstances_Widgets">
+            <End Role="Widget" EntitySet="Widget" />
+            <End Role="WidgetInstance" EntitySet="WidgetInstance" />
+          </AssociationSet>
+          <EntitySet Name="WidgetInstanceHistory" EntityType="myDamcoModel.WidgetInstanceHistory" />
+          <AssociationSet Name="FK_WidgetInstancesHistory_Widgets" Association="myDamcoModel.FK_WidgetInstancesHistory_Widgets">
+            <End Role="Widget" EntitySet="Widget" />
+            <End Role="WidgetInstanceHistory" EntitySet="WidgetInstanceHistory" />
+          </AssociationSet>
+          <EntitySet Name="Setting" EntityType="myDamcoModel.Setting" />
+          <EntitySet Name="DashboardTemplate" EntityType="myDamcoModel.DashboardTemplate" />
+        </EntityContainer>
+        <EntityType Name="Downtime">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="DateTime" Name="From" Nullable="false" Precision="3" />
+          <Property Type="DateTime" Name="To" Nullable="false" Precision="3" />
+          <Property Type="Int32" Name="NewsItem_Id" Nullable="false" />
+          <Property Type="String" Name="UAMApplication" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="UAMFunction" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="NewsItem" Relationship="myDamcoModel.FK_Downtime_NewsItems" FromRole="Downtime" ToRole="NewsItem" />
+          <Property Type="String" Name="Message" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ELMAH_Error">
+          <Key>
+            <PropertyRef Name="ErrorId" />
+          </Key>
+          <Property Type="Guid" Name="ErrorId" Nullable="false" />
+          <Property Type="String" Name="Application" Nullable="false" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Host" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Type" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Source" Nullable="false" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Message" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="User" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="StatusCode" Nullable="false" />
+          <Property Type="DateTime" Name="TimeUtc" Nullable="false" Precision="3" />
+          <Property Type="Int32" Name="Sequence" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="AllXml" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Navigation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="UId" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Title" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Url" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Target" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="IECompatibilityMode" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="Byte" Name="Priority" Nullable="false" />
+          <Property Type="String" Name="UAMApplication" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="UAMFunction" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="NewTab" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="NewsCategory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Language" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Description" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="Downtime" Nullable="false" />
+          <Property Type="String" Name="editUAMApplication" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="editUAMFunction" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="showUAMApplication" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="showUAMFunction" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="NewsItem" Relationship="myDamcoModel.FK_NewsItems_NewsCategoies" FromRole="NewsCategory" ToRole="NewsItem" />
+          <Property Type="String" Name="Configuration" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="NewsItem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Title" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Description" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Body" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="From" Nullable="false" Precision="3" />
+          <Property Type="DateTime" Name="To" Precision="3" />
+          <Property Type="Int32" Name="NewsCategory_Id" Nullable="false" />
+          <Property Type="DateTime" Name="CreatedAt" Precision="3" />
+          <Property Type="String" Name="CreatedBy" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="UpdatedAt" Precision="3" />
+          <Property Type="String" Name="UpdatedBy" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Downtime" Relationship="myDamcoModel.FK_Downtime_NewsItems" FromRole="NewsItem" ToRole="Downtime" />
+          <NavigationProperty Name="NewsCategory" Relationship="myDamcoModel.FK_NewsItems_NewsCategoies" FromRole="NewsItem" ToRole="NewsCategory" />
+        </EntityType>
+        <EntityType Name="Page">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="UId" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Title" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Body" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Widget">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="UId" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Title" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Description" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Category" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Icon" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Template" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="TemplateHTML" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="TemplateInstanceHTML" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="TemplateCSS" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="TemplateJS" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Configuration" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ServiceConfiguration" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ConfigurationSchema" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ServiceConfigurationSchema" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="InstanceConfigurationSchema" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="Editable" Nullable="false" />
+          <Property Type="Boolean" Name="Disabled" Nullable="false" />
+          <Property Type="String" Name="UAMApplication" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="UAMFunction" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="WidgetInstance" Relationship="myDamcoModel.FK_WidgetInstances_Widgets" FromRole="Widget" ToRole="WidgetInstance" />
+          <Property Type="String" Name="ServiceURL" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="WidgetInstanceHistory" Relationship="myDamcoModel.FK_WidgetInstancesHistory_Widgets" FromRole="Widget" ToRole="WidgetInstanceHistory" />
+        </EntityType>
+        <EntityType Name="WidgetInstance">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Title" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Login" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="Role" Nullable="false" />
+          <Property Type="String" Name="Configuration" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Byte" Name="DashboardColumn" Nullable="false" />
+          <Property Type="Byte" Name="DashboardPriority" Nullable="false" />
+          <Property Type="Int32" Name="Widget_Id" Nullable="false" />
+          <NavigationProperty Name="Widget" Relationship="myDamcoModel.FK_WidgetInstances_Widgets" FromRole="WidgetInstance" ToRole="Widget" />
+        </EntityType>
+        <Association Name="FK_Downtime_NewsItems">
+          <End Type="myDamcoModel.NewsItem" Role="NewsItem" Multiplicity="1" />
+          <End Type="myDamcoModel.Downtime" Role="Downtime" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NewsItem">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Downtime">
+              <PropertyRef Name="NewsItem_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NewsItems_NewsCategoies">
+          <End Type="myDamcoModel.NewsCategory" Role="NewsCategory" Multiplicity="1" />
+          <End Type="myDamcoModel.NewsItem" Role="NewsItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NewsCategory">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="NewsItem">
+              <PropertyRef Name="NewsCategory_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WidgetInstances_Widgets">
+          <End Type="myDamcoModel.Widget" Role="Widget" Multiplicity="1" />
+          <End Type="myDamcoModel.WidgetInstance" Role="WidgetInstance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Widget">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="WidgetInstance">
+              <PropertyRef Name="Widget_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="WidgetInstanceHistory">
+          <Key>
+            <PropertyRef Name="WidgetInstance_Id" />
+          </Key>
+          <Property Type="Int32" Name="WidgetInstance_Id" Nullable="false" />
+          <Property Type="String" Name="Login" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="Role" Nullable="false" />
+          <Property Type="DateTime" Name="AddTime" Nullable="false" Precision="3" />
+          <Property Type="DateTime" Name="DeleteTime" Precision="3" />
+          <Property Type="Int32" Name="Widget_Id" Nullable="false" />
+          <NavigationProperty Name="Widget" Relationship="myDamcoModel.FK_WidgetInstancesHistory_Widgets" FromRole="WidgetInstanceHistory" ToRole="Widget" />
+        </EntityType>
+        <Association Name="FK_WidgetInstancesHistory_Widgets">
+          <End Type="myDamcoModel.Widget" Role="Widget" Multiplicity="1" />
+          <End Type="myDamcoModel.WidgetInstanceHistory" Role="WidgetInstanceHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Widget">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="WidgetInstanceHistory">
+              <PropertyRef Name="Widget_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Setting">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Value" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Description" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="DashboardTemplate">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="LoginCopiedFrom" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="RoleCopiedFrom" Nullable="false" />
+          <Property Type="Int32" Name="Role" Nullable="false" />
+          <Property Type="String" Name="Description" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="UpdatedAt" Nullable="false" Precision="3" />
+          <Property Type="String" Name="UpdatedBy" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="CachedRoleName" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="CachedOrganizationId" Nullable="false" />
+          <Property Type="String" Name="CachedOrganizationName" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+        </EntityType>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="myDamcoModelStoreContainer" CdmEntityContainer="myDamcoEntities">
+          <EntitySetMapping Name="Downtime">
+            <EntityTypeMapping TypeName="myDamcoModel.Downtime">
+              <MappingFragment StoreEntitySet="Downtime">
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="UAMFunction" ColumnName="UAMFunction" />
+                <ScalarProperty Name="UAMApplication" ColumnName="UAMApplication" />
+                <ScalarProperty Name="NewsItem_Id" ColumnName="NewsItem_Id" />
+                <ScalarProperty Name="To" ColumnName="To" />
+                <ScalarProperty Name="From" ColumnName="From" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ELMAH_Error">
+            <EntityTypeMapping TypeName="myDamcoModel.ELMAH_Error">
+              <MappingFragment StoreEntitySet="ELMAH_Error">
+                <ScalarProperty Name="AllXml" ColumnName="AllXml" />
+                <ScalarProperty Name="Sequence" ColumnName="Sequence" />
+                <ScalarProperty Name="TimeUtc" ColumnName="TimeUtc" />
+                <ScalarProperty Name="StatusCode" ColumnName="StatusCode" />
+                <ScalarProperty Name="User" ColumnName="User" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="Source" ColumnName="Source" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Host" ColumnName="Host" />
+                <ScalarProperty Name="Application" ColumnName="Application" />
+                <ScalarProperty Name="ErrorId" ColumnName="ErrorId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Navigation">
+            <EntityTypeMapping TypeName="myDamcoModel.Navigation">
+              <MappingFragment StoreEntitySet="Navigation">
+                <ScalarProperty Name="NewTab" ColumnName="NewTab" />
+                <ScalarProperty Name="UAMFunction" ColumnName="UAMFunction" />
+                <ScalarProperty Name="UAMApplication" ColumnName="UAMApplication" />
+                <ScalarProperty Name="Priority" ColumnName="Priority" />
+                <ScalarProperty Name="IECompatibilityMode" ColumnName="IECompatibilityMode" />
+                <ScalarProperty Name="Target" ColumnName="Target" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="UId" ColumnName="UId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NewsCategory">
+            <EntityTypeMapping TypeName="myDamcoModel.NewsCategory">
+              <MappingFragment StoreEntitySet="NewsCategory">
+                <ScalarProperty Name="Configuration" ColumnName="Configuration" />
+                <ScalarProperty Name="showUAMFunction" ColumnName="showUAMFunction" />
+                <ScalarProperty Name="showUAMApplication" ColumnName="showUAMApplication" />
+                <ScalarProperty Name="editUAMFunction" ColumnName="editUAMFunction" />
+                <ScalarProperty Name="editUAMApplication" ColumnName="editUAMApplication" />
+                <ScalarProperty Name="Downtime" ColumnName="Downtime" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Language" ColumnName="Language" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NewsItem">
+            <EntityTypeMapping TypeName="myDamcoModel.NewsItem">
+              <MappingFragment StoreEntitySet="NewsItem">
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="NewsCategory_Id" ColumnName="NewsCategory_Id" />
+                <ScalarProperty Name="To" ColumnName="To" />
+                <ScalarProperty Name="From" ColumnName="From" />
+                <ScalarProperty Name="Body" ColumnName="Body" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Page">
+            <EntityTypeMapping TypeName="myDamcoModel.Page">
+              <MappingFragment StoreEntitySet="Page">
+                <ScalarProperty Name="Body" ColumnName="Body" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="UId" ColumnName="UId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Widget">
+            <EntityTypeMapping TypeName="myDamcoModel.Widget">
+              <MappingFragment StoreEntitySet="Widget">
+                <ScalarProperty Name="ServiceURL" ColumnName="ServiceURL" />
+                <ScalarProperty Name="UAMFunction" ColumnName="UAMFunction" />
+                <ScalarProperty Name="UAMApplication" ColumnName="UAMApplication" />
+                <ScalarProperty Name="Disabled" ColumnName="Disabled" />
+                <ScalarProperty Name="Editable" ColumnName="Editable" />
+                <ScalarProperty Name="InstanceConfigurationSchema" ColumnName="InstanceConfigurationSchema" />
+                <ScalarProperty Name="ServiceConfigurationSchema" ColumnName="ServiceConfigurationSchema" />
+                <ScalarProperty Name="ConfigurationSchema" ColumnName="ConfigurationSchema" />
+                <ScalarProperty Name="ServiceConfiguration" ColumnName="ServiceConfiguration" />
+                <ScalarProperty Name="Configuration" ColumnName="Configuration" />
+                <ScalarProperty Name="TemplateJS" ColumnName="TemplateJS" />
+                <ScalarProperty Name="TemplateCSS" ColumnName="TemplateCSS" />
+                <ScalarProperty Name="TemplateInstanceHTML" ColumnName="TemplateInstanceHTML" />
+                <ScalarProperty Name="TemplateHTML" ColumnName="TemplateHTML" />
+                <ScalarProperty Name="Template" ColumnName="Template" />
+                <ScalarProperty Name="Icon" ColumnName="Icon" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="UId" ColumnName="UId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WidgetInstance">
+            <EntityTypeMapping TypeName="myDamcoModel.WidgetInstance">
+              <MappingFragment StoreEntitySet="WidgetInstance">
+                <ScalarProperty Name="Widget_Id" ColumnName="Widget_Id" />
+                <ScalarProperty Name="DashboardPriority" ColumnName="DashboardPriority" />
+                <ScalarProperty Name="DashboardColumn" ColumnName="DashboardColumn" />
+                <ScalarProperty Name="Configuration" ColumnName="Configuration" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WidgetInstanceHistory">
+            <EntityTypeMapping TypeName="myDamcoModel.WidgetInstanceHistory">
+              <MappingFragment StoreEntitySet="WidgetInstanceHistory">
+                <ScalarProperty Name="Widget_Id" ColumnName="Widget_Id" />
+                <ScalarProperty Name="DeleteTime" ColumnName="DeleteTime" />
+                <ScalarProperty Name="AddTime" ColumnName="AddTime" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
+                <ScalarProperty Name="WidgetInstance_Id" ColumnName="WidgetInstance_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Setting">
+            <EntityTypeMapping TypeName="myDamcoModel.Setting">
+              <MappingFragment StoreEntitySet="Setting">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DashboardTemplate">
+            <EntityTypeMapping TypeName="myDamcoModel.DashboardTemplate">
+              <MappingFragment StoreEntitySet="DashboardTemplate">
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="CachedOrganizationName" ColumnName="CachedOrganizationName" />
+                <ScalarProperty Name="CachedOrganizationId" ColumnName="CachedOrganizationId" />
+                <ScalarProperty Name="CachedRoleName" ColumnName="CachedRoleName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="RoleCopiedFrom" ColumnName="RoleCopiedFrom" />
+                <ScalarProperty Name="LoginCopiedFrom" ColumnName="LoginCopiedFrom" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="myDamco" ZoomLevel="81">
+        <EntityTypeShape EntityType="myDamcoModel.Downtime" Width="1.5" PointX="5.25" PointY="1.625" Height="2.3648893229166674" />
+        <EntityTypeShape EntityType="myDamcoModel.ELMAH_Error" Width="1.5" PointX="5.75" PointY="4.75" Height="3.1340950520833353" />
+        <EntityTypeShape EntityType="myDamcoModel.Navigation" Width="1.5" PointX="7.75" PointY="0.75" Height="2.7494921875000031" />
+        <EntityTypeShape EntityType="myDamcoModel.NewsCategory" Width="1.5" PointX="0.75" PointY="1.25" Height="2.9417936197916745" />
+        <EntityTypeShape EntityType="myDamcoModel.NewsItem" Width="1.5" PointX="3" PointY="1" Height="3.5186979166666674" />
+        <EntityTypeShape EntityType="myDamcoModel.Page" Width="1.5" PointX="7.75" PointY="4.75" Height="1.7879850260416674" />
+        <EntityTypeShape EntityType="myDamcoModel.Widget" Width="1.5" PointX="0.75" PointY="6.125" Height="5.0571093750000031" />
+        <EntityTypeShape EntityType="myDamcoModel.WidgetInstance" Width="1.5" PointX="3" PointY="7.25" Height="2.7494921875000031" />
+        <AssociationConnector Association="myDamcoModel.FK_Downtime_NewsItems" >
+          <ConnectorPoint PointX="4.5" PointY="2.8074446614583337" />
+          <ConnectorPoint PointX="5.25" PointY="2.8074446614583337" />
+        </AssociationConnector>
+        <AssociationConnector Association="myDamcoModel.FK_NewsItems_NewsCategoies" >
+          <ConnectorPoint PointX="2.25" PointY="2.7208968098958373" />
+          <ConnectorPoint PointX="3" PointY="2.7208968098958373" />
+        </AssociationConnector>
+        <AssociationConnector Association="myDamcoModel.FK_WidgetInstances_Widgets" >
+          <ConnectorPoint PointX="2.25" PointY="8.6247460937500016" />
+          <ConnectorPoint PointX="3" PointY="8.6247460937500016" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="myDamcoModel.WidgetInstanceHistory" Width="1.5" PointX="3.125" PointY="11.75" />
+        <AssociationConnector Association="myDamcoModel.FK_WidgetInstancesHistory_Widgets" />
+        <EntityTypeShape EntityType="myDamcoModel.Setting" Width="1.5" PointX="11.25" PointY="4.75" />
+        <EntityTypeShape EntityType="myDamcoModel.DashboardTemplate" Width="1.5" PointX="11.125" PointY="1.125" />
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

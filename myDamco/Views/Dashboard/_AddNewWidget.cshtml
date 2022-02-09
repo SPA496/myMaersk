@@ -1,0 +1,60 @@
+﻿@model Dictionary<int, myDamco.Database.Widget>
+           
+@{
+    var widgets= Model.Values.OrderBy(x => x.Category).ThenBy(x => x.Title);
+}
+
+<div id="addnewwidget">
+    <p>
+        Drag widgets to place them on the dashboard.
+    </p>
+    @{
+        var lastCat = "";
+        var i = -1;
+    }
+    <div id="widget-add-widget-list" class="widget-add-widgets">
+    @foreach (var widget in widgets)
+    {
+        if (widget.Category == "")
+        {
+            continue;
+        }
+        if (lastCat != widget.Category)
+        {
+            i++;
+            lastCat = widget.Category;
+        }
+        <div class="widget-add" data-UAMApp="@widget.UAMApplication" data-UAMFunc="@widget.UAMFunction">
+            <div data-newwidgetid="@widget.Id" class="bg@(i % 5) widget-add-drag-head">
+            @*<div data-newwidgetid="@widget.Id" class="bgx widget-add-drag-head">*@
+                <div class="movehead">
+                    @*<span class="ui-icon ui-icon-arrow-4"></span>*@
+                    +
+                </div>
+                @*<div class="@(String.IsNullOrWhiteSpace(widget.Icon) ? MvcHtmlString.Empty : Html.Image("~/Content/widgets/images/" + widget.Icon + "-large.gif", "dashboard")) widget-icon-large"></div>*@
+                
+                <div class="description">
+                    @*<span style="font-weight: bold">@widget.Title</span><br />
+                    @widget.Description*@
+                    <div class="AddWidgetTitle">@widget.Title</div>
+                    <div class="AddWidgetDescription">@widget.Description</div>
+                </div>
+
+            </div>
+        </div>
+    }
+    </div>
+</div>
+
+@* IE6 Fix - IE6 only supports :hover on <a> - also see dashboard.css (http://stackoverflow.com/questions/1441314/ie6-css-hover-issues-with-menu) *@
+<!--[if lt IE 7]>
+    <script type="text/javascript">
+        $('.widget-add-drag-head').hover (function () {
+          $(this).addClass ("hover");
+          $(this).closest('.widget-add').css('z-index','999'); @* Otherwise the warning box will be behind the add-boxes on the next line in IE6 (even though the warning box has z-index:999) *@
+        }, function () {
+          $(this).removeClass ("hover");
+          $(this).closest('.widget-add').css('z-index','');
+        });
+    </script>
+<![endif]-->

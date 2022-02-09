@@ -1,0 +1,20 @@
+﻿@model myDamco.Models.ErrorModel
+@{
+    Layout = "";
+    ViewBag.Title = "myMaerskSCM - " + Model.Title;
+}
+
+<html>
+    <head>
+        <title>@ViewBag.Title</title>
+    </head>
+    <body style="text-align: center;">
+        <div style="margin: 0 auto 0 auto; width: 142px; padding-top: 30px">
+            <img src="@Url.Content("~/Content/images/myDamco-logo.png")" />
+        </div>
+        <div style="margin: 0 auto 0 auto; width: 400px">
+            <h2 style="font-size: 20px; margin: 10px 0 0 0; font-family: Verdana,Helvetica,Sans-Serif;">@Model.Title</h2>
+            <p style="font-size: 14px; margin: 5px 0 0 0; font-family: Verdana,Helvetica,Sans-Serif;">@Model.Description</p>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,31 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Index</title>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/json3/3.2.3/json3.min.js"></script>
+    <script type="text/javascript" src="@Url.Content("~/data/sca")"></script>
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/themes/base/minified/jquery-ui.min.css")" />
+</head>
+<body>
+    <div>
+        <span class="related-title">Test-title</span> - <span class="booking-id">123</span><br />
+        <span class="related-title">Haps</span> - <span class="booking-id">456</span><br />
+        <span class="related-title">blah</span> - <span class="transfer-id">13</span><br />
+        <span class="related-title">noob</span> - <span class="transfer-id">1337</span>
+    </div>
+    
+<div id="container"></div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var ass = SCA($("#container"));
+        ass.init(window.location, { name: "joelving", role: "admin" });
+    });
+</script>
+</body>
+</html>

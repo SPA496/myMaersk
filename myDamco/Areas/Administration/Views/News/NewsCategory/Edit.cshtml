@@ -1,0 +1,52 @@
+﻿@model myDamco.Database.NewsCategory
+
+<tr @if (Model != null) {
+    @:data-pkey="@Model.Id"
+}>
+    <td>
+        @if (ViewContext.RouteData.Values["Action"].ToString() == "Edit") {
+            <a class="editRow ui-icon ui-icon-disk"></a><a class="cancelEditRow ui-icon ui-icon-cancel"></a>
+        } else {
+            <a class="createRow ui-icon ui-icon-disk"></a><a class="cancelCreateRow ui-icon ui-icon-cancel"></a>
+        }
+    </td>
+    <td>
+        @Html.EditorFor(model => model.Name)
+        @Html.ValidationMessageFor(model => model.Name)
+    </td>
+    <td>
+        @Html.EditorFor(model => model.Language)
+        @Html.ValidationMessageFor(model => model.Language)
+    </td>
+    <td>
+        @Html.EditorFor(model => model.Description)
+        @Html.ValidationMessageFor(model => model.Description)
+    </td>
+    <td>
+        <a href="#" class="editConfiguration">Edit</a>
+        @if (Model != null) { @Html.TextAreaFor(model => model.Configuration, new { style = "display:none;" }) }
+        else                { @Html.TextArea("Configuration", "{}", new { style = "display:none;" }) }
+        @Html.ValidationMessageFor(model => model.Configuration)
+    </td>
+    <td>
+        @Html.EditorFor(model => model.editUAMApplication)
+        @Html.ValidationMessageFor(model => model.editUAMApplication)
+    </td>
+    <td>
+        @Html.EditorFor(model => model.editUAMFunction)
+        @Html.ValidationMessageFor(model => model.editUAMFunction)
+    </td>
+    <td>
+        @Html.EditorFor(model => model.showUAMApplication)
+        @Html.ValidationMessageFor(model => model.showUAMApplication)
+    </td>
+    <td>
+        @Html.EditorFor(model => model.showUAMFunction)
+        @Html.ValidationMessageFor(model => model.showUAMFunction)
+    </td>
+    <td>
+        @* This hidden input field, is so that Downtime doesn't get sat to false, when you edit the announcements category (in the future it can perhaps be made editable) *@
+        @Html.HiddenFor(model => model.Downtime)
+        @Html.ValidationMessageFor(model => model.Downtime)
+    </td>
+</tr>

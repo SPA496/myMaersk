@@ -1,0 +1,104 @@
+﻿@model myDamco.Database.Navigation
+
+
+@{
+    ViewBag.Title = Model.Title;
+    ViewBag.HideFooter = true;
+}
+@section IECompatibleMeta {
+    @{
+        string compatiblestring = null;
+        switch (Model.IECompatibilityMode)
+        {
+            case "EmulateIE7":
+                compatiblestring = "IE=EmulateIE7";
+                break;
+            case "EmulateIE8":
+                compatiblestring = "IE=EmulateIE8";
+                break;
+            case "EmulateIE9":
+                compatiblestring = "IE=EmulateIE9";
+                break;
+            case "IE5":
+                compatiblestring = "IE=5";
+                break;
+            case "IE7":
+                compatiblestring = "IE=7";
+                break;
+            case "IEEdge":
+                compatiblestring = "IE=edge";
+                break;
+        }
+    }
+    @if (compatiblestring != null)
+    {
+        <meta http-equiv="X-UA-Compatible" content="@compatiblestring" />
+    }
+}
+
+
+@{
+    string url = "";
+    if (!string.IsNullOrEmpty(ViewBag.OverrideURL))
+    {
+        url = (string)ViewBag.OverrideURL;
+    }
+    else
+    {
+        url = Model.Url;
+    }
+}
+
+<script type="text/javascript">
+    
+    // KV: solution found at http://stackoverflow.com/questions/325273/make-iframe-to-fit-100-of-containers-remaining-height
+    function pageY(elem) {
+        return elem.offsetParent ? (elem.offsetTop + pageY(elem.offsetParent)) : elem.offsetTop;
+    }
+
+    var buffer = 0; //20; //scroll bar buffer
+    function resizeIframe() {
+        var height = document.documentElement.clientHeight;
+        height -= pageY(document.getElementById('applicationIframe')) + buffer;
+        height = (height < 0) ? 0 : height;
+        document.getElementById('applicationIframe').style.height = height + 'px';
+    }
+
+    // KV: The layout dictates that elements are rendered inside the "main"-div which has some margins and other stuff that we do not want. Therefore we will simply add it to the end of body after loading.
+    $(function () {
+
+        $("#main").css("margin", "0").css("padding", "0"); // No gap between the menu and the iframe (or very little gap)
+        $("body").css("background-image", "none"); // No background-image, since the applications add this themselves and this might not line up properly
+        $("body").css("overflow", "hidden"); // disable scrollbars on the main page, since it leads to iframe resize issues 
+
+        @* Note: In the new design, there must be NO space between the menu and the iframe. The box-shadow from the menu must appear _on top of_ the iframe (therefore z-index:-1 to put the iframe behind its parent (and position to make z-index work)). *@
+        $("body").append('<iframe class="applicationIframe" id="applicationIframe" style="z-index:-1; width: 100%; position:absolute;" src="@url" frameborder="0" seamless="seamless"></iframe>');
+        document.getElementById('applicationIframe').onload = resizeIframe;
+
+        window.onresize = resizeIframe; // resize iframe when window resizes
+        resizeIframe(); // initially resize the iframe while it is loading its page (before iframe.onload fires)
+
+        try {
+            var iframe = document.getElementById('applicationIframe');
+            if (window.location.hash) {
+                var hash = window.location.hash.replace("#", "");
+                var lastChar = "@url.ElementAt(url.Length-1)";
+                var slash = lastChar == "/" ? "" : "/";
+                iframe.src = "@url" + slash + hash;
+            }            
+        } catch (securityError) {
+            // iframe content is not on same domain so we do nothing..
+        }
+        
+
+        $("#applicationIframe").on("load", function () {
+            try {
+                var iframe = document.getElementById('applicationIframe');
+                var iframeLocation = iframe.contentWindow.location.href;
+                window.location.hash = iframeLocation.replace("@url","");
+            } catch (securityError) {
+                // iframe content is not on same domain so we do nothing..
+            }
+        });
+    });
+</script>

@@ -1,0 +1,36 @@
+﻿@model IEnumerable<myDamco.Database.Page>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="create-new-wrapper">
+    @Html.ActionLink("Create New", "Create", null, new { @class = "createnew" })
+</div>
+<table>
+    <tr>
+        <th>
+            UId
+        </th>
+        <th>
+            Title
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.UId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Title)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,33 @@
+﻿@{
+    ViewBag.Title = "Administration";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    // Assume admin if not defined
+    if (ViewBag.isAdmin == null)
+    {
+        ViewBag.isAdmin = true; 
+    }
+}
+<table class="admin-layout-table">
+    <tr>
+        <td class="admin-menu" valign="top">
+            @Html.ActionLink("News", "Index", "News")<br />
+            @{
+                if (ViewBag.IsAdmin)
+                { 
+                    var adminRouteValues = new { Area = "Administration" };
+                    @Html.ActionLink("Navigation", "Index", "Navigation", adminRouteValues, null)<br />
+                    @Html.ActionLink("Widgets", "Index", "Widgets", adminRouteValues, null)<br />
+                    @Html.ActionLink("Pages", "Index", "StaticContent", adminRouteValues, null)<br />
+                    @Html.ActionLink("Statistics", "Index", "Statistics", adminRouteValues, null)<br />
+                    @Html.ActionLink("Settings", "Index", "Settings", adminRouteValues, null)<br />
+                    @Html.ActionLink("Dashboard Templates", "Index", "DashboardTemplate", adminRouteValues, null)<br />
+                    @Html.ActionLink("Server Management", "Index", "ServerManagement", adminRouteValues, null)<br />
+                    /*@Html.ActionLink("Supply-chain", "Index", "Functions", new { Area = "MySupplyChainAssistantAdministration" }, null)<br />*/
+                }
+            }
+        </td>
+        <td>
+            @RenderBody()
+        </td>
+    </tr>
+</table>

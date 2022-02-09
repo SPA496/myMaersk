@@ -1,0 +1,121 @@
+﻿@model myDamco.Database.Widget
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>Widgets</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.UId)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.UId)
+            @Html.ValidationMessageFor(model => model.UId)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Title)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Title)
+            @Html.ValidationMessageFor(model => model.Title)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Description)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Description)
+            @Html.ValidationMessageFor(model => model.Description)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Category)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Category)
+            @Html.ValidationMessageFor(model => model.Category)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Template)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Template)
+            @Html.ValidationMessageFor(model => model.Template)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Configuration)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Configuration)
+            @Html.ValidationMessageFor(model => model.Configuration)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ConfigurationSchema)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ConfigurationSchema)
+            @Html.ValidationMessageFor(model => model.ConfigurationSchema)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ServiceConfiguration)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ServiceConfiguration)
+            @Html.ValidationMessageFor(model => model.ServiceConfiguration)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ServiceConfigurationSchema)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ServiceConfigurationSchema)
+            @Html.ValidationMessageFor(model => model.ServiceConfigurationSchema)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Disabled)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Disabled)
+            @Html.ValidationMessageFor(model => model.Disabled)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.UAMApplication)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.UAMApplication)
+            @Html.ValidationMessageFor(model => model.UAMApplication)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.UAMFunction)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.UAMFunction)
+            @Html.ValidationMessageFor(model => model.UAMFunction)
+        </div>
+
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

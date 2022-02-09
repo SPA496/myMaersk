@@ -1,0 +1,658 @@
+﻿
+
+#dashboard-widget-list
+{
+	/*display: none;*/
+}
+
+
+.dashboardcolumn 
+{
+	float: left;
+	min-width: 280px;
+	/*width: 32%;
+	border-style: solid;
+	border-width: 2px;
+	border-color: #FFFFFF;*/
+	min-height: 800px !important;
+    _height: 800px; /* IE6 hack (IE6 does not support min-height, but treats height as min height). Without this hack, it is hard to place widgets in an empty dashboard column in IE6. */
+}
+
+#dashboardcolumn0, #dashboardcolumn2 {
+    width: 33%;
+}
+
+#dashboardcolumn1 {
+    width: 34%;
+}
+
+#dashboard-announcements
+{
+	padding:10px 20px 10px 10px; 
+	color:#ff0000; 
+	clear:both;
+    margin-top: 3px;
+    margin-bottom: 10px;
+}
+
+#dashboard-announcements #announcement-icon
+{
+        float: left; 
+        margin-right: .3em;
+}
+
+#dashboard-error-dialog #error-description
+{
+    margin: 5px 0 5px 0;
+    padding: 5px;
+}
+
+.widget 
+{
+    margin: 0px 12px 12px 12px;
+}
+
+#dashboardcolumn0 .widget
+{
+    margin-left:0px;
+}
+
+#dashboardcolumn1
+{
+}
+
+#dashboardcolumn2 .widget
+{
+    margin-right:0px;
+}
+
+#widgetcode
+{
+    clear: both;
+}
+
+/* Below is widget head stuff */
+
+
+
+.widget-head
+{
+    position: relative;
+    
+	background-color: #E7E9EA /* #F2F2F2 */;
+	/*background-image: url(images/widgethead-bg.jpg);
+	background-position: left top;
+	background-repeat: no-repeat; */
+    /*color: black;*/
+	color: #333;
+	height: 30px;
+	/*width: 100%;*/
+    cursor: move;
+    
+    margin: 0px;
+    padding:  0px 14px;
+    
+    white-space: nowrap;
+    overflow: hidden;
+
+    FONT-FAMILY: LATO;
+    FONT-WEIGHT: BOLD;
+    FONT-SIZE: 12PX;
+    TEXT-TRANSFORM: UPPERCASE;
+    margin-bottom: 12px;
+}
+
+.widget-head .widget-title-cover
+{
+    position: relative;
+    background-color: inherit;
+    top:4px;
+}
+
+.widget-head .widget-title
+{
+    font-size: 12px;
+    font-weight: bold;
+
+    margin: 3px 0 3px 0px;
+    padding: 3px 5px 4px 0px;
+    float: left;
+    
+    position: absolute;
+    top: -3px;
+}
+
+.widget-head .widget-icon
+{
+    height: 16px;
+    width: 16px;
+    float: left;
+    margin: 7px 0 0 7px;
+}
+
+.widget-head .widget-title:hover
+{
+    z-index: 500;
+    background-color: inherit;
+}
+
+
+
+.widget-head .toolkit 
+{
+	height: inherit;
+
+    position: relative;
+    float: right;
+    
+    z-index: 500;
+
+    margin: 0px;
+    padding: 0px;
+    height: 100%;
+    cursor: move;
+}
+
+.widget-head .innertoolkit 
+{
+	height: inherit;
+    width: 120px;
+
+    /*background-color: #F2F2F2;*/
+    position: absolute;
+    right: 0px;
+
+    margin: 0px;
+    padding: 0px;
+}
+
+.widget-head a 
+{
+	filter: alpha(opacity=40);
+	-moz-opacity:0.4;
+	-khtml-opacity: 0.4;
+	/*opacity: 0.4;*/
+}
+
+.widget-head:hover a 
+{
+	filter: alpha(opacity=100);
+	-moz-opacity:0;
+	-khtml-opacity: 0;
+	opacity: 1;    
+}
+
+
+
+.widget-head a.headericon
+{
+    vertical-align: middle;
+    margin: 3px 0 3px 0;
+    margin-right: 0px;
+	padding: 0;
+	cursor: pointer;
+    float: right;
+}
+
+.widget-head .toolkitadditions a.headericon /* This is to fix an IE6+7 error: In IE6+7 float:right elements makes the container grow to 100% width, instead of growing just enough to make the children fit. This makes the rename icon invisible. */
+{                                           /* To avoid that the "toolkitadditons" grows to 100% width, the icons to float:left instead when inside that div. (Alternative solution: http://stackoverflow.com/questions/852104/internet-explorer-6-and-7-floated-elements-expand-to-100-width-when-they-conta )*/
+    float: left;
+}
+.widget-head .toolkitadditions {
+    *padding-bottom: 3px;                   /* <- For some reason IE6-7 ignores the bottom margin of .headericon when the children floats left... */
+}
+
+.widget-head a.icon
+{
+	background-image: url(images/allbut_int.png);
+	background-repeat: no-repeat;
+    margin-top: 7px;
+	height: 15px;
+	width: 15px;
+}
+
+.toolkitadditions 
+{
+    background: #CCCCCC;
+    margin: 4px 5px 0px 0px;
+    padding: 0px 3px 0px 3px;
+    float: right;
+    
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -khtml-border-radius: 4px;
+    border-radius: 4px;
+}
+
+
+
+.widget-head a.icon.refresh
+{
+	/*background-position: 0px -300px;*/
+    background-image: url(images/allbut_int.png) !important;
+    background-position: 0px -364px !important;
+}
+
+.widget-head a.icon.configuration
+{
+	/*background-position: 0px -285px;*/
+    background-image: url(images/allbut_int.png) !important;
+    background-position: 0px -380px !important;
+}
+
+.widget-head a.icon.delete
+{
+	/*background-position: 0px 0px;*/
+    background-image: url(images/allbut_int.png);
+    background-position: 0px -332px;
+}
+
+.widget-head a.icon.rename-title
+{
+	background-position: 0px -316px;
+    /*display:none;*/
+}
+
+/* Below is widget content stuff */
+
+.widget-content {
+    margin-left: 14px;
+    margin-right: 14px;
+}
+.widget-content a {
+    /*background-image: url(images/b_link.gif);
+    background-position: left center;
+    background-repeat: no-repeat;*/
+    display: inline-block;
+    margin-left: 2px;
+    /*text-decoration: none;*/
+    /*padding-left: 10px;
+    padding-right: 10px;*/
+}
+
+
+.widget-content .rename-title-container {
+    width:100%;
+}
+  
+.widget-content .rename-title-container .inner-rename {
+    padding-top:3px;
+    padding-bottom:3px;
+    width:100%; 
+    overflow:hidden
+}
+
+.widget-content .rename-title-container .inner-rename label {
+    float:left; 
+    margin-right:4px;
+    padding-top:3px;
+}
+
+.widget-content button.rename-title-button {
+    float:right; 
+    margin-left:4px;
+}
+
+.widget-content .rename-title-container .inner-rename .rename-textfield-wrapper {
+    overflow:hidden;
+    border: 1px solid #aaaaaa;
+}
+
+.widget-content .rename-title-container .inner-rename .rename-textfield-wrapper input.renamed-title-text{
+    border:0;
+    width:100%;
+    _color:red;
+}
+
+/* IE 6 Begin*/
+
+.widget-content .rename-title-container.ie6 {
+    width:100%;
+    padding-top:3px;
+    padding-bottom:3px;
+}
+
+.widget-content .rename-title-container.ie6 label{
+    float:left; 
+    margin-right:4px;
+    padding-top:3px;
+}
+.widget-content .rename-title-container.ie6 button.rename-title-button{
+    float:right; 
+    margin-left:4px;
+}
+.widget-content .rename-title-container.ie6 input.renamed-title-text{
+    width:60%;
+}
+
+
+
+
+/* IE 6 End*/
+
+
+
+.widget .icon
+{
+	background-image: url(images/allbut_int.png);
+	height: 15px;
+	width: 15px;
+	background-repeat: no-repeat;
+	cursor: pointer;
+	display: block;
+}
+
+.widget table {
+    /*background:  #FFF;
+    border-collapse: collapse;*/
+    margin-bottom: 4px;
+}
+
+.widget table td {
+    /*font-size: 11px; 
+    font-weight: normal; 
+    color: #333333;
+    background-color: #F0F0F0;
+    border: solid 2px #fff;
+    padding: 3px;*/
+}
+
+.widget table th {
+    /*font-weight: bold;*/
+    /*border: solid 1px #fff;*/
+}
+
+.widget-placeholder
+{
+    border: 2px dashed #999;
+}
+
+.newwidget-placeholder
+{
+    margin-bottom: 10px;
+    border: 2px dashed #999;
+}
+
+.widget-add-widgets {
+    margin-left: -7px;
+    margin-right: -7px;
+}
+
+.widget-add
+{
+    position: relative;
+    float: left;
+    /*margin: 14px;*/
+}
+
+.widget-add:hover
+{
+    z-index: 510;
+}
+
+.widget-add img
+{
+    float:left;
+    margin-right: 5px;
+    margin-top: 4px;
+}
+
+.widget-add
+{
+    font-size: 0.9em;
+}
+
+.widget-add .description 
+{
+    margin-left: 7px;
+    padding: 0px 5px 0px 5px;
+    margin-right: 30px;
+    background-color: inherit;
+}
+
+.widget-add .description:hover 
+{
+    
+    *background-color: #FFFFFF;
+}
+
+.widget-add:hover .description
+{
+    z-index: 510;
+}
+
+.widget-add .movehead 
+{
+    position: absolute;
+    right: 21px;
+    top: 20px;
+    FONT-FAMILY: LATO !important;
+    FONT-STYLE: NORMAL !important;
+    /*FONT-WEIGHT: 900 !important;*/
+    FONT-SIZE: 40PX !important;
+    COLOR: #FFF !important;
+}
+
+.widget-add-drag-head 
+{
+    overflow: hidden;
+    margin: 7px;
+    padding: 7px;
+    height: 61px;
+    width: 276px;
+    cursor: move;
+
+}
+
+.widget-add-drag-head:hover
+{
+    overflow: visible;
+    
+}
+
+.widget-add-drag-head.downtimedisabled, div.widget-add-drag-head.downtimedisabled /* last selector is to make it work in IE6 (the div makes the selector a bit more specific, so it takes precedence over ".bg0",".bg1",...) */
+{
+    color: #FFFFFF;
+    background-color: #AAAAAA;
+    cursor: default;
+}
+
+.widget-add-drag-head.downtimedisabled img 
+{
+    opacity : 0.4;
+    filter: alpha(opacity=40);
+}
+
+.widget-add .widget-icon-large
+{
+    height: 50px;
+    width: 50px;
+    float:left;
+    margin: 4px 10px 0 4px;
+    display: inline-block;
+}
+
+#dashboard-widget-list #addwidgetpadding
+{
+	/*background-position: -13px -0px;*/
+    background-image: url(images/allbut_int.png);
+    background-position: 0px -348px !important;
+    background-repeat: no-repeat;
+    margin: 8px 0 8px 0;
+    padding: 1px 0 2px 20px;
+}
+
+#dashboard-widget-list #addwidgetlink
+{
+    /*font-size: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: underline;
+    color: #6C7385;*/
+}
+
+/* KV: Search for ".downtimewarning" in other CSS files and propogate changes, if you make changes here */
+.widget-add-drag-head.downtimedisabled .downtimewarning /* For drag-heads in add-dialog */
+{
+    display: none;
+}
+
+.widget-add-drag-head.downtimedisabled:hover .downtimewarning, /* For drag-heads in add-dialog */
+.widget-add-drag-head.downtimedisabled.hover .downtimewarning  /* IE6 Bugfix, since IE6 only supports :hover on <a> elements - see javascript in _AddNewWidget */
+{
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 250px;
+    display: block;
+    font-size: 0.8em;
+    font-weight: normal;
+}
+
+.widget .downtimewarning { /* for widgets shown on the dashboard*/
+    display: block;
+    width: 90%;
+    margin: auto;
+    margin-top: 10px;
+}
+
+/* The below class is replicated in menu.css */
+.downtimewarning {
+    z-index: 999;
+    text-align: left;
+    padding: 10px;
+    background-color: #FCEFEB;
+    border: 1px #FF3C00  solid;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -khtml-border-radius: 4px;
+    border-radius: 4px;
+    color: #222222;
+}
+
+
+
+.widget .serviceError .errorDescription
+{
+    margin-top: 5px;
+    color: #000;
+}
+
+.widget .serviceError .errorDescription div
+{
+    display: none;
+}
+
+.widget .serviceError .errorDescription:hover div
+{
+    display: block;
+}
+
+.widget .responseTimeContainer
+{
+    text-align:right;
+    margin:0;
+    font-size:8px;
+}
+
+
+
+.accountFieldSet
+{
+    width: 250px;
+    padding: 10px;
+}
+
+.accountFieldSet input[type=submit]
+{
+    margin-top: 10px;
+    float: right;
+    font-size: 12px;
+}
+
+.accountFieldSet input[type=password]
+{
+    width: 243px;
+}
+
+.accountFieldSet legend
+{
+    color: #000;
+}
+
+.bgx {
+    background-color: #1689CA;
+}
+
+.bg0
+{
+    /*background-color: #cae1a7;*/
+    background-color: #97C550;
+}
+
+.bg1
+{
+    /*background-color: #a9d4a0;*/
+    background-color: #54AB42;
+}
+
+.bg2
+{
+    /*background-color: #9bc6e7;*/
+    background-color: #398FD1;
+}
+
+.bg3
+{
+    /*background-color: #9dacd0;*/
+    background-color: #3C5BA3;
+}
+
+.bg4
+{
+    /*background-color: #7f8fad;*/
+    background-color: #00215B;
+}
+
+.AddWidgetTitle {
+    FONT-FAMILY: LATO !important;
+    FONT-STYLE: NORMAL !important;
+    FONT-WEIGHT: 900 !important;
+    FONT-SIZE: 20PX !important;
+    TEXT-TRANSFORM: UPPERCASE !important;
+    LINE-HEIGHT: 1.2 !important;
+    COLOR: #FFF !important;
+    padding: 3px 0;
+}
+
+.AddWidgetDescription {
+    FONT-FAMILY: ARIAL,HELVETICA,SANS-SERIF !important;
+    COLOR: #FFF !important;
+    FONT-SIZE: 11px !important;
+    LINE-HEIGHT: 1.2 !important;
+    padding: 5px 0;
+}
+
+/* KV: autocomplete popups should appear on top of all other elements */
+.ui-autocomplete
+{
+    position:absolute;
+    cursor:default;
+    z-index:4000 !important
+}
+
+#applicationIframe {
+    margin-left: 60px;
+    margin-top: -7px;
+    width: 0px;
+}
+
+.profileRow th {
+    background: #FFF;
+    color: #333;
+    font-weight: bold;
+}
+.profileRow td {
+    background: #FFF;
+    color: #000;
+}

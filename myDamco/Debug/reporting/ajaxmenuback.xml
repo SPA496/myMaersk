@@ -1,0 +1,2 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="menu.xsl"?><data><application><portalclass>REPORTING</portalclass></application><dropmenu class="bluemenu" id="backend" width="200"><item url="page?action=stat_extract">Report Statistics</item><item url="page?action=stat_running">Running Reports</item><item url="page?action=web_stat">Web Statistics</item><item url="page?action=page_stat">Web Page Statistics</item><item url="page?action=users_active">Active sessions</item></dropmenu></data>

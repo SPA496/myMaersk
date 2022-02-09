@@ -1,0 +1,490 @@
+﻿/* KV - this file will also be embedded to random external sites. Keep that in mind when editing. */
+
+
+/*
+KV: The below stuff that is found within MyDamcoMenu_container should be kept consistent with the styles found in:
+
+    * menu.js
+    * dashboard.js
+
+They are here to make sure the menu also look nice on embeded sites.
+*/
+#MyDamcoMenu_container
+{
+    /*margin-left: 20px;
+    margin-right: 20px;*/
+
+    background-color: #ffffff;
+    font-size: small;
+    font-family: Verdana, Helvetica, Sans-Serif;
+    color: #696969;
+}
+
+#MyDamcoMenu_container a:link
+{
+    /*text-decoration: none*/
+}
+
+#MyDamcoMenu_container a:visited
+{
+    /*text-decoration: none;*/
+}
+
+#MyDamcoMenu_container a:hover
+{
+    /*text-decoration: underline;*/
+}
+
+
+div#MyDamcoMenu_logo_container 
+{
+    float: left;
+    clear: left;
+    width: 142px;
+    margin-right: 0px;
+    padding-right: 0px;
+    top: 7px;
+    position: relative;
+}
+
+div#MyDamcoMenu_title 
+{
+    margin-top: 5px;
+    margin-left: 69px;
+    margin-right: 69px;
+    display: block;
+    clear: both;
+}
+
+div.MyDamcoMenu_topbarnavigation 
+{
+    margin-left: 0px;
+    padding-left: 0px;
+    float: right;
+    clear: right;
+    text-align: right;
+    width: 80%;
+}
+
+ul#MyDamcoMenu_navigation
+{
+    list-style-type: none;
+    float: right;
+    padding: 0px;
+    /*margin: 10px 0px 0px 0px;*/
+    /*margin: -1px 0px -5px 0px;*/
+    margin: -1px 0 0 0;
+    line-height: 38px;
+}
+
+ul#MyDamcoMenu_navigation li
+{
+    position:relative;
+
+    display: block;
+    float: left;
+    padding: 0px;
+}
+
+ul#MyDamcoMenu_navigation li a
+{
+    position:relative;
+    
+    padding-top: 9px;
+    padding-bottom: 10px;
+    padding-left: 16px;
+    padding-right: 16px;
+    /*margin-left: 5px;*/
+
+    FONT-FAMILY: LATO;
+    FONT-WEIGHT: BOLD;
+    FONT-SIZE: 16PX;
+    TEXT-DECORATION: NONE;
+    text-transform:uppercase;
+    
+    left: 16px; /* KV: Match this with padding-left to align rightmost element with the "logout" line */
+    
+    /* KV: TODO: rowser compatibility issue here. */
+    /*-moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -khtml-border-radius: 4px;
+    border-radius: 4px;*/
+}
+
+ul#MyDamcoMenu_navigation li a.downtimedisabled
+{
+    color: #FFFFFF;
+    background-color: #AAAAAA;
+    text-decoration: none;
+    cursor: default;
+
+}
+
+/* KV: Search for ".downtimewarning" in other CSS files and propogate changes, if you make changes here */
+ul#MyDamcoMenu_navigation li a.downtimedisabled .downtimewarning
+{
+    display: none;
+}
+
+
+ul#MyDamcoMenu_navigation li a.downtimedisabled:hover .downtimewarning,
+ul#MyDamcoMenu_navigation li a.downtimedisabled.hover .downtimewarning /* IE6 Fix (only supports :hover on <a>). Also JS in menu.js to add the .hover class.*/ 
+{
+    position:absolute;
+    top: 25px;
+    left: 10px;
+    width: 250px;
+    display: block;
+    font-size: 0.8em;
+    font-weight: normal;
+    line-height: normal;
+}
+/* This class is replicated in dashboard.css */
+.downtimewarning {
+    z-index: 999;
+    text-align: left;
+    padding: 10px;
+    background-color: #FCEFEB;
+    border: 1px #FF3C00  solid;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -khtml-border-radius: 4px;
+    border-radius: 4px;
+    color: #222222;
+}
+
+div.MyDamcoMenu_topbarinfo
+{
+    float: right;
+    clear: right;
+    text-align: right;
+    font-family: ARIAL,HELVETICA,SANS-SERIF;
+    font-size: 11px;
+    line-height: 1.4em;
+    color: #868F98;
+}
+
+div.MyDamcoMenu_topbarinfo .MyDamcoMenu_var
+{
+    color: #000;
+    text-transform:uppercase;
+    text-decoration: none;
+}
+
+#MyDamcoMenu_container #splitter
+{
+    padding-top: 3px;
+    clear:both;
+}
+#MyDamcoMenu_container #splitter hr
+{
+    border: 0;
+    width: 100%;
+    height: 0; /* Firefox... */
+    box-shadow: 0 0 2px 1px #DDDDDD;
+    margin:0;
+    padding:0;
+}
+
+#MyDamcoMenu_container #splitter hr:after {  /* Not really supposed to work, but does */
+    content: "\00a0";  /* Prevent margin collapse */
+}
+
+span.MyDamcoMenu_topbartext 
+{
+   margin-left: 30px;
+}
+
+#MyDamcoMenu_main_top
+{
+    /*background-color: #08205C;
+    background-image: url(images/topimageend.gif);
+    background-repeat: no-repeat;
+    background-position: right top;*/
+    height: 4px;
+    width: 100%;
+    /*background: TRANSPARENT LINEAR-GRADIENT(TO RIGHT, #80C644 0%, #00AD35 25%, #0090D4 50%, #207CCA 75%, #001B5C 100%) REPEAT SCROLL 0% 0%;*/
+    background: TRANSPARENT LINEAR-GRADIENT(TO RIGHT, #97C550 0%, #54AB42 25%, #398FD1 50%, #3C5BA3 75%, #00215B 100%) REPEAT SCROLL 0% 0%;
+}
+
+#MyDamcoMenu_main_top_old
+{
+    height: 6px;
+    width: 100%;
+    background-color: #00215B;
+}
+
+a.MyDamcoMenu_menu-link_hover 
+{
+    text-decoration: none;
+}
+
+a.MyDamcoMenu_menu-link
+{
+    /*COLOR: #6C7385;*/
+    COLOR: #5E6167;
+    BACKGROUND: #FFF;
+}
+
+a.MyDamcoMenu_menu-link:hover
+{
+    /*BACKGROUND: #EFEFEF;*/
+    BACKGROUND: #ECECEC;
+    text-decoration: underline;
+}
+
+a.MyDamcoMenu_menu-link_active
+{
+    COLOR: #FFF;
+    /*BACKGROUND: #8AC650;*/
+    BACKGROUND: #97C550;
+}
+
+a.c0
+{
+    color: #93C24A;
+}
+
+a.c1
+{
+    color: #54AB42;
+}
+a.c2
+{
+    color: #398FD1;
+}
+
+a.c3
+{
+    color: #3C5BA3;
+}
+
+a.c4
+{
+    color: #00215B;
+}
+
+
+
+a.c0_active
+{
+    color: #FFFFFF; background-color: #93C24A;
+}
+
+a.c1_active
+{
+    color: #FFFFFF; background-color: #54AB42;
+}
+a.c2_active
+{
+    color: #FFFFFF; background-color: #398FD1;
+}
+
+a.c3_active
+{
+    color: #FFFFFF; background-color: #3C5BA3;
+}
+
+a.c4_active
+{
+    color: #FFFFFF; background-color: #00215B;
+}
+
+
+
+/* Styles used for the change role dialog */
+#MyDamcoMenu_changerolelink
+{
+    cursor: pointer;
+}
+
+#MyDamcoMenu_roledialog .role-button
+{
+    font-weight: bold;
+    margin: 5px auto 5px auto;
+    width: 220px;
+}
+
+#MyDamcoMenu_roledialog p
+{
+    margin: 5px 0 5px 0;
+}
+
+#MyDamcoMenu_roledialog h3
+{
+    padding: 5px 0 5px 25px;
+}
+
+
+#MyDamcoMenu_roledialog .role-accordion
+{
+    width: 100%
+}
+
+#MyDamcoMenu_roledialog .ui-accordion-content
+{
+    padding: 0 20px 15px 20px;
+}
+
+
+
+/* KV: Stupid IE6 */
+a.c0:visited
+{
+    color: #93C24A;
+}
+
+a.c1:visited
+{
+    color: #54AB42;
+}
+a.c2:visited
+{
+    color: #398FD1;
+}
+
+a.c3:visited
+{
+    color: #3C5BA3;
+}
+
+a.c4:visited
+{
+    color: #00215B;
+}
+
+
+a.c0_active:visited
+{
+    color: #FFFFFF; background-color: #93C24A;
+}
+
+a.c1_active:visited
+{
+    color: #FFFFFF; background-color: #54AB42;
+}
+a.c2_active:visited
+{
+    color: #FFFFFF; background-color: #398FD1;
+}
+
+a.c3_active:visited
+{
+    color: #FFFFFF; background-color: #3C5BA3;
+}
+
+a.c4_active:visited
+{
+    color: #FFFFFF; background-color: #00215B;
+}
+
+.MyDamcoMenu_mainlogo 
+{
+    border: 0px;
+}
+
+.MyDamcoDialog {
+    -webkit-border-top-left-radius: 0px !important;
+    border-top-left-radius: 0px !important;
+    -webkit-border-top-right-radius: 0px !important;
+    border-top-right-radius: 0px !important;
+    -webkit-border-bottom-left-radius: 0px !important;
+    border-bottom-left-radius: 0px !important;
+    -webkit-border-bottom-right-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
+    padding: 0px !important;
+    /*font-family: Verdana, Helvetica, Sans-Serif;*/
+    font-family: ARIAL,HELVETICA,SANS-SERIF;
+    font-size: .85em;
+}
+
+.MyDamcoDialog .ui-dialog-titlebar {
+    border: none !important;
+    background: none !important;
+    FONT-FAMILY: LATO !important;
+    FONT-WEIGHT: BOLD !important;
+    TEXT-TRANSFORM: UPPERCASE !important;
+    PADDING: 0px 14px !important;
+    COLOR: #333 !important;
+    FONT-SIZE: 12PX !important;
+    HEIGHT: 24PX !important;
+    BACKGROUND-COLOR: #E7E9EA !important;
+    -webkit-border-top-left-radius: 0px !important;
+    border-top-left-radius: 0px !important;
+    -webkit-border-top-right-radius: 0px !important;
+    border-top-right-radius: 0px !important;
+    -webkit-border-bottom-left-radius: 0px !important;
+    border-bottom-left-radius: 0px !important;
+    -webkit-border-bottom-right-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
+    padding-top: 6px !important;
+}
+
+.MyDamcoDialog .ui-dialog-titlebar-close {
+    width: 16px !important;
+    height: 16px !important;
+    margin: -9px 0 0 0 !important;
+    right: 10PX !important;
+}
+
+.MyDamcoDialog .ui-icon-closethick {
+    background-image: url(images/allbut_int.png) !important;
+    background-position: -1px -333px !important;
+    width: 16px !important;
+    height: 16px !important;
+}
+
+.MyDamcoDialog .ui-dialog-content {
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+}
+
+.MyDamcoDialog .ui-button {
+    /*MARGIN: 0 0 0 0 !important;*/
+    WIDTH: 100% !important;
+    background-image: none !important;
+    background-color: #3C5BA3 !important;
+    border: none !important;
+    FONT-FAMILY: LATO !important;
+    FONT-STYLE: NORMAL !important;
+    FONT-WEIGHT: 400 !important;
+    FONT-SIZE: 12PX !important;
+    LINE-HEIGHT: 22PX !important;
+    COLOR: #FFF !important;
+    border-radius: 5PX !important;
+    -webkit-border-radius: 5PX !important;
+    -moz-border-radius: 5PX !important;
+    CURSOR: pointer !important;
+}
+
+.MyDamcoDialog h3 {
+    FONT-FAMILY: LATO !important;
+    FONT-STYLE: NORMAL !important;
+    FONT-WEIGHT: 400 !important;
+    FONT-SIZE: 12PX !important;
+    LINE-HEIGHT: 22PX !important;
+    COLOR: #000 !important;
+    border-radius: 0PX !important;
+    -webkit-border-radius: 0PX !important;
+    -moz-border-radius: 0PX !important;
+    CURSOR: pointer !important;
+}
+
+.MyDamcoDialog h3:not(.ui-state-active) {
+    background-image: unset !important;
+    background-color: #CCC !important;
+    border: none !important;
+}
+
+.MyDamcoMenu_link {
+    /*font-family: LATO !important;
+    font-weight: bold !important;*/
+    /*font-size: 12px !important;*/
+    color: #398FD1 !important;
+    text-decoration: none !important;
+}
+
+.MyDamcoMenu_link:hover {
+    color: #3C5BA3 !important;
+    text-decoration:underline !important;
+}

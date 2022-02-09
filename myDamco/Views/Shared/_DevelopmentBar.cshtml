@@ -1,0 +1,68 @@
+﻿@if (HttpContext.Current.IsDebuggingEnabled)
+{
+    <!--<script src="@Url.Action("JavaScript", "MySupplyChainAssistant", new { Area = "" }, null)" type="text/javascript"></script>-->
+    <style type="text/css">
+        #DevBar 
+        {
+            display: inline-block;
+            background-color: #CCCCCC;
+            color: #222222;
+            padding: 0px;
+            margin: 0px;
+            width: 100%;
+        }
+        
+        #DevBar div 
+        {
+            float: left;
+            margin-right: 10px;
+        }
+        
+        #DevBar div .inner
+        {
+            display: none;
+            position: absolute;
+            background-color: #AAAAAA;
+            padding: 3px;
+            z-index: 9999;
+            top:15px;
+            
+        }
+        
+        #DevBar div:hover .inner
+        {
+            display: block;
+        }
+    </style>
+
+    <div id="DevBar">
+        <div><b>Development</b> </div>
+        @{
+            // Info to put into the custom variables
+            var newClaim = (HttpContext.Current.User.Identity as System.Security.Claims.ClaimsIdentity).FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
+            var username = (newClaim != null ? newClaim.Value.Split('@')[0].ToLower() : null);
+        }
+        <div>
+            <div class="inner">
+
+                @Html.Raw(String.Join("<br>", Roles.GetRolesForUser(username)))
+            </div>
+            UAMRole (@Roles.GetRolesForUser(username).Count())
+        </div>
+
+        <!--<div>
+        <div class="inner" id="supplychainassistantdata">
+            Test
+        </div>
+        SupplyChainAssistant
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var ass = SCA($("#supplychainassistantdata"));
+            ass.init(window.location, { name: "joelving", role: "admin" });
+        });
+
+    </script>-->
+    </div>
+}

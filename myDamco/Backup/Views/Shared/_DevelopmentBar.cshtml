@@ -1,0 +1,63 @@
+﻿@if (HttpContext.Current.IsDebuggingEnabled)
+{
+    <!--<script src="@Url.Action("JavaScript", "MySupplyChainAssistant", new { Area = "" }, null)" type="text/javascript"></script>-->
+    <style type="text/css">
+        #DevBar 
+        {
+            display: inline-block;
+            background-color: #CCCCCC;
+            color: #222222;
+            padding: 0px;
+            margin: 0px;
+            width: 100%;
+        }
+        
+        #DevBar div 
+        {
+            float: left;
+            margin-right: 10px;
+        }
+        
+        #DevBar div .inner
+        {
+            display: none;
+            position: absolute;
+            background-color: #AAAAAA;
+            padding: 3px;
+            z-index: 9999;
+            top:15px;
+            
+        }
+        
+        #DevBar div:hover .inner
+        {
+            display: block;
+        }
+    </style>
+
+    <div id="DevBar">
+        <div><b>Development</b> </div>
+
+        <div>
+            <div class="inner">
+                @Html.Raw(String.Join("<br>", Roles.GetRolesForUser()))
+            </div>
+            UAMRole (@Roles.GetRolesForUser().Count())
+        </div>
+
+        <!--<div>
+            <div class="inner" id="supplychainassistantdata">
+                Test
+            </div>
+            SupplyChainAssistant
+        </div>
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                var ass = SCA($("#supplychainassistantdata"));
+                ass.init(window.location, { name: "joelving", role: "admin" });
+            });
+
+        </script>-->
+    </div>
+}

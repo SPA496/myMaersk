@@ -1,0 +1,40 @@
+﻿@{
+    ViewBag.Title = "Dashboard Templates";
+
+    Html.Resource("~/Areas/Administration/Scripts/TimeUtil.js");
+    Html.Resource("~/Areas/Administration/Scripts/DashboardTemplates.js");
+    Html.Resource("~/Areas/Administration/Content/dashboardTemplates.css", new HTMLResourceOptions { Bundle = false, Minify = false }); // <- don't bundle, since it the CSS uses images, and the path to those will change when bundling.
+}   
+<div style="float:right; position:relative;">
+    <div class="top-button-grayout-overlay"></div> @* since it is a sibling to the link, not a parent, click events does not bubble up. Also all mouse over effects, etc, are disabled (for free!). *@
+    <a href="#" id="refresh-cached-names-button" class="top-button">Refresh cached names<!--from UAM--></a>
+</div>
+
+<h2>Dashboard Templates</h2>
+<br/>        
+
+<div class="create-new-wrapper create-new-wrapper-dashboardtemplates">
+    <div class="top-button-grayout-overlay"></div> @* since it is a sibling to the link, not a parent, click events does not bubble up. Also all mouse over effects, etc, are disabled (for free!). *@
+    <a href="#" id="create-new" class="createnew top-button">Create New</a>
+</div>
+
+<div id="tabsAndTablesContainer">
+     @Html.Action("TabsAndTables")
+</div>
+
+<style type="text/css">
+    #AjaxGrid, #AjaxGrid input, #AjaxGrid button { clear: both; width: 100%; }
+    #AjaxGrid thead { white-space: nowrap; color: #222222;}
+    #AjaxGrid thead a, #AjaxGridContainer .AjaxGridNavigation a { text-decoration: none; }
+    #AjaxGrid .error { background-color: #f66; color: #000; }
+    #AjaxGridContainer .hidden { display: none; }
+    #AjaxGridContainer .AjaxGridNavigation input.pageNum { width: 2em; }
+    #AjaxGridContainer .AjaxGridNavigation .itemsPerPage { float: right; }
+</style>
+
+@*
+<div>
+    Todo: lidt instruction om hvad den her side viser og hvad man kan.
+    Todo: En update button for at opdatere cachede rolle navne, organization id'er og organization navne i DB'en. (Need to create mockservices XML)
+</div>
+*@

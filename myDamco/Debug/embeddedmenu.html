@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  
+<!-- This is to test that the js-libraries we load are not visible to sites including our external menu - not even during loading -->    
+<script type="text/javascript">
+    window.moment = "ok";
+    window.$ = "ok";
+    
+    if (window.console) console.log("This should say 'ok' for each line in the console, otherwise our JS libraries are visible to reporting and might conflict with theirs...");
+    var intervalID = setInterval(function () {
+        if (window.console) console.log("*** moment = " + window.moment + "\n" +            // This test shows that the jquery loading is not 100% correct. Maybe because $.noConflict is called too late - will it break JQuery UI if called earlier?
+                                        "    $      = " + window.$);
+    }, 1);
+    setTimeout(function() { // stop spamming the console after 2 seconds (everything is probably loaded by then)
+        clearInterval(intervalID);
+        //alert("moment: " + window.moment); // IE6 output
+    }, 2000);
+</script>
+  
+<!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>-->
+<!--<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js"></script>-->
+<script src="http://localhost:2930/debug/Dashboard/Menu?menu=reporting,tracktrace"></script>
+<!--<link href="http://localhost:2930/debug/Content/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />-->
+<link href="http://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+</head>
+<body>
+<div style="clear:both;">
+<p>
+Collaboratively administrate empowered markets via plug-and-play networks. Dynamically procrastinate B2C users after installed base benefits. Dramatically visualize customer directed convergence without revolutionary ROI.
+</p>
+<p>
+Efficiently unleash cross-media information without cross-media value. Quickly maximize timely deliverables for real-time schemas. Dramatically maintain clicks-and-mortar solutions without functional solutions.
+</p>
+<p>
+Completely synergize resource sucking relationships via premier niche markets. Professionally cultivate one-to-one customer service with robust ideas. Dynamically innovate resource-leveling customer service for state of the art customer service.
+</p>
+<p>
+Objectively innovate empowered manufactured products whereas parallel platforms. Holisticly predominate extensible testing procedures for reliable supply chains. Dramatically engage top-line web services vis-a-vis cutting-edge deliverables.
+</p>
+<p>
+Proactively envisioned multimedia based expertise and cross-media growth strategies. Seamlessly visualize quality intellectual capital without superior collaboration and idea-sharing. Holistically pontificate installed base portals after maintainable products.
+</p>
+<p>
+Phosfluorescently engage worldwide methodologies with web-enabled technology. Interactively coordinate proactive e-commerce via process-centric "outside the box" thinking. Completely pursue scalable customer service through sustainable potentialities.
+</p>
+<p>
+Collaboratively administrate turnkey channels whereas virtual e-tailers. Objectively seize scalable metrics whereas proactive e-services. Seamlessly empower fully researched growth strategies and interoperable internal or "organic" sources.
+</p>
+<p>
+Credibly innovate granular internal or "organic" sources whereas high standards in web-readiness. Energistically scale future-proof core competencies vis-a-vis impactful experiences. Dramatically synthesize integrated schemas with optimal networks.
+</p>
+<p>
+Interactively procrastinate high-payoff content without backward-compatible data. Quickly cultivate optimal processes and tactical architectures. Completely iterate covalent strategic theme areas via accurate e-markets.
+</p>
+<p>
+Implement Enterprise-wide search capabilities including eyeball-optimization. Intuitively generate click-streams within a time-sharing framework to mitigate Massive-Online-Malware or Startup acceleration.
+</p>
+<p>
+NOTE: Opening the role-dialog or logout-dialog makes IE6-IE7 hang, unless the JQueryUI CSS is present - which it is on reporting.
+</p>
+
+</div>
+</body>
+</html>

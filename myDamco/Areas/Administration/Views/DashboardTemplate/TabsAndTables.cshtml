@@ -1,0 +1,67 @@
+﻿@using myDamco.Database
+@model Dictionary<int, List<myDamco.Database.DashboardTemplate>>
+@{
+    var dashboardTemplateMap = Model;
+    Layout = null;
+}   
+
+<div id="tabs">
+    <ul>
+        @foreach (int orgId in dashboardTemplateMap.Keys)
+        {
+            var orgName = dashboardTemplateMap[orgId][0].CachedOrganizationName; // <- the list has length > 0, otherwise it wouldn't be in the map.
+            <li><a href="#orgtab-@(orgId)" data-orgid="@(orgId)">@(orgName)</a></li>
+        }
+        @if (dashboardTemplateMap.Count == 0) { <li><a href="#emptytab"></a></li> }
+        <li id="edittab"><a href="#editdialog">Edit or Create</a></li>
+    </ul>
+
+    @foreach (int orgId in dashboardTemplateMap.Keys)
+    {
+        var values = dashboardTemplateMap[orgId];
+        
+        <div id="orgtab-@orgId" data-key="@orgId">
+            
+            <table id="AjaxGrid"> @* todo! multiple ids!! +rename it. *@
+                <thead>
+                    <tr>
+                        <th width="16"></th>
+                        <th>
+                            <span>Role</span>
+                        </th>
+                        <th>
+                            <span>Copied From User</span>
+                        </th>
+                        <th>
+                            <span>Updated At</span>
+                        </th>
+                        <th>
+                            <span>Updated By</span>
+                        </th>
+                        <th>
+                            <span>Description</span>
+                        </th>
+                        <th width="16"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (DashboardTemplate dashboardTemplate in values)
+                    {
+                        @Html.Partial("Row", dashboardTemplate)
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    }
+    
+    @if (dashboardTemplateMap.Count == 0)
+    {
+        <div id="emptytab">
+            <div>No Dashboard Templates have been created yet. Click "Create New" to create one.</div>
+        </div>
+    }
+    
+    <div id="editdialog"></div>
+   
+</div>

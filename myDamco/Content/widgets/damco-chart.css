@@ -1,0 +1,184 @@
+﻿.widget-performancechart .columns ul 
+{
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+}
+
+.widget-performancechart .columns li 
+{
+    background-color: #EEEEEE;
+ 
+    margin: 3px 3px 3px 0;
+    float: left;
+    font-size: 12px;
+    text-align: center;
+    vertical-align: middle;
+    padding: 3px;
+    list-style-type: none;
+    float: left;
+    cursor:default;
+}
+
+.widget-performancechart
+
+#piecolumnsnav .filter 
+{
+    cursor: pointer;
+    text-decoration: none;
+}
+
+#piecolumnsnav .filter:hover
+{
+    text-decoration: underline;
+}
+
+#piecolumnsnav .filter.passedgroup 
+{
+    color: #398FD1;
+}
+
+#piecolumnsnav .filter.activegroup 
+{
+    color: #93C24A;
+}
+
+#piecolumnsnav{
+	list-style:none;
+	font-weight:bold;
+	margin-bottom:0px;
+	float:left;
+	width:100%;
+}
+
+#piecolumnsnav .filtereditor .filteritem
+{
+    width: 320px;
+    font-weight: normal;
+    text-align: left;
+}
+
+#piecolumnsnav li {
+	float:left;
+	position:relative;
+}
+
+#piecolumnsnav .filtereditor
+{
+    z-index: 999;
+    color: black;
+    width: 320px;
+	background-color: #EEEEEE;
+	padding: 4px;
+	list-style:none;
+	position:absolute;
+	top: 20px;
+}
+
+
+#piecolumnsnav .filtereditorholder 
+{
+	display: none;
+}
+
+#piecolumnsnav li.hover .filtereditorholder{ /* KV: IE 6 hack */
+	display: block;
+}
+
+#piecolumnsnav .filterlist
+{
+    clear: both;
+    height: 200px;
+	overflow: auto;
+	overflow-x: hidden;
+	-ms-overflow-x: hidden;
+}
+
+#piecolumnsnav .filterlist .filteritem {
+	float:none;
+	text-align: left;
+	text-decoration: none;
+	margin: 0;
+	padding-left: 3px;
+}
+
+#piecolumnsnav .addmanualy 
+{
+    margin-top: 4px;
+}
+
+
+.widget-performancechart .tabledata 
+{
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.widget-performancechart .tabledata thead td
+{
+    text-align: left;
+    font-weight: bold;
+}
+
+.widget-performancechart .tabledata 
+{
+    width: 100%;
+}
+
+.widget-performancechart .tabledata thead td:first-child
+{
+    min-width: 150px;
+}
+
+.widget-performancechart .tabledata .legend
+{
+    text-align: left;
+}
+
+.widget-performancechart .tabledata .cnt
+{
+    text-align: right;
+}
+.widget-performancechart .tabledata .pct
+{
+    text-align: right;
+}
+
+.widget-head a.pie
+{
+	background-image: url("../widgets/images/pie.png");
+	background-repeat: no-repeat;
+	height: 15px;
+	width: 15px;
+}
+
+.filtereditorholder iframe
+{
+    position: absolute;
+    z-index: 998;
+    filter: mask();
+    border: 0;
+    margin: 0;
+    padding: 0;
+    top: 0;
+    left: 0;
+    width: 9999px;
+    height: 9999px;
+    overflow: hidden;
+}
+
+
+.widget-head a.table
+{
+	background-image: url("../widgets/images/table.png");
+	background-repeat: no-repeat;
+	height: 15px;
+	width: 15px;
+}
+
+.widget-head a.filter
+{
+	background-image: url("../widgets/images/filter.png");
+	background-repeat: no-repeat;
+	height: 15px;
+	width: 15px;
+}

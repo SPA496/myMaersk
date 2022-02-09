@@ -1,0 +1,75 @@
+﻿@using myDamco.Code.Utils
+@using myDamco.Database
+@model myDamco.Database.NewsCategory
+
+@helper PrintTime(DateTime? t) {
+    if(t.HasValue) {
+        // KV: http://stackoverflow.com/questions/7983441/unix-time-conversions-in-c-sharp        
+        @TimeUtil.DateTimeToUnixTimestampMiliseconds(t.Value)
+    }
+}
+
+@helper printItem(NewsItem item = null, bool template = false) {
+    if (item == null) {
+        item = new NewsItem();
+    }
+    var downtime = item.Downtime.Select(x => new {
+        From = TimeUtil.DateTimeToUnixTimestampMiliseconds(x.From),
+        To = TimeUtil.DateTimeToUnixTimestampMiliseconds(x.To),
+        UAMFunction = x.UAMFunction,
+        UAMApplication = x.UAMApplication,
+        Message = x.Message
+    });
+    <tr
+            data-title="@item.Title"
+            data-from="@PrintTime(item.From)"
+            data-to="@PrintTime(item.To)"
+            data-description="@item.Description"
+            data-pkey="@item.Id"
+            data-content="@item.Body"
+            data-downtimes="@Json.Encode(downtime)"
+            data-createdby="@item.CreatedBy"
+            data-createdat="@PrintTime(item.CreatedAt)"
+            data-updatedby="@item.UpdatedBy"
+            data-updatedat="@PrintTime(item.UpdatedAt)"
+            style="@(template ? "display: none" : "")"
+            id="@(template ? "template" : "")"
+            class="newsitemrow">
+
+        <td><span class="edit-row ui-icon ui-icon-pencil"></span></td>
+        <td id="title" valign="top"></td>
+        <td id="from" valign="top"></td>
+        <td id="to" valign="top"></td>
+        <td id="description" valign="top"></td>
+        <td id="createdby" valign="top" align="center"></td>
+        <td id="createdat" valign="top"></td>
+        <td id="updatedby" valign="top" align="center"></td>
+        <td id="updatedat" valign="top"></td>
+        <td><span class="delete-row ui-icon ui-icon-trash"></span></td>
+    </tr>
+}
+
+<div class="create-new-wrapper"><a href="#" class="createnew createNewNewsItem">Create new</a></div>
+<table width="100%">
+    <thead style="white-space:nowrap;">
+        <th width="16"></th>
+        <th width="250">Title</th>
+        <th width="145">From</th>
+        <th width="145">To</th>
+        <th>Short description</th>
+        <th width="80">Created By</th>
+        <th width="145">Created At</th>
+        <th width="80">Updated By</th>
+        <th width="145">Updated At</th>
+        <th width="16"></th>
+    </thead>
+    <tbody>
+        @printItem(template: true)
+        @foreach (var item in Model.NewsItem)
+        {
+            @printItem(item)
+        }
+
+        <tr id="noitems" style="@(Model.NewsItem.Count() == 0 ? "" : "display: none")"><td colspan="5">There are no news in this category.</td></tr>
+    </tbody>
+</table>

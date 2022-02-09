@@ -1,0 +1,97 @@
+﻿@*
+KV: Note that this file is also served as Javascript to some external applications. Therefore:
+* Keep dynamic stuff to the minimum, and all CSS should be accessible from menu.css.
+* Prefix everything with something that will not conflict.
+* All paths must be complete urls including the server - use the sitepath variable.
+*@
+@using myDamco.Utils
+@model myDamco.Models.NavigationModel
+           
+@{
+    var sitepath = ControllerUtil.GetSitePath();
+    var profile = Profile.GetProfile();
+    var organization = profile.RoleOrganization;
+    var role = profile.RoleName;
+    var availableRoles = profile.AvailableRolesJSON();
+}
+
+<script type="text/javascript">
+    // This is used to make all the "Change Role" paths absolute, and are used within the widgets.
+    var mydamcoBasepath = "@(sitepath + Url.Content("~"))";
+    var mydamcoUsername = "@(profile.LoginId)";
+</script>
+
+<div id="MyDamcoMenu_container">
+    @*<img src="@(sitepath + Url.Content("~/Content/images/topimage.jpg"))" style="border: 0; float: left; " width="980" height="6" alt=""/>*@
+    @if ((Request.Browser.Browser == "InternetExplorer" || Request.Browser.Browser == "IE") && Convert.ToDouble(Request.Browser.MajorVersion) < 10) {
+        <div id="MyDamcoMenu_main_top_old">
+            <img src="@(sitepath + Url.Content("~/Content/images/topimage.jpg"))" style="border: 0; float: left; " width="980" height="6" alt=""/>
+        </div>
+    }
+    else
+    {
+        <div id="MyDamcoMenu_main_top">
+        </div>
+    }
+
+    <div id="MyDamcoMenu_title">
+        <div id="MyDamcoMenu_logo_container">
+            <a href="@(sitepath + Url.Action("Index", "Dashboard"))">
+                <img src="@(sitepath + Url.Content("~/Navigation/GetLogo?Organization=" + profile.RoleOrganization))" class="MyDamcoMenu_mainlogo" alt=""/>
+            </a>
+        </div>
+        <div class="MyDamcoMenu_topbarinfo">
+            <span class="MyDamcoMenu_topbartext">User: <span class="MyDamcoMenu_topbarcontent">
+                @if (profile.OriginalProfile == null || profile.LoginId == profile.OriginalProfile.LoginId)
+                {
+                    <a class="MyDamcoMenu_link MyDamcoMenu_var" href="@(sitepath + Url.Action("Account", "Dashboard"))">@profile.LoginId</a>
+                }
+                else
+                {
+                    <span class="MyDamcoMenu_link MyDamcoMenu_var" style="color: #000000; font-weight: bold;">@profile.OriginalProfile.LoginId</span>
+                    <span> impersonating </span>
+                    <a class="MyDamcoMenu_link MyDamcoMenu_var" href="@(sitepath + Url.Action("Account", "Dashboard"))">@profile.LoginId</a>
+                }
+            </span></span>
+            <span class="MyDamcoMenu_topbartext">Role: <span class="MyDamcoMenu_topbarcontent"><a class="MyDamcoMenu_link MyDamcoMenu_var" id="MyDamcoMenu_changerolelink">@role</a></span> belongs to <span class="MyDamcoMenu_topbarcontent MyDamcoMenu_var">@organization</span></span>
+            <span class="MyDamcoMenu_topbartext"><a class="MyDamcoMenu_link" href="javascript:void(0)" id="MyDamcoMenu_topbar_logout_button">Log Out</a></span>
+        </div>
+        <div class="MyDamcoMenu_topbarnavigation">
+
+            @{
+                ViewBag.Title = "Index.cshtml";
+                var cnt = 0;
+            }
+            <ul id="MyDamcoMenu_navigation">
+                @foreach (var app in Model.MenuItems)
+                {
+                    string url = app.Url;
+                    if (app.Target == "Portal")
+                    {
+                        url = sitepath + Url.Action("Application", "Dashboard", new { id = app.UId, vars = "" }); //KV: Overriding "vars" since no matter what parameter we currently have, we do not want them to be present in current link. Stupid default??
+                    }
+                    else if (app.Target == "Admin")
+                    {
+                        url = sitepath + Url.Action("Index", "News", new { area = "Administration" });
+                    }
+                    bool active = app == Model.activeItem || ("," + Model.qsMenu + ",").IndexOf("," + app.UId + ",") >= 0;
+                    string target = app.NewTab ? "_blank" : "_self";
+
+                    //<li><a class="@app.UAMApplication MyDamcoMenu_menu-link c@(cnt++ % 5)@(active ? "_active" : "")" href="@url" data-uamapp="@app.UAMApplication" data-uamfunc="@app.UAMFunction">@(app.Title)</a></li>
+                    <li><a class="@app.UAMApplication MyDamcoMenu_menu-link@(active ? "_active" : "")" href="@url" target="@target" data-uamapp="@app.UAMApplication" data-uamfunc="@app.UAMFunction">@(app.Title)</a></li>
+                }
+            </ul>
+        </div>
+    </div>
+    <div id="MyDamcoMenu_roledialog" data-roles="@availableRoles" style="display: none;">
+    @Html.Partial("_RoleDialog")
+    </div>
+    <div id="splitter">
+        <hr/>
+    </div>
+
+</div>    
+
+<div id="MyDamcoMenu_Logout_message" title="Log out" style="display:none;text-align:center;">
+    <b>To log out, please close your browser completely.</b>
+</div>

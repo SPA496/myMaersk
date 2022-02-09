@@ -1,0 +1,91 @@
+﻿.widget-rssnews .widget-content
+{
+    padding: 0px 6px 6px 6px;
+	position: relative;
+}
+
+.widget-rssnews div.configuration p
+{
+    margin: 0px;
+}
+
+.widget-rssnews .configList
+{
+    margin: 2px 0 6px 0;
+    position: relative;
+}
+
+.widget-rssnews .configItem
+{
+    cursor: pointer;
+    display: block;
+}
+
+.widget-rssnews .feed-content
+{
+    padding-bottom: 6px;
+}
+
+.widget-rssnews .feedTitle
+{
+	padding: 3px 0 3px 0;
+	line-height: 15px;
+        font-size: 11px;
+}
+
+.widget-rssnews .feedDate
+{
+    padding-top: 8px;
+    font-size: 11px;
+    font-weight: bold;
+    color: #333333;
+}
+
+.widget-rssnews .older .icon 
+{
+	background-position: 0px -77px;
+	float:right;
+}
+
+.widget-rssnews .newer .icon
+{
+	background-position: 0px -57px;
+	float:left;
+}
+
+.widget-rssnews .bottom-options
+{
+    height: 18px;
+}
+
+.widget-rssnews .older
+{
+	float: right;
+	display: block;
+	cursor: pointer; 
+	text-align: right;
+}
+
+.widget-rssnews .newer
+{
+	float: left;
+	display: block;
+	cursor: pointer;
+	text-align: left;
+    padding-left: 0px;
+}
+
+.widget-rssnews .archive
+{
+	text-align: center;
+}
+
+.widget-rssnews .archive a /* get rid of the icon for the link*/
+{
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    font-size: 80%;
+    padding-top: 2px;
+    /*color: #696969;*/
+}

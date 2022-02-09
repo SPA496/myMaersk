@@ -1,0 +1,31 @@
+﻿@model List<myDamco.Database.WidgetInstance>
+@{
+    Layout = null;
+}
+
+@if (Model.Count() == 0)
+{
+    <div class="dashboardPreviewError">Dashboard does not contain any widgets</div>
+}
+else
+{
+    <div class="dashboardPreviewContainer">
+        @for (var i = 0; i < 3; i++)
+        { 
+            <div id="dashboardPreviewColumn@(i)" class="dashboardPreviewColumn"> 
+                @foreach (var wi in Model.Where(r => r.DashboardColumn == i))
+                {
+                    <div class="dashboardPreviewWidget">
+                        <span class="dashboardPreviewWidgetTitle">@(wi.Widget.Title)</span><br/>
+                        @if (wi.Title != null)
+                        {
+                            <div class="dashboardPreviewWidgetSubtitle">@*Title:*@ @(wi.Title)</div>
+                        }
+                    </div>
+                }
+            </div>
+        }
+        <div class="clear"></div>
+    </div>   
+}
+

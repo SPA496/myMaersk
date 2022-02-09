@@ -1,0 +1,56 @@
+﻿@using myDamco.Utils
+@model myDamco.Models.ErrorModel
+
+@* This partial view is shown when the code rendering the navigation menu has failed (an unhandled exception has escaped). 
+   (The HTML in this file is similar to Navigation.cshtml) 
+
+   Note: This will also be used on external sites - keep that in mind when editing.
+*@
+
+@{
+    string sitepath;
+    try {
+        sitepath = ControllerUtil.GetSitePath();
+    } catch (Exception e) { // massive failure
+        sitepath = "";
+    }
+
+    string profileLoginId;    
+    try {
+        Profile profile = Profile.GetProfile();
+        profileLoginId = profile.LoginId; 
+    } catch (Exception e) { // UAM error
+        profileLoginId = "";
+    }  
+}
+
+<script type="text/javascript">
+    // This is used to make all the "Change Role" paths absolute, and are used within the widgets.
+    var mydamcoBasepath = "@(sitepath + Url.Content("~"))";
+    var mydamcoUsername = "@(profileLoginId)";
+</script>
+
+<div id="MyDamcoMenu_container">
+    <div id="MyDamcoMenu_main_top">
+        <img src="@(sitepath + Url.Content("~/Content/images/topimage.jpg"))" style="border: 0; float: left;" width="980" height="6" alt=""/>
+    </div>
+
+    <div id="MyDamcoMenu_title">
+        <div id="MyDamcoMenu_logo_container">
+            <a href="@(sitepath + Url.Action("Index", "Dashboard"))">
+                <img src="@(sitepath + Url.Content("~/Content/images/myDamco-logo.png"))" class="MyDamcoMenu_mainlogo" alt=""/>
+            </a>
+        </div>
+        <div class="MyDamcoMenu_topbarnavigation" style="clear:none; float:none;"> @* <- inline style is an IE7 visual fix *@
+            <ul id="MyDamcoMenu_navigation"></ul>
+        </div>
+        <div style="text-align:center; clear:right; padding-right:142px;">
+            <b>Error displaying menu.</b><br>
+            <b>@(Model.Title) - @(Model.Description)</b>
+        </div>
+    </div>
+    <div id="splitter">
+        <hr>
+    </div>
+
+</div>    

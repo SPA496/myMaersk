@@ -1,0 +1,145 @@
+﻿@model List<String>
+@{Layout = null;}
+
+@{
+    // Add some header information to the status page so we know what server we are running on
+    var headerlist = "\n";
+    headerlist += Dns.GetHostName() + "\n";
+    foreach (var header in Request.Headers.AllKeys)
+    {
+        headerlist += header + ": " + Request.Headers[header] + "\n";
+    }
+    headerlist += "\n";
+}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- TODO: TEMP (INLINE CSS BLOCK) -->
+        <style type="text/css">
+            table.resultTable {
+                width: 100%;
+            }
+            table.resultTable th {
+                text-align: left;
+            }
+            table.resultTable tr:nth-child(odd) {
+                background-color: #CCC;
+            }
+            table.resultTable tr:nth-child(even) {
+                background-color: #EEE;
+            }
+            table.resultTable th {
+                background-color: #FFF;
+            }
+            #additionalErrors {
+                color: red;
+            }
+        </style>
+
+        @Html.Resource("~/Scripts/jquery-1.7.2.js")
+        @Html.RenderResources()
+
+        <title>Status</title>
+    </head>
+    <body>
+        <!-- @(headerlist) -->
+
+        <h1>Status results:</h1>
+        @if (Model.Count > 0) {
+            <table class="resultTable">
+                <thead>
+                    <tr>
+                        <th>Test</th><th>Result</th><th>Message</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (string testName in Model)
+                    {
+                        <tr id="test_@(testName)">
+                            <td>@(testName)</td>
+                            <td class="result">Running Test...</td>
+                            <td class="message"></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        } else {
+            <div>No tests were executed.</div>
+        }
+
+        <div id="additionalErrors"></div>
+
+        <script type="text/javascript">
+
+            /* Prevent IE from caching the results of AJAX requests done through JQuery (Other browser don't cache AJAX requests by default, so this makes IE act like other browsers) */
+            $.ajaxSetup({
+                cache: false
+            });
+
+            function handleJSONResponse(json, testName) {
+                for (var entry in json) {
+                    var jsonName = entry;
+                    if (jsonName != testName) { // assume only 1 test-result is expected per ajax call
+                        $("#additionalErrors").append("<p>Internal Error: Unexpected JSON response: expected result for " + testName + " only, but got for " + jsonName + " </p>");
+                    }
+                    var value = json[entry]; // assume no duplicate entries with same test-name (which would make no sense)
+                    var result = json[entry].result;
+                    var message = json[entry].message;
+                    var resultElem = $("#test_" + jsonName + " .result");
+                    var messageElem = $("#test_" + jsonName + " .message");
+                    if (resultElem.length > 0 && messageElem.length > 0) {
+                        resultElem.html(result == "true" ? "SUCCESS" : "FAILURE");
+                        messageElem.html(message);
+                    } else {
+                        $("#additionalErrors").append("<p>Internal Error: Unexpected JSON response (corresponding element did not exist in the DOM): " + jsonName + " : {" + result + ", " + message + "}</p>");
+                        $("#test_" + testName + " .result").html("FAILURE");
+                    }
+                }
+            }
+
+            function runTest(testName) {
+                $.ajax({
+                    dataType: "text",
+                    url: "@(Url.Action("Status"))",
+                    data: testName,
+                    complete: function (jqXHR, textStatus) { // using complete instead of success and error, since we have to do the same for both types of responses.
+                        var json = "";
+                        try {
+                            json = $.parseJSON(jqXHR.responseText);
+                            if (json == null) throw {}; // parseJSON can return null - for example if data=null (can f.e. happen due to canceled ajax calls on page unload)
+                        } catch (e) {
+                            $("#additionalErrors").append("<p>Internal server response for '"+testName+"' returned invalid (non-JSON) data: "+escapeHTML(jqXHR.responseText)+"</p>");
+                            $("#test_"+testName+" .result").html("FAILURE");
+                            return;
+                        }
+                        try {
+                            handleJSONResponse(json, testName);
+                        } catch (e) {
+                            $("#additionalErrors").append("<p>Internal javascript error while handling " + testName + ":  " + e + "</p>");
+                            $("#test_" + testName + " .result").html("FAILURE");
+                        }
+                    }
+                });
+            }
+
+            @* HTML-escapes a string (see http://stackoverflow.com/a/5251551) *@
+            function escapeHTML(string) {
+                var pre = document.createElement('pre');
+                var text = document.createTextNode(string);
+                pre.appendChild(text);
+                return pre.innerHTML;
+            }
+
+            /* Run each test */
+            @foreach (string testName in Model)
+            {
+                <text>
+                $(document).ready(function () {
+                    runTest("@(testName)");
+                });
+                </text>    
+            }
+        </script>
+    </body>
+</html>

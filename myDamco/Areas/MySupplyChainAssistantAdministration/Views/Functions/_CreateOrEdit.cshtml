@@ -1,0 +1,220 @@
+@model myDamco.Areas.MySupplyChainAssistantAdministration.Models.Function
+
+@* This partial view defines form fields that will appear when creating and editing entities *@
+
+<style type="text/css">
+label {
+    clear: left;
+    float: left;
+    padding: 3px 10px 2px;
+    text-align: right;
+    width: 180px;
+}
+input[type=text], select {
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 12px;
+    margin: 0 0 8px;
+    width: 250px;
+}
+</style>
+
+<script type="text/javascript">
+    @{((IList<string>)ViewBag.ArgumentIds).Add("Other");}
+    var abbr = {};
+    @foreach(myDamco.Areas.MySupplyChainAssistantAdministration.Models.Application app in (IEnumerable<myDamco.Areas.MySupplyChainAssistantAdministration.Models.Application>)ViewBag.PossibleApplications) {
+    <text>abbr["@app.Name"] = "@app.Abbreviation";</text>
+    }
+    args = [];
+    @foreach(string arg in (IList<string>)ViewBag.ArgumentIds) {
+    <text>args.push("@arg");</text>
+    }
+
+    $(function () {
+        $(".orOther").change(function () {
+            if ($("option:selected", this).text().toLowerCase().substring(0, 5) == "other") {
+                $(this).after($('<input type="text" name="' + $(this).attr('name') + '" />'));
+                $(this).remove();
+            }
+        });
+
+        $("#add-argument").click(function() {
+            // Set the index of the new row.
+            var oldid = parseInt($("input[name='arguments.index']", $("#arguments tr:last")).val());
+            var newid = 0;
+            if (!isNaN(oldid)) { newid = oldid + 1; }
+            // Append new row.
+            var options = "";
+            for (arg in args) {
+                options += "<option>" + args[arg] + "</option>";
+            }
+            $("#arguments tr:last").after('<tr><td><select name="arguments[' + newid + '].id"><option value="">Choose...</option>' + options + '</select></td><td><input type="text" name="arguments[' + newid + '].alias" /></td><td><input type="text" name="arguments[' + newid + '].matcher" /></td><td><input type="hidden" name="Arguments.index" value="' + newid + '" /><a class="remove-argument">Remove</a></td></tr>');
+        });
+        $("#add-entity").click(function () {
+            // Set the index of the new row.
+            var oldid = parseInt($("input[name='entities.index']", $("#entities tr:last")).val());
+            var newid = 0;
+            if (!isNaN(oldid)) { newid = oldid + 1; }
+            // Append new row.
+            var options = "";
+            for (arg in args) {
+                options += "<option>" + args[arg] + "</option>";
+            }
+            $("#entities tr:last").after('<tr><td><select name="entities[' + newid + '].entityId"><option value="">Choose...</option>' + options + '</select></td><td><input type="text" name="entities[' + newid + '].selector" /></td><td><input type="hidden" name="entities.index" value="' + newid + '" /><a class="remove-entity">Remove</a></td></tr>');
+        });
+        $("#add-hook").click(function () {
+            // Set the index of the new row.
+            var oldid = parseInt($("input[name='hooks.index']", $("#hooks tr:last")).val());
+            var newid = 0;
+            if (!isNaN(oldid)) { newid = oldid + 1; }
+            // Append new row.
+            var options = "";
+            for (arg in args) {
+                options += "<option>" + args[arg] + "</option>";
+            }
+            $("#hooks tr:last").after('<tr><td><input type="text" name="hooks[' + newid + '].title" /></td><td><input type="text" name="hooks[' + newid + '].selector" /></td><td><input type="text" name="hooks[' + newid + '].hook" /></td><td><input type="hidden" name="hooks.index" value="' + newid + '" /><a class="remove-hooks">Remove</a></td></tr>');
+        });
+    });
+</script>
+
+@Html.LabelFor(model => model.applicationId, "Application")
+@Html.DropDownListFor(model => model.applicationId, ((IEnumerable<myDamco.Areas.MySupplyChainAssistantAdministration.Models.Application>)ViewBag.PossibleApplications).Select(option => new SelectListItem
+{
+    Text = (option == null ? "None" : option.Name), 
+    Value = option.ApplicationId.ToString(),
+    Selected = (Model != null) && (option.ApplicationId == Model.applicationId)
+}), "Choose...")
+@Html.ValidationMessageFor(model => model.applicationId)
+<br />
+
+
+@Html.LabelFor(model => model.name)
+@Html.EditorFor(model => model.name)
+@Html.ValidationMessageFor(model => model.name)
+<br />
+
+
+@Html.LabelFor(model => model.description)
+@Html.EditorFor(model => model.description)
+@Html.ValidationMessageFor(model => model.description)
+<br />
+
+
+@Html.LabelFor(model => model.urlFormat)
+@Html.EditorFor(model => model.urlFormat)
+@Html.ValidationMessageFor(model => model.urlFormat)
+<br />
+
+
+@Html.LabelFor(model => model.fallbackUrl)
+@Html.EditorFor(model => model.fallbackUrl)
+@Html.ValidationMessageFor(model => model.fallbackUrl)
+<br />
+
+
+@Html.LabelFor(model => model.protocol)
+@Html.EditorFor(model => model.protocol)
+@Html.ValidationMessageFor(model => model.protocol)
+<br />
+
+
+@Html.LabelFor(model => model.host)
+@Html.EditorFor(model => model.host)
+@Html.ValidationMessageFor(model => model.host)
+<br />
+
+
+@Html.LabelFor(model => model.port)
+@Html.EditorFor(model => model.port)
+@Html.ValidationMessageFor(model => model.port)
+<br />
+
+
+@Html.LabelFor(model => model.path)
+@Html.EditorFor(model => model.path)
+@Html.ValidationMessageFor(model => model.path)
+<br />
+    
+@Html.LabelFor(model => model.references)
+@{
+    var ReferencedIds = Model != null && Model.references != null ? Model.references : new int[0];
+}
+@Html.ListBoxFor(model => model.references, ((IEnumerable<myDamco.Areas.MySupplyChainAssistantAdministration.Models.Function>)ViewBag.PossibleReferences).Select(option => new SelectListItem
+{
+    Text = (option == null ? "None" : option.name),
+    Value = option.functionId.ToString(),
+    Selected = (Model != null) && Model.references.Contains(option.functionId)
+}).ToList())
+@Html.ValidationMessageFor(model => model.references)
+<br />
+
+    
+<span style="float: left; width: 410px; text-align: center;">Arguments</span><br />
+<table id="arguments">
+<tr><th>Id</th><th>Alias</th><th>Matcher</th><th></th></tr>
+@if (Model != null && Model.arguments != null)
+{
+    Model.arguments.Add(new myDamco.Areas.MySupplyChainAssistantAdministration.Models.Argument());
+    for (int i = 0; i < Model.arguments.Count(); i++)
+    {
+    <tr>
+        <td>@Html.DropDownListFor(m => m.arguments[i].id, ((IList<string>)ViewBag.ArgumentIds).Select(option => new SelectListItem
+       {
+           Text = (option == null ? "None" : option),
+           Value = option,
+           Selected = (Model != null) && (option.Equals(Model.arguments[i].id))
+       }), "Choose...", new { @class = "orOther" })
+    @Html.ValidationMessageFor(model => model.arguments)</td>
+        <td>@Html.EditorFor(m => m.arguments[i].alias)</td>
+        <td>@Html.EditorFor(m => m.arguments[i].matcher)</td>
+        <td><input type="hidden" name="Arguments.Index" value="@i" /><a class="remove-argument">Remove</a></td>
+    </tr>
+    }
+}
+</table>
+<a id="add-argument">Add argument</a>
+<div style="clear:both;"></div>
+    
+<span style="float: left; width: 410px; text-align: center;">Entities</span><br />
+<table id="entities">
+<tr><th>Type</th><th>Selector</th><th></th></tr>
+@if (Model != null && Model.entityIdentifiers != null)
+{
+    Model.entityIdentifiers.Add(new myDamco.Areas.MySupplyChainAssistantAdministration.Models.EntityIdentifier());
+    for (int i = 0; i < Model.entityIdentifiers.Count(); i++)
+    {
+    <tr>
+        <td>@Html.DropDownListFor(m => m.entityIdentifiers[i].entityId, ((IList<string>)ViewBag.ArgumentIds).Select(option => new SelectListItem
+       {
+           Text = (option == null ? "None" : option),
+           Value = option,
+           Selected = (Model != null) && (option.Equals(Model.entityIdentifiers[i].entityId))
+       }), "Choose...", new { @class = "orOther" })
+    @Html.ValidationMessageFor(model => model.entityIdentifiers)
+        </td>
+        <td>@Html.EditorFor(m => m.entityIdentifiers[i].selector)</td>
+        <td><input type="hidden" name="entityIdentifiers.Index" value="@i" /><a class="remove-entity">Remove</a></td>
+    </tr>
+    }
+}
+</table>
+<a id="add-entity">Add entity</a>
+<div style="clear:both;"></div>
+    
+<span style="float: left; width: 410px; text-align: center;">Hooks</span><br />
+<table id="hooks">
+<tr><th>Title</th><th>Selector</th><th>Hook</th><th></th></tr>
+@if (Model != null && Model.hooks != null)
+{
+    Model.hooks.Add(new myDamco.Areas.MySupplyChainAssistantAdministration.Models.EventHook());
+    for (int i = 0; i < Model.hooks.Count(); i++)
+    {
+    <tr>
+        <td>@Html.EditorFor(m => m.hooks[i].title)</td>
+        <td>@Html.EditorFor(m => m.hooks[i].selector)</td>
+        <td>@Html.EditorFor(m => m.hooks[i].hook)</td>
+        <td><input type="hidden" name="hooks.Index" value="@i" /><a class="remove-hook">Remove</a></td>
+    </tr>
+    }
+}
+</table>
+<a id="add-hook">Add hook</a>

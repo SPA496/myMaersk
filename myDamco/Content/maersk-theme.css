@@ -1,0 +1,546 @@
+/*** Developed by krishnendu Bhattacharyya ****/
+
+/*--Color transfered to rgba for all todos components due to opacity control & used important for overright existing overright important--*/
+
+/*---
+For base color
+========================================================
+64B2D4 // rgba(100, 178, 212, 1)
+003E5E // rgba(0, 62, 94, 1)
+*---/
+
+
+/*---
+For links or hyper links 
+=========================================================
+link & focus - spes color - 1E638E // rgba(30, 99, 142, 1)
+{
+	color:rgba(30, 99, 142, 1) !important;
+	text-decoration: none !important;
+}
+
+hover - spes color - 003E5E // rgba(0, 62, 94, 1)
+{
+	color:rgba(0, 62, 94, 1) !important;
+	text-decoration: underline !important;
+}
+
+disabled - spes color - 50% of 1E638E // rgba(30, 99, 142, 0.5) -  
+{
+	color:rgba(30, 99, 142, 0.5) !important;
+	text-decoration: none !important;
+}
+
+active/pressed - spes color - 00314B  // rgba(0, 49, 75, 1) -   
+{
+	color:rgba(0, 49, 75, 1) !important;
+	text-decoration: underline !important;
+}
+*---/
+
+/*---
+For page links & link flyover menu
+=========================================================
+Icon Color - 
+{
+	color:rgba(30, 99, 142, 1) !important;
+}
+Icon Hover Color - 
+{
+	color:rgba(255, 255, 255, 1) !important;
+	background-color:rgba(0, 62, 94, 1) !important;
+}
+Icon pressed/active Color - 
+{
+	color:rgba(255, 255, 255, 1) !important;
+	background-color:rgba(0, 49, 75, 1) !important;
+}
+Flyover background -
+{
+	background-color: rgba(255, 255, 255, 1) !important;
+	border-top-color: rgba(0, 62, 94, 1) !important;
+	color:  rgba(30, 99, 142, 1) !important;
+	text-decoration: none !important;
+}
+
+link & focus - spes color - 1E638E // rgba(30, 99, 142, 1)
+{
+	background: none !important;
+	border:none !important;
+	color:rgba(30, 99, 142, 1) !important;
+	text-decoration: none !important;
+}
+
+hover - spes color - 003E5E // rgba(0, 62, 94, 1)
+{
+	background: none !important;
+	border:none !important;
+	color:rgba(0, 62, 94, 1) !important;
+	text-decoration: underline !important;
+}
+active - spes color - 00314B // rgba(0, 49, 75, 1)
+{
+	background: none !important;
+	border:none !important;
+	color:rgba(0, 49, 75, 1) !important;
+	text-decoration: underline !important;
+}
+*---/
+
+
+/*---
+For submenu & flyover menu
+=========================================================
+background - spes color - 64B2D4 // rgba(100, 178, 212, 1)
+{
+	background-color: rgba(100, 178, 212, 1) !important;
+	border-color: rgba(100, 178, 212, 1) !important;
+	color:  rgba(255, 255, 255, 1) !important;
+}
+
+link & focus - spes color - 1E638E // rgba(30, 99, 142, 1)
+{
+	background: none !important;
+	border:none !important;
+	color:rgba(255, 255, 255, 1) !important;
+	text-decoration: none !important;
+	text-transform: uppercase !important;
+}
+
+hover - spes color - 003E5E // rgba(0, 62, 94, 1)
+{
+	background: none !important;
+	border:none !important;
+	color:rgba(255, 255, 255, 1) !important;
+	text-decoration: underline !important;
+}
+active - spes color - 003E5E // rgba(0, 62, 94, 1)
+{
+	background: none !important;
+	border:none !important;
+	color:rgba(255, 255, 255, 1) !important;
+	text-decoration: none !important;
+}
+*---/
+
+/*---
+For primary buttons ( We have added border for size mentain )
+=========================================================
+link/normal - spes color - bg:- 003E5E // rgba(0, 62, 94, 1) - text:- rgba(255, 255, 255, 1)
+{
+	background-color:rgba(0, 62, 94, 1) !important;
+	border:2px solid rgba(0, 62, 94, 1) !important; 
+	color: rgba(255, 255, 255, 1) !important;
+	text-decoration: none !important;
+}
+
+
+hover - spes color - bg: 80% of 003E5E // rgba(0, 62, 94, 0.8) - text:- rgba(255, 255, 255, 1)
+{
+	background-color:rgba(0, 62, 94, 0.8) !important;
+	border:2px solid rgba(0, 62, 94, 0) !important;
+	color: rgba(255, 255, 255, 1) !important;
+	text-decoration: none !important;
+}
+
+
+active - spes color - bg: #00314B // rgba(0, 49, 75, 1) - text: #FFF // rgba(255, 255, 255, 1)
+{
+	background-color:rgba(0, 49, 75, 1) !important;
+	border:2px solid rgba(0, 49, 75, 0) !important;
+	color: rgba(255, 255, 255, 1) !important;
+	text-decoration: none !important;
+}
+
+
+
+disabled - spes color - bg: 50% of 003E5E // rgba(0, 62, 94, 0.5) - text:- 50% of FFFFFF // rgba(255, 255, 255, 0.5)
+{
+	background-color:rgba(0, 62, 94, 0.5) !important;
+	border:2px solid rgba(0, 62, 94, 0.5) !important;
+	color: rgba(255, 255, 255, 0.5) !important;
+	text-decoration: none !important;
+}
+*---/
+
+
+/*---
+For secondary buttons
+=========================================================
+link/normal - spes color - bg:- FFFFFF // rgba(255, 255, 255, 1) - text:- 003E5E // rgba(0, 62, 94, 1) - border:- 2px of 003E5E // rgba(0, 62, 94, 1);
+{
+	background-color:rgba(255, 255, 255, 1) !important;
+	border:2px solid rgba(0, 62, 94, 1) !important;
+	color: rgba(0, 62, 94, 1) !important;
+	text-decoration: none !important;
+}
+
+
+hover - spes color - bg:- 20% of 003E5E // rgba(0, 62, 94, 0.2) - text:- 80% of 003E5E // rgba(0, 62, 94, 0.8) - border:- 2px of 003E5E // rgba(0, 62, 94, 1);
+{
+	background-color:rgba(0, 62, 94, 0.2) !important;
+	border:2px solid rgba(0, 62, 94, 0) !important;
+	color: rgba(0, 62, 94, 0.8) !important;
+	text-decoration: none !important;
+}
+
+
+active - spes color - bg:- 00314B // rgba(0, 49, 75, 1) - text:- FFFFFF // rgba(255, 255, 255, 1) - border:- 2px of 003E5E // rgba(0, 62, 94, 1);
+{
+	background-color:rgba(0, 49, 75, 1) !important;
+	border:2px solid rgba(255, 255, 255, 0) !important;
+	color: rgba(255, 255, 255, 1) !important;
+	text-decoration: none !important;
+}
+
+
+
+disabled - spes color - bg:- FFFFFF // rgba(255, 255, 255, 1) - text:- 50% of 003E5E // rgba(0, 62, 94, 0.5) - border:- 2px & 20% of 003E5E // rgba(0, 62, 94, 0.5);
+{
+	background-color:rgba(255, 255, 255, 1) !important;
+	border:2px solid rgba(0, 62, 94, 0.5) !important;
+	color: rgba(0, 62, 94, 0.5) !important;
+	text-decoration: none !important;
+}
+
+---*/
+
+
+/*-----Link Styles -------*/
+
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+}
+
+
+a, input[type="button"], button{
+	-webkit-transition: background 0.1s ease-in-out;
+  	-o-transition: background 0.1s ease-in-out;
+  	transition: background 0.1s ease-in-out;
+}
+
+a, a:link{
+	color:rgb(30, 99, 142) !important; /* The fallback color for older browsers */
+	color:rgba(30, 99, 142, 1) !important;
+	text-decoration: none !important;
+}
+
+a:hover{
+	color:rgb(0, 62, 94 ) !important; /* The fallback color for older browsers */
+	color:rgba(0, 62, 94, 1) !important;
+	text-decoration: underline !important;
+}
+
+a:active {
+	color:rgb(0, 49, 75 ) !important; /* The fallback color for older browsers */
+    color:rgba(0, 49, 75, 1) !important;
+	text-decoration: underline !important;
+}
+
+.page a, .page a:link{
+	color:rgb(30, 99, 142 ) !important; /* The fallback color for older browsers */
+	color:rgba(30, 99, 142, 1) !important;
+	text-decoration: none !important;
+}
+
+.page a:hover{
+	color:rgb(0, 62, 94 ) !important; /* The fallback color for older browsers */
+	color:rgba(0, 62, 94, 1) !important;
+	text-decoration: underline !important;
+}
+
+.page a:active {
+	color:rgb(0, 49, 75 ) !important; /* The fallback color for older browsers */
+    color:rgba(0, 49, 75, 1) !important;
+	text-decoration: underline !important;
+}
+
+.MyDamcoMenu_link {
+	color: rgb(30, 99, 142 ) !important; /* The fallback color for older browsers */
+    color: rgba(30, 99, 142, 1) !important;
+}
+
+a.MyDamcoMenu_menu-link {
+    /* Page specific taken from existing css */
+    color: #5E6167 !important; 
+    background: #FFF !important;
+}
+
+a.MyDamcoMenu_menu-link:hover {
+    /* Page specific taken from existing css */
+    background: rgb(236,236,236) !important; /* The fallback color for older browsers */
+    background: rgba(236,236,236,1) !important; 
+    text-decoration: none !important;
+}
+
+a.MyDamcoMenu_menu-link_active{
+	background: rgb(100, 178, 212) !important; /* The fallback color for older browsers */
+	background: rgba(100, 178, 212, 1) !important;
+	color:rgba(255, 255, 255, 1) !important;
+}
+
+a.MyDamcoMenu_menu-link_active:hover{
+	text-decoration: none !important;
+}
+
+.action{
+	color:rgb(30, 99, 142) !important; /* The fallback color for older browsers */
+	color:rgba(30, 99, 142, 1) !important;
+	text-decoration: none !important;
+}
+
+.action:hover{
+	color:rgb(0, 62, 94) !important; /* The fallback color for older browsers */
+	color:rgba(0, 62, 94, 1) !important;
+	text-decoration: underline !important;
+}
+
+.action:active {
+	color:rgb(0, 49, 75 ) !important; /* The fallback color for older browsers */
+    color:rgba(0, 49, 75, 1) !important;
+	text-decoration: underline !important;
+}
+
+/*-----Button Styles -------*/
+/*--Primary--*/
+.primary, .MyDamcoDialog .ui-button {
+	background-color:rgb(0, 62, 94 ) !important; /* The fallback color for older browsers */
+	background-color:rgba(0, 62, 94, 1) !important;
+	border:2px solid rgb(0, 62, 94 ) !important; /* The fallback color for older browsers */
+	border:2px solid rgba(0, 62, 94, 1) !important; 
+	color: rgb(255, 255, 255 ) !important; /* The fallback color for older browsers */
+	color: rgba(255, 255, 255, 1) !important;
+	text-decoration: none !important;
+}
+
+.primary:hover, .MyDamcoDialog .ui-button:hover {
+	background-color:rgb(0, 62, 94 ) !important; /* The fallback color for older browsers */
+	background-color:rgba(0, 62, 94, 0.8) !important;
+	border:2px solid rgb(0, 62, 94) !important; /* The fallback color for older browsers */
+	border:2px solid rgba(0, 62, 94, 0.0) !important;
+	color: rgb(255, 255, 255 ) !important; /* The fallback color for older browsers */
+	color: rgba(255, 255, 255, 1) !important;
+	text-decoration: none !important;
+}
+
+.primary:active, .MyDamcoDialog .ui-button:active {
+	background-color:rgb(0, 49, 75 ) !important; /* The fallback color for older browsers */
+	background-color:rgba(0, 49, 75, 1) !important;
+	border:2px solid rgb(0, 62, 94) !important; /* The fallback color for older browsers */
+	border:2px solid rgba(0, 62, 94, 1) !important;
+	color: rgb(255, 255, 255) !important; /* The fallback color for older browsers */
+	color: rgba(255, 255, 255, 1) !important;
+	text-decoration: none !important;
+}
+
+/*--Primary--*/
+input[type="submit"]{
+	background-color:rgb(0, 62, 94 ) !important; /* The fallback color for older browsers */
+	background-color:rgba(0, 62, 94, 1) !important;
+	border:2px solid rgb(0, 62, 94 ) !important; /* The fallback color for older browsers */
+	border:2px solid rgba(0, 62, 94, 1) !important; 
+	color: rgb(255, 255, 255 ) !important; /* The fallback color for older browsers */
+	color: rgba(255, 255, 255, 1) !important;
+	text-decoration: none !important;
+}
+input[type="submit"]:hover {
+	background-color:rgb(0, 62, 94 ) !important; /* The fallback color for older browsers */
+	background-color:rgba(0, 62, 94, 0.8) !important;
+	border:2px solid rgb(0, 62, 94) !important; /* The fallback color for older browsers */
+	border:2px solid rgba(0, 62, 94, 0.0) !important;
+	color: rgb(255, 255, 255 ) !important; /* The fallback color for older browsers */
+	color: rgba(255, 255, 255, 1) !important;
+	text-decoration: none !important;
+
+}
+input[type="submit"]:active {
+	background-color:rgb(0, 49, 75 ) !important; /* The fallback color for older browsers */
+	background-color:rgba(0, 49, 75, 1) !important;
+	border:2px solid rgb(0, 62, 94) !important; /* The fallback color for older browsers */
+	border:2px solid rgba(0, 62, 94, 1) !important;
+	color: rgb(255, 255, 255) !important; /* The fallback color for older browsers */
+	color: rgba(255, 255, 255, 1) !important;
+	text-decoration: none !important;
+}
+
+
+/*-----Application Specific Styles -------*/
+
+#MyDamcoMenu_main_top {
+	background: none;
+}
+
+.ui-tabs-nav li a:hover{
+	text-decoration: none !important;
+}
+
+.ui-tabs-nav li a.news-category-tab {
+	/*background-color:rgb(100, 178, 212) !important;*/ /* The fallback color for older browsers */
+	/*background-color:rgba(100, 178, 212, 1) !important; */
+	color: rgb(255, 255, 255) !important; /* The fallback color for older browsers */
+	color: rgba(255, 255, 255, 1) !important;
+	text-decoration: none !important;
+}
+
+.ui-tabs-nav li.ui-tabs-selected a.news-category-tab {
+	color:rgb(30, 99, 142) !important; /* The fallback color for older browsers */
+	color:rgba(30, 99, 142, 1) !important;
+	text-decoration: none !important;
+}
+
+.secondary, button, input[type="button"], input[type="reset"]{
+	background-color:rgb(255, 255, 255) !important; /* The fallback color for older browsers */
+	background-color:rgba(255, 255, 255, 1) !important;
+	border:2px solid rgb(0, 62, 94) !important; /* The fallback color for older browsers */
+	border:2px solid rgba(0, 62, 94, 1) !important;
+	color: rgb(0, 62, 94) !important; /* The fallback color for older browsers */
+	color: rgba(0, 62, 94, 1) !important;
+	text-decoration: none !important;
+}
+
+.secondary:hover, button:hover, input[type="button"]:hover, input[type="reset"]:hover{
+	background-color:rgb(0, 62, 94) !important; /* The fallback color for older browsers */
+	background-color:rgba(0, 62, 94, 0.2) !important;
+	color: rgb(0, 62, 94) !important; /* The fallback color for older browsers */
+	color: rgba(0, 62, 94, 0.8) !important;
+	border:2px solid rgb(0, 62, 94) !important; /* The fallback color for older browsers */
+	border:2px solid rgba(0, 62, 94, 1) !important;
+	text-decoration: none !important;
+}
+
+.secondary:active, button:active, input[type="button"]:active, input[type="reset"]:active{
+	background-color:rgb(0, 49, 75) !important; /* The fallback color for older browsers */
+	background-color:rgba(0, 49, 75, 1) !important;
+	border:2px solid rgb(0, 62, 94) !important; /* The fallback color for older browsers */
+	border:2px solid rgba(0, 62, 94, 1) !important;
+	color: rgb(255, 255, 255) !important; /* The fallback color for older browsers */
+	color: rgba(255, 255, 255, 1) !important;
+	text-decoration: none !important;
+}
+
+
+
+/*-- Widget --*/
+
+.bg0, .bg1, .bg2, .bg3, .bg4 {
+	background-color: rgb(0, 62, 94) !important;
+    background-color: rgba(0, 62, 94, 1) !important;
+}
+
+
+/*-- RTNT menu fixing --*/
+.ui-accordion .ui-accordion-header{
+     background:none !important;
+}
+
+
+.ui-state-active, .ui-accordion-content .ui-state-active, .ui-widget-header .ui-state-active{
+     border:1px solid rgb(170, 170, 170) !important;
+     border-bottom: none !important;
+
+}
+
+.ui-accordion-content{
+	border:1px solid rgb(170, 170, 170) !important;
+    border-top: none !important;
+}
+
+.ui-button-text-only .ui-button-text {
+     padding: 0.4em 1em !important;
+     text-align: center;
+} 
+
+
+
+.admin-layout-table-theme tr:nth-of-type(1) th:nth-of-type(1){ 
+  width: 20%;
+}
+.admin-layout-table-theme tr:nth-of-type(1) th:nth-of-type(2){ 
+  width: 20%;
+}
+.admin-layout-table-theme tr:nth-of-type(1) th:nth-of-type(3){ 
+ width: 50%;
+  
+}
+.admin-layout-table-theme tr:nth-of-type(1) th:nth-of-type(4){ 
+ width: 10%;
+}
+.admin-layout-table-theme tr td{ 
+ word-break: break-all;
+}
+
+
+.ui-tabs-nav li a.news-category-tab {
+	background-color: rgb(100, 178, 212);
+	background-color: rgba(100, 178, 212, 1);
+}
+
+.jsoneditor button, .jsoneditor button:active {
+	background-color: inherit !important;
+	border: none !important;
+}
+
+.jsoneditor .menu button, .jsoneditor .menu button:active {
+	background-color: #e3eaf6 !important;
+	border: none !important;
+}
+
+.jsoneditor .menu button:hover {
+	background-color:#f0f2f5 !important;
+}
+
+
+input[type="submit"] {
+    padding: 0px !important; 
+}
+
+
+#piecolumnsnav .filter.passedgroup {
+	color: #003E5E !important;
+}
+
+#piecolumnsnav .filter.activegroup {
+	color: #2DBA5E !important;
+}
+
+
+/*--primary--*/
+
+#updateTemplateButton, #createTemplateButton, #widgetstats_update_button, #savenewsitem, button.editRow, button.createRow, button.saveRow {
+	background-color:rgb(0, 62, 94 ) !important; /* The fallback color for older browsers */
+	background-color:rgba(0, 62, 94, 1) !important;
+	border:2px solid rgb(0, 62, 94 ) !important; /* The fallback color for older browsers */
+	border:2px solid rgba(0, 62, 94, 1) !important; 
+	color: rgb(255, 255, 255 ) !important; /* The fallback color for older browsers */
+	color: rgba(255, 255, 255, 1) !important;
+	text-decoration: none !important;
+}
+
+#updateTemplateButton:hover, #createTemplateButton:hover, #widgetstats_update_button:hover, #savenewsitem:hover, button.editRow:hover, button.createRow:hover, button.saveRow:hover {
+	background-color:rgb(0, 62, 94 ) !important; /* The fallback color for older browsers */
+	background-color:rgba(0, 62, 94, 0.8) !important;
+	border:2px solid rgb(0, 62, 94) !important; /* The fallback color for older browsers */
+	border:2px solid rgba(0, 62, 94, 0.0) !important;
+	color: rgb(255, 255, 255 ) !important; /* The fallback color for older browsers */
+	color: rgba(255, 255, 255, 1) !important;
+	text-decoration: none !important;
+}
+
+#updateTemplateButton:active, #createTemplateButton:active, #widgetstats_update_button:active, #savenewsitem:active, button.editRow:active, button.createRow:active, button.saveRow:active{
+	background-color:rgb(0, 49, 75 ) !important; /* The fallback color for older browsers */
+	background-color:rgba(0, 49, 75, 1) !important;
+	border:2px solid rgb(0, 62, 94) !important; /* The fallback color for older browsers */
+	border:2px solid rgba(0, 62, 94, 1) !important;
+	color: rgb(255, 255, 255) !important; /* The fallback color for older browsers */
+	color: rgba(255, 255, 255, 1) !important;
+	text-decoration: none !important;
+}
+
+
+#updateWidgetCancelButton {
+	font-size: 1.2em;
+}

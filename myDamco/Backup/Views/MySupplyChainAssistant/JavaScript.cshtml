@@ -1,0 +1,337 @@
+﻿@model String
+@{
+    Layout = null;
+}
+var SCA = (function ($) {
+    return function (container, callback) {
+        // Make sure that a valid container is specified.
+        if (!container) throw "A container must be specified.";
+        if (!$(container).length && !$('#' + container).length) throw "The specified container could not be found.";
+
+        // DOM object holding the assistant.
+        var _domAssistant = $(container);
+        // Build the html for the assistant.
+        var html = '<div id="sca-container"><input type="text" id="sca-search-input" /><hr class="sca-separator" /><ul id="sca-links-container"></ul></div>';
+        // Append to dom.
+        _domAssistant.append(html);
+
+        // The current context.
+        var _context = {};
+
+        // The function being accessed.
+        var _function = {};
+
+        // The functions referenced.
+        var _targets = [];
+
+        // The entities referenced.
+        var _entities = [];
+
+        // List of manually registered links.
+        var _manuals = [];
+
+        // The currently logged in user.
+        var _user = {};
+
+        var _mappings = @Html.Raw(Model);
+
+        var _pmaps = [];
+
+        var log = function (message) {
+            /*if (console != undefined && console.log  != undefined) {
+                console.log(message);
+            }*/
+        };
+
+        // Matches an url to a registered function.
+        var mapToFunction = function (url, mappings) {
+            for (i in mappings) {
+                var valid = false;
+                var map = mappings[i];
+
+                // If a field has a value defined, we test it.
+                if (map.port && !(new RegExp(map.port)).test(url.port)) continue;
+                if (map.protocol && !(new RegExp(map.protocol)).test(url.protocol)) continue;
+                if (map.host && !(new RegExp(map.host)).test(url.host)) continue;
+                if (map.path && !(new RegExp(map.path)).test(url.path)) continue;
+                debugger;
+                var context = [];
+                var valid = true;
+                for (j in map.arguments) {
+                    if (map.arguments[j].matcher) {
+                        var matcher = new RegExp(map.arguments[j].matcher);
+                        var found = false;
+                        var match = true;
+                        for (k in url.arguments) {
+                            // Match on aliases since we are identifying the function being used.
+                            if (map.arguments[j].alias == k) {
+                                // We are comparing the right arguments.
+                                found = true;
+                                if (!matcher.test(url.arguments[k])) {
+                                    match = false;
+                                } else {
+                                    context.push({ id: map.arguments[j].id, value: url.arguments[k] });
+                                }
+                                break;
+                            }
+                        }
+                        if (!found || (found && !match)) {
+                            // Either we didn't find the argument, or it didn't match the expression required.
+                            valid = false;
+                            break;
+                        }
+                    }
+                }
+                if (valid) return { func: map, context: context };
+            }
+        };
+
+        // Parses an url and returns it in a nicely formatted object. :)
+        var parseUrl = function (url) {
+            var obj = document.createElement('a');
+            obj.href = url;
+            var arguments = {};
+            var args = obj.search.replace("?", "").split("&");
+            for (i in args) {
+                var a = args[i].split("=");
+                arguments[a[0]] = a[1];
+            }
+
+            return { protocol: obj.protocol, host: obj.hostname, path: obj.pathname, port: obj.port, arguments: arguments };
+        };
+
+        var processTarget = function (target) {
+            var links = [{ url: target.urlFormat, entities: [] }];
+            var targets = [];
+            if (links[0].url.substr(0, 4) != "http") {
+                links[0].url = "http://" + links[0].url;
+            }
+            if (target.arguments.length > 0) {
+                var allFound = true;
+                for (j in target.arguments) {
+                    // Skip arguments which are non-variable.
+                    if (target.arguments[j].id == "") continue;
+
+                    var found = false;
+                    for (k in _entities) {
+                        var newlinks = [];
+                        if (target.arguments[j].id == k) {
+                            for (n in links) {
+                                for (var l = 1; l < _entities[k].length; l++) {
+                                    newlinks.push(
+                                        {
+                                            url: links[n].url.replace("{" + target.arguments[j].alias + "}", _entities[k][l]),
+                                            entities: links[n].entities.concat({ id: k, value: _entities[k][l] })
+                                        });
+                                }
+                                links[n].url = links[n].url.replace("{" + target.arguments[j].alias + "}", _entities[k][0]);
+                                links[n].entities = links[n].entities.concat({ id: k, value: _entities[k][0] });
+                            }
+                            found = true;
+                        }
+                        links = links.concat(newlinks);
+                    }
+                    if (!found) {
+                        allFound = false;
+                        break;
+                    }
+                }
+                // Skip references we don't have arguments enough for.
+                if (!allFound) {
+                    var furl = target.fallbackUrl;
+                    if (furl.substr(0, 4) != "http") {
+                        furl = "http://" + furl;
+                    }
+                    return [{ label: target.name, value: furl, desc: "" }];
+                }
+            }
+
+            for (i in links) {
+                var link = links[i];
+                var desc = "";
+                for (j in link.entities) {
+                    var entity = link.entities[j];
+                    if (desc.length > 0) desc += ", ";
+                    desc += entity.id + ": " + entity.value;
+                }
+                targets.push({ label: target.name, value: link.url, desc: desc });
+            }
+            return targets;
+        };
+
+        // Construct links from function and context.
+        var buildLinks = function () {
+            // Clear existing links.
+            $('#sca-links-container li').remove();
+
+            for (i in _targets) {
+                var link = _targets[i];
+
+                // Attach link(s) to DOM.
+                $('<li class="sca-link"></li>')
+				.append('<a href="' + link.value + '">' + link.label + "<br />" + link.desc + "</a>")
+				.appendTo($('#sca-links-container'));
+
+            }
+            for (i in _manuals) {
+                // Attach link to DOM.
+                $('#sca-links-container').append('<li class="sca-link"><a href="' + destination.url + '">' + destination.name + '</a></li>');
+            }
+        };
+
+        // Log a userevent. Used for datamining.
+        var logEvent = function (event, data) {
+            // Asynchronously notify the SCA host that the function has been used.
+            var log = {
+                "user": _user,
+                "function": _function.id ? _function.id : window.location.href,
+                "hook": event,
+                "data": JSON.stringify(data)
+            };
+            $.ajax({
+                url: '/data/logfunction',
+                //dataType: 'json',
+                data: { log: JSON.stringify(log) }
+            });
+            // Embed script tag to force cross-domain request.
+            //$('body').append('<script type="text/javascript" src="/data/logfunction?log=' + $.param(log) + '"></script>'); // TODO: Insert src when compiling.
+        };
+
+        var setupAutocomplete = function () {
+            if ($().autocomplete) {
+                // Setup autocomplete for searchbox.
+                var autocompleteoptions = {
+                    source: _pmaps,
+                    select: function (event, ui) {
+                        // TODO: Attempt to populate variables from context.
+                        window.navigate(ui.item.value);
+                    },
+                    open: function () {
+                        $(this).removeClass("ui-corner-all").addClass("ui-corner-top");
+                    },
+                    close: function () {
+                        $(this).removeClass("ui-corner-top").addClass("ui-corner-all");
+                    }
+                };
+                $("#sca-search-input").autocomplete(autocompleteoptions)
+                    .data("autocomplete")._renderItem = function (ul, item) {
+                        var desc = item.desc ? "<br />" + item.desc : "";
+                        return $("<li></li>")
+                        .data("item.autocomplete", item)
+                        .append("<a>" + item.label + desc + "</a>")
+                        .appendTo(ul);
+                    };
+                ;
+                // End autocomplete setup.
+            } else {
+                log("jQuery.autocomplete not loaded.");
+            }
+        };
+
+        var processMappings = function () {
+            for (i in _mappings) {
+                var map = _mappings[i];
+                var pmaps = processTarget(map);
+                _pmaps = _pmaps.concat(pmaps);
+                for (i in _function.references) {
+                    if (_function.references[i] == map.functionId) {
+                        _targets = _targets.concat(pmaps);
+                        break;
+                    }
+                }
+            }
+        };
+
+        return {
+            // Initializes the assistant in the provided container and sets the context of the assistant.
+            init: function (location, user) {
+                // Extract function and context from the location.
+                var url = parseUrl(location);
+                var parsed = mapToFunction(url, _mappings);
+                var functionKnown = true;
+                if (typeof parsed == "undefined" || typeof parsed.func == "undefined") {
+                    log("Unable to match the provided url to a registered function.");
+                    functionKnown = false;
+                }
+
+                if (functionKnown) {
+                    log("Matched location to function '" + parsed.func.name + "'.");
+                    _function = parsed.func;
+                    _context = parsed.context;
+
+                    for (i in parsed.context) {
+                        entity = parsed.context[i];
+                        if (!_entities[entity.id]) {
+                            _entities[entity.id] = [];
+                        }
+                        _entities[entity.id].push(entity.value);
+                    }
+
+                    // Determine entities referenced.
+                    for (i in _function.entityIdentifiers) {
+                        var identifier = _function.entityIdentifiers[i];
+                        $(identifier.selector).each(function () {
+                            if (!_entities[identifier.entityId]) {
+                                _entities[identifier.entityId] = [];
+                            }
+                            if (_entities[identifier.entityId].indexOf($(this).html()) == -1) {
+                                _entities[identifier.entityId].push($(this).html());
+                            }
+                        });
+                    }
+
+                    // Determine entities referenced.
+                    for (i in _function.hooks) {
+                        var hook = _function.hooks[i];
+                        $(hook.selector).on(hook.hook, function () { logEvent(hook.title, $(this).html()) });
+                    }
+                }
+
+                processMappings();
+
+                setupAutocomplete();
+
+                if (functionKnown) {
+                    buildLinks();
+                }
+
+                // Parse user information.
+                if (user) {
+                    _user.name = user.name ? user.name : user;
+                    _user.role = user.role ? user.role : null;
+                }
+
+                logEvent("load", _context);
+            },
+
+            // Updates the context of the assistant.
+            setContext: function (context) {
+                _context = context;
+                buildLinks();
+            },
+
+            getContext: function () {
+                return _context;
+            },
+
+            _setMappings: function (mappings) {
+                _mappings = mappings;
+            },
+
+            // Register a destination to be displayed.
+            registerDestination: function (destination) {
+                if (!destination.url || !destination.name) return;
+                // Add destination to list of persistant links.
+                _manuals.push(destination);
+                // Attach link to DOM.
+                $('#sca-links-container').append('<li class="sca-link"><a href="' + destination.url + '">' + destination.name + '</a></li>');
+            },
+
+            // Notify the assistant that the function accessed at this url has been used. Used for datamining.
+            functionExecuted: function () {
+                // Asynchronously notify the SCA host that the function has been used.
+                logEvent("executed", _context);
+            }
+        };
+    };
+})(jQuery);

@@ -1,0 +1,21 @@
+﻿@model string[]
+@{
+    Html.Resource("~/Content/dashboard.css");
+    Html.Resource("~/Scripts/dashboard.js");
+    Html.Resource("~/Scripts/widgets/shared_tabulardata.js");
+}
+
+<div class="responseTimeContainer" style="display:none">Service Response Time: <span class="responseTime"></span> s</div>
+<table width="100%">
+    <thead>
+        <tr>
+            @foreach (string headerName in Model) {
+                <th>@(headerName)</th>
+            }
+        </tr>
+    </thead>
+    <tbody class="tableBody">
+    </tbody>
+</table>
+<div class="serviceError" style="display:none">The service failed to respond.</div>
+<img class="loadingspinner" style="display:none" src="@Url.Content("~/Content/images/wait_15.gif")" alt="Loading" />

@@ -1,0 +1,93 @@
+﻿@using System.Text.RegularExpressions
+@model myDamco.Models.WidgetModel
+@{
+    var baseconf = Html.AttributeEncode(Regex.Replace(Model.Widget.Configuration, "(\"(?:[^\"\\\\]|\\\\.)*\")|\\s+", "$1"));
+    var instanceconf = Html.AttributeEncode(Regex.Replace(Model.WidgetInstance.Configuration, "(\"(?:[^\"\\\\]|\\\\.)*\")|\\s+", "$1"));
+
+    var cacheItems = "";
+    var serviceUrl = "";
+
+    if (!String.IsNullOrEmpty(Model.Widget.ServiceURL))
+    {
+        var splittedServiceUrl = Model.Widget.ServiceURL.Split('/'); // Widget.ServiceURL format: "Controller/Method" or "Controller/Method/requiredParameterName"
+        var controller = splittedServiceUrl[0];
+        var action = splittedServiceUrl[1];
+        serviceUrl = controller + "/" + action;
+
+        var routeValues = new RouteValueDictionary(new { widgetUID = Model.Widget.UId, waitForNonCached = false });
+        if (splittedServiceUrl.Count() == 3)
+        {
+            // If there is a 3rd element of the Widget's ServiceURL in the DB, it is the name of a required parameter to the service method: 
+            // Find the value of that parameter in the WidgetInstance.Configuration (done by searching for an entry in the JSON which has the same name - null if there was no such entry), and *only* call 
+            // the action method if the parameter was present in the configuration (the parameter is *required*, when it has been written in the service URL).
+            // 
+            // (Example: ExternalNews - if a feed has been selected, this finds the selectedFeed name, and calls the service method to get cached data (if any). If no feed has been selected yet, the service 
+            //  method is not called at all (the method is indeed only designed to be called _after_ a feed has been selected). RSSNews.js also does not call the method unless a feed has been selected.)
+            dynamic feed = Json.Decode(Model.WidgetInstance.Configuration);  
+            object param = feed[splittedServiceUrl[2]];
+
+            if (param != null)
+            {
+                routeValues[splittedServiceUrl[2]] = param;
+                try
+                {
+                    cacheItems = Html.Action(action, controller, routeValues).ToString();
+                }
+                catch
+                {
+                    // Do nothing and let the user get the error with the AJAX call
+                }
+            }
+        }
+        else
+        {
+            try
+            {
+                cacheItems = Html.Action(action, controller, routeValues).ToString();
+            }
+            catch
+            {
+                // Do nothing and let the user get the error with the AJAX call
+            }
+        }
+    }
+}
+
+@{
+    var numIcons = 2 + (Model.Widget.Editable ? 1 : 0) + (Model.Widget.UId == "performancechart" ? 3+1 : 0);
+    var toolkitWidth = numIcons * (22) + 5;
+}
+
+<div id="widget@(Model.WidgetInstance.Id)" class="widget widget-@(Model.Widget.Template.ToLower()) @(Model.Widget.Editable ? "editable" : "")" data-uid="@(Model.Widget.UId)" data-baseconf="@(Html.Raw(baseconf))" data-instanceconf="@(Html.Raw(instanceconf))" data-UAMApp="@Model.Widget.UAMApplication" data-UAMFunc="@Model.Widget.UAMFunction" data-ServiceURL="@serviceUrl" data-fromCache="@cacheItems">
+    <div class="widget-head">
+        @* <div class="@Html.Image("~/Content/widgets/images/" + (!String.IsNullOrEmpty(Model.Widget.Icon) ? Model.Widget.Icon : "default") + "-small.gif", "dashboard") widget-icon"></div> *@
+        <span class="toolkit">
+            <span class="innertoolkit" style="width: @(toolkitWidth)px;">
+                <a class="headericon icon delete noselection"></a>
+                @if (Model.Widget.Editable)
+                {
+                    <a class="headericon icon configuration noselection"></a>
+                }
+                <a class="headericon icon refresh noselection"></a>
+
+                @if (Model.Widget.UId == "performancechart")
+                {
+                    <span class='toolkitadditions'>      
+                        <a id="filter" class="headericon noselection filter"></a>
+                        <a id="pie" class="headericon noselection pie charttype"></a>
+                        <a id="table" class="headericon noselection table charttype"></a>
+                    </span>
+                    <a class="headericon icon rename-title noselection"></a>
+                }
+            </span>
+        </span>
+        <div class="widget-title-cover"><span class="widget-title">@Model.Title</span></div>
+    </div>
+    <div class="widget-content">
+        @* TOOD: Use Template* fields instead of partials when it's defined, that means we only use the template name but we do not try to load the widget template *@
+        @if (File.Exists(Server.MapPath("~/Views/Dashboard/WidgetInstances/_" + Model.Widget.Template + ".cshtml")))
+        { 
+            @Html.Partial("WidgetInstances/_" + Model.Widget.Template, Model)
+        }
+    </div>
+</div>

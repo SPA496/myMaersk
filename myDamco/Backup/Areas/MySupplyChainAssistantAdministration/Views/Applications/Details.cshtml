@@ -1,0 +1,26 @@
+@model myDamco.Areas.MySupplyChainAssistantAdministration.Models.Application
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Application</legend>
+
+    <div class="display-label">Name</div>
+    <div class="display-field">@Model.Name</div>
+
+    <div class="display-label">Abbreviation</div>
+    <div class="display-field">@Model.Abbreviation</div>
+
+    <div class="display-label">Functions</div>
+    <div class="display-field">@(Model.Functions == null ? "None" : Model.Functions.Count.ToString())</div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.ApplicationId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
+

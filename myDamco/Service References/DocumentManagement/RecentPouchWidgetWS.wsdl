@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:i0="http://www.bea.com/servers/wls/samples/net/mlog/edoc/webservice/edocwebservice/widget" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:import namespace="http://www.bea.com/servers/wls/samples/net/mlog/edoc/webservice/edocwebservice/widget" location="http://localhost:9015/DocumentManagement/RecentPouchWidgetWS.asmx?wsdl=wsdl1" />
+  <wsdl:types>
+    <s:schema targetNamespace="http://tempuri.org/">
+      <s:import schemaLocation="http://localhost:9015/DocumentManagement/RecentPouchWidgetWS.asmx?schema=schema1" namespace="http://www.bea.com/servers/wls/samples/net/mlog/edoc/webservice/edocwebservice/widget" />
+    </s:schema>
+  </wsdl:types>
+  <wsdl:service name="RecentPouchWidgetWS">
+    <wsdl:port name="RecentPouchWidgetWSSoapBinding" binding="i0:RecentPouchWidgetWSSoapBinding">
+      <soap:address location="http://localhost:9015/DocumentManagement/RecentPouchWidgetWS.asmx" />
+    </wsdl:port>
+    <wsdl:port name="RecentPouchWidgetWSSoapBinding1" binding="i0:RecentPouchWidgetWSSoapBinding1">
+      <soap12:address location="http://localhost:9015/DocumentManagement/RecentPouchWidgetWS.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

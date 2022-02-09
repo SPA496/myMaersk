@@ -1,0 +1,79 @@
+﻿@using myDamco.Config
+@using myDamco.Database
+@using Newtonsoft.Json
+@* Piwik JavaScript snippet *@
+@{
+    
+    int    piwikSiteID = Settings.Piwik.SiteId; 
+    string piwikServerUrl = Settings.Piwik.ServerUrl; // URL without "http" or "https" (TODO: Should we only allow https and thus encode the full URL in web.config? Not doing it for now.)
+
+    if (Settings.Piwik.TrackingEnabled && piwikSiteID != -1 && !string.IsNullOrEmpty(piwikServerUrl))
+    {
+        // This creates the json of all widgets on the dashboard, to be sent along with the dashboard pageview.
+        string title = null; // if null, the title from the <title> tag is used when tracking the pageview (piwik handles that). For now it is only non-null, when dashboard state is to be sent along.
+        if (ViewBag.WidgetInstances is List<WidgetInstance>)
+        {
+            List<WidgetInstance> widgetInstances = ViewBag.WidgetInstances;
+
+            var widgetInfo = widgetInstances.Select(x => new { w = x.Widget.UId, wi = x.Id });
+            var widgetJsonObj = new { count = widgetInstances.Count, widgets = widgetInfo };
+            var widgetJson = JsonConvert.SerializeObject(widgetJsonObj)
+                .Replace("\"", ""); // <- Removing quotes from the JSON quotes since piwik automatically turns them into "&quot;" (also in the DB). And these characters count towards the size 
+                                    //    limit of the page titles! We already have problems with the page title length for the dashboard state without them - by removing them we save 6 chars
+                                    //    *per* quote! (For *each* json key+value: 12-24 chars! A lot out of e.g. 1024!). It is however not true JSON anymore, but we do not require that.
+            title = ViewBag.Title + "/" + widgetJson;
+        }
+        
+        // Info to put into the custom variables
+        Profile profile = Profile.GetProfile();
+        string username = profile != null ? profile.LoginId : "";
+        string organizationName = profile != null && profile.Organization != null ? profile.Organization.Name : "";
+        string roleInfo = profile != null ? profile.RoleName + " (id: " + profile.RoleId + ") (org: " + profile.RoleOrganization + ")" : ""; // TODO: Maybe only RoleName? (is it unique (so that id is not needed)? Do they need to know the org?)
+
+        // The custom variables used in pageload (their IDs, names, etc), and also those used later (so that we have them all defined at one place)
+        var customVars = new
+        {
+            username = new { id = 1, scope = "visit", name = "Username", value = username },
+            organization = new { id = 2, scope = "visit", name = "Organization", value = organizationName },
+            role = new { id = 1, scope = "page", name = "Role", value = roleInfo },
+
+            widgetInstanceId = new { id = 2, scope = "page", name = "WidgetInstanceId" },           // only used for widget-instance related events
+            widgetUId = new { id = 3, scope = "page", name = "WidgetUId" },                         // --||--
+            
+            dashboardState = new { id = 2, scope = "page", name = "DashboardState", value = "1" }   // Used to flag whether the dashboard state is sent along with the request, so that it can be changed in the future (currently only for dashboard pageview). (Value is version of the data)
+        };
+
+        @* The javascript snippet *@
+        <script type="text/javascript">           
+            var _paq = _paq || [];
+            (function() {
+                @* put pageview into _paq *@
+                var title = @(Html.Raw(title == null ? "null" : "\"" + title.Replace("\"", "\\\"") + "\""));
+                @* TODO: If any of the usernames/organizations/roles contains the character '"', we're in trouble. Escape! (i.e. don't run away, but escape the strings) No... at() actually escapes - but for html *@
+                _paq.push(["setCustomVariable", "@(customVars.username.id)", "@(customVars.username.name)", "@(customVars.username.value)", "@(customVars.username.scope)"]);
+                _paq.push(["setCustomVariable", "@(customVars.organization.id)", "@(customVars.organization.name)", "@(customVars.organization.value)", "@(customVars.organization.scope)"]);
+                _paq.push(["setCustomVariable", "@(customVars.role.id)", "@(customVars.role.name)", "@(customVars.role.value)", "@(customVars.role.scope)"]);
+                if (title == null) {
+                    _paq.push(["trackPageView"]);
+                } else {
+                    _paq.push(["setCustomVariable", "@(customVars.dashboardState.id)", "@(customVars.dashboardState.name)", "@(customVars.dashboardState.value)", "@(customVars.dashboardState.scope)"]);
+                    _paq.push(["trackPageView", title]);
+                    _paq.push(["deleteCustomVariable", "@(customVars.dashboardState.id)", "@(customVars.dashboardState.scope)"]);
+                }
+                _paq.push(["enableLinkTracking"]);
+
+                @* load piwik.js async *@
+                var u=(("https:" == document.location.protocol) ? "https" : "http") + "@(piwikServerUrl)";
+                _paq.push(["setTrackerUrl", u+"piwik.php"]);
+                _paq.push(["setSiteId", "@(piwikSiteID)"]);
+                var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+                g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+            })();
+
+            @* This is for use by the javascript code in piwikUtil.js (when sending events), so that we don't have to duplicate the constants in that file as well (two places to change each time) *@
+            window.piwikConstants = {
+                customVariables: @(Html.Raw(JsonConvert.SerializeObject(customVars)))
+            };
+        </script>
+    }
+}

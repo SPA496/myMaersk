@@ -1,0 +1,101 @@
+﻿@model myDamco.Areas.Administration.Models.NewsModel
+@{
+    ViewBag.Title = "News editing";
+    Html.Resource("~/Scripts/tiny_mce/tiny_mce.js", new HTMLResourceOptions() { Bundle = false, Minify = false });
+    Html.Resource("~/Areas/Administration/Scripts/TimeUtil.js");
+    Html.Resource("~/Areas/Administration/Scripts/News.js");
+}
+<div id="newserrors"></div>
+<div id="tabs">
+	<ul>
+        @foreach (var category in Model.Categories)
+        {
+		    <li><a href="#news-@category.Id">@category.Name</a></li>
+        }
+        @{
+            if (ViewBag.IsAdmin)
+            { 
+                <li><a class="news-category-tab" href="#categories">Categories</a></li>
+            }
+        }
+		<li id="editnewstab"><a href="#editnewsitem">Edit</a></li>
+	</ul>
+    @foreach (var category in Model.Categories)
+    {
+	    <div id="news-@category.Id"
+            data-key="@category.Id"
+            data-downtime="@category.Downtime">
+            @Html.Partial("NewsItem", category)
+	    </div>
+    }
+    @{
+        if (ViewBag.IsAdmin)
+        {
+            <div id="categories">
+            @Html.Partial("NewsCategory/Index", Model.Categories)
+            </div>
+        }
+    }
+    <div id="editnewsitem">
+        <a name="editnewsitem"></a>
+        <table border="0">
+            <tbody>
+                <tr><td>Title</td><td><input class="title" style="width: 490px;"/></td></tr>
+                <tr><td>Show</td><td style="font-size: smaller">From <input id="from_picker" style="width: 110px;" /> to <input id="to_picker" style="width: 120px;"/> <div style="display: inline-block; position: relative; left: -20px; top: 2px;" ><span id="clear_to_picker" class="ui-icon ui-icon-closethick"></span></div></td></tr>
+                <tr><td></td><td style="font-size: smaller; font-style: italic">All times must be specified in Coordinated Universal Time (UTC). End time is optional.</td></tr>
+                <tr><td valign="top">Content</td><td><textarea class="mceEditor" style="width: 500px; height: 300px;"  id="contentArea"></textarea></td></tr>
+                <tr><td valign="top">Short description</td><td><textarea style="width: 490px; height: 100px;" id="summary_field"></textarea></td></tr>
+                <tr id="downtime">
+                    <td valign="top">Downtime</td>
+                    <td>
+                        <div id="adddowntimedialog" style="font-size: smaller">
+                            <table style="border-style: hidden;"> 
+                            <tr>
+                                <td><b>UAMFunction</b></td>
+                                <td><input style="width: 110px;" id="app" data-source="@Newtonsoft.Json.JsonConvert.SerializeObject(Model.UAMApps)"/>:<input style="width: 110px;" id="func"  data-source="@Newtonsoft.Json.JsonConvert.SerializeObject(Model.UAMFuncs)"/></td>
+                            </tr>
+                                <tr>
+                                    <td><b>From</b></td>
+                                    <td><input id="downtime_from" style="width: 110px;" /> to <input id="downtime_to" style="width: 110px;"/></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <b>Mesage</b><br />
+                                        <textarea id="downtime_message" style="width: 350px; height: 110px;"></textarea><br/>
+                                        <font size="-3">Write <b>[[timeleft]]</b>, <b>[[from]]</b> and <b>[[to]]</b> to show time left the from-date and the to-date.</font>
+                                        
+                                    </td>
+                                </tr>
+                            </table>
+                            <input id="savedowntime" type="button" value="Save" />
+                        </div>
+
+                        <a href="#" id="adddowntime">Add downtime</a>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>From</th>
+                                    <th>To</th>
+                                    <th>UAM</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="template" style="display: none">
+                                    <td><span class="edit-downtime ui-icon ui-icon-pencil"></span></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td><span class="delete-downtime ui-icon ui-icon-trash"></span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr><td colspan="2" align="right"><input type="button" value="Cancel" id="canceledit"/>  <input type="button" value="Save" id="savenewsitem"/></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>

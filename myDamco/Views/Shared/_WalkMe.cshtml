@@ -1,0 +1,47 @@
+﻿@using myDamco.Config
+@* WalkMe JavaScript snippet *@
+@{
+    string wmSourceUrl = Settings.WalkMe.SourceUrl;
+
+    if (Settings.WalkMe.TrackingEnabled && !string.IsNullOrEmpty(wmSourceUrl))
+    {
+        // Info to put into the custom variables
+        Profile profile = Profile.GetProfile();
+        string username = profile != null ? profile.LoginId : "";
+        string organizationName = profile != null && profile.Organization != null ? profile.Organization.Name : "";
+        string roleInfo = profile != null ? profile.RoleName + " (id: " + profile.RoleId + ") (org: " + profile.RoleOrganization + ")" : ""; // TODO: Maybe only RoleName? (is it unique (so that id is not needed)? Do they need to know the org?)
+        bool admin = false;
+        bool shipper = false;
+        bool intern = false;
+        string[] roles = Roles.GetRolesForUser(profile.LoginId);
+        foreach (string role in roles) {
+            if (role.ToUpper().Equals("UAM:BOOKING:ADMIN")) { admin = true; }
+            if (role.ToUpper().Equals("UAM:BOOKING:SHIPPER")) { shipper = true; }
+            if (role.ToUpper().Equals("UAM:BOOKING:INTERNAL")) { intern = true; }
+        }
+        
+        
+        @* The javascript snippet *@
+        <script type="text/javascript">
+            var walkme_user_id = "@(username)";
+            var walkme_user_role = "@(roleInfo)";
+            var walkme_admin = "@(admin)".toLowerCase()==="true" ? true : false;
+            var walkme_shipper = "@(shipper)".toLowerCase() === "true" ? true : false;
+            var walkme_internal = "@(intern)".toLowerCase() === "true" ? true : false;
+            window.walkme_user_id = walkme_user_id;
+            window.walkme_user_role = walkme_user_role;
+            window.walkme_admin = walkme_admin;
+            window.walkme_shipper = walkme_shipper;
+            window.walkme_internal = walkme_internal;
+            (function () {
+                var walkme = document.createElement('script');
+                walkme.type = 'text/javascript';
+                walkme.async = true;
+                walkme.src = (("https:" == document.location.protocol) ? "https" : "http") + "@(wmSourceUrl)";
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(walkme, s);
+                window._walkmeConfig = { smartLoad: true };
+            })();
+        </script>
+    }
+}

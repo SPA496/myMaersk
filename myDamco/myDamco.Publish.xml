@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<publishData>
+  <publishProfile publishUrl="https://192.168.250.33:8172/MsDeploy.axd" deleteExistingFiles="False" ftpAnonymousLogin="False" ftpPassiveMode="True" msdeploySite="Default Web Site/mydamcov4" msdeploySiteID="" msdeployRemoteSitePhysicalPath="" msdeployAllowUntrustedCertificate="True" msdeploySkipExtraFilesOnServer="True" msdeployMarkAsApp="True" profileName="Profile1" publishMethod="MSDeploy" replaceMatchingFiles="True" userName="deploy" savePWD="True" userPWD="AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAWUFXEQcKDEu4BcgWVg9bKwAAAAACAAAAAAAQZgAAAAEAACAAAACbwgNcASJJiMbN9O/rpfFT2SyocMxZp56AqK3+3GMjEAAAAAAOgAAAAAIAACAAAABKdMA1kLV1vUDu+N/efQQqbPPxd6EntgKJcLCmIcLgYSAAAAAzsFpGWiTUVAHrzBNXs8VJlHK/ZrSVV3B633mLKwdOLEAAAABeoK7mIWphZ+6QQclxCVassDUi0zUmYL4qHfsnkh962/a8bLDPWf3Dwa+y496TW8I4d/YVchGVZ9DD8rc2VP3x" SelectedForPublish="True" />
+</publishData>

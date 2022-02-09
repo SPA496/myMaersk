@@ -1,0 +1,73 @@
+﻿@model myDamco.Models.WidgetModel
+<div>
+    <div class="ui-widget">
+        <!-- Rename Title -->
+        <!--<div class="rename-title-container" style="display:none;">
+            <label><strong>Title:</strong></label> <input type="text" class="renamed-title-text" /> <button class="rename-title-button">Set title</button>
+        </div> -->
+        <!--[if !IE 6]><!-->       
+        <div class="rename-title-container" style="display:none;">
+            <div class="inner-rename" >
+                <label><strong>Title:</strong></label> 
+                <button class="rename-title-button">Set title</button>
+                <div class="rename-textfield-wrapper" >
+                    <input type="text"  class="renamed-title-text"> 
+                </div>
+            </div>
+        </div>
+        <!--<![endif]-->
+
+        <!--[if IE 6]>
+        <div class="rename-title-container ie6" >
+                <label>Title:</label> 
+                <button class="rename-title-button">Set title</button>
+                <input type="text" class="renamed-title-text"> 
+        </div>
+        <![endif]-->
+
+
+
+        <!-- Columns -->
+        <div class="configuration" style="display:none;">
+            <b>Report:</b> <input id="definitions" />
+        </div>
+        
+        <!-- Error messages -->
+        <div class="charterrormessage">
+        </div>
+
+        <div id="chartcontent">
+            <!-- Columns -->
+            <div class="columns">
+                <ul id="piecolumnsnav" class='sortable noselection filter-element' style="display: none;"></ul>
+            </div>
+
+            <!-- Header -->
+            <div style="clear:both; width: 100%">
+                <div style="float: right; text-align: right; font-size: 80%;  z-index: 30;">
+                    <a href="" class="chartdetails">See report</a>
+                </div>
+
+                <!-- Header -->
+                <div style="float: left; text-align: left; font-size: 80%">
+                    <a href="" class="clear-filters filter-element" style="display: none;">Clear filters</a>
+                </div>
+            </div>
+
+            <!-- Container -->
+            <div id="chart" class="chart" style="width: 100%; text-align: center; clear: both; z-index: 10;" >
+            </div>
+
+            <!-- Footer -->
+            <div style="clear:both; display: block; margin-bottom: 20px;">
+                <div style="float: left; clear: left; width: 40%; text-align: left;">
+                    <img class="loadingspinner" src="@Url.Content("~/Content/images/wait_15.gif")" alt="Retrieving content ..."/>
+                </div>
+
+                <div style="float: right; clear: right; width: 40%; text-align: right;">
+                    <div>Total count:<span class="totalCount"></span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

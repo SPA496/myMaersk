@@ -1,0 +1,24 @@
+﻿.newspagemenu a {
+    background-image: url(images/b_link.gif);
+    background-position: left center;
+    background-repeat: no-repeat;
+    display: inline-block;
+    margin-left: 2px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-top: 5px;
+} 
+
+.newspage-left {
+    /**/max-width: 400px;/**/
+
+    float: left; 
+    width: 30%;
+}
+
+.newspage-right {
+    float: left; 
+    width: 70%; /* might be such that it doesn't jump down under the left-menu when the viewport is narrow TODO: Fix: just don't float...? (Pushed the left menu 1 line down, due to display:block...) */
+}
+
+

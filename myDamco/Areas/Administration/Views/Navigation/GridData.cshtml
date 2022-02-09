@@ -1,0 +1,35 @@
+﻿@model IEnumerable<myDamco.Database.Navigation>
+
+@foreach (var item in Model) {
+    <tr data-pkey="@item.Id">
+        <td align="center" class="selector" style="cursor: move;"><span class="ui-icon ui-icon-grip-dotted-vertical"></span></td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Url)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Target)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IECompatibilityMode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UAMApplication)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UAMFunction)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NewTab)
+        </td>
+        <td class="rowControl hidden">
+            <a href="#makeRowEditable" class="makeRowEditable">Edit</a> |
+            <a href="#deleteRow" class="deleteRow">Delete</a>
+        </td>
+    </tr>
+}

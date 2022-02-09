@@ -1,0 +1,37 @@
+﻿@model IEnumerable<myDamco.Database.NewsCategory>
+
+@foreach (var item in Model) {
+    <tr data-pkey="@item.Id">
+        <td>
+            <a href="#makeRowEditable" class="makeRowEditable ui-icon ui-icon-pencil"></a>
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Language)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            <a href="#" class="showConfiguration">View</a>
+            @Html.TextAreaFor(modelItem => item.Configuration, new {style = "display:none;"})
+        </td> 
+        <td>
+            @Html.DisplayFor(modelItem => item.editUAMApplication)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.editUAMFunction)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.showUAMApplication)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.showUAMFunction)
+        </td>
+        <td class="rowControl hidden">
+            <a href="#deleteRow" class="deleteRow ui-icon ui-icon-trash"></a>
+        </td>
+    </tr>
+}

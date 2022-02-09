@@ -1,0 +1,79 @@
+﻿@model myDamco.Database.DashboardTemplate
+@{
+    Layout = null;
+}
+
+@* If Model = null, we're in the "Create Dialog" otherwise we are in the "Edit Dialog" (and Model contains the DashboardTemplate we are editing) *@
+
+<div class="editDialog">
+    @* Model = null if creating a new dashboard template *@
+    @if (Model != null) 
+    {
+        <input id="dashboardTemplateId"type="hidden" value="@Model.Id" />
+        <input id="loginCopiedFrom"type="hidden" value="@Model.LoginCopiedFrom" />
+        <input id="roleCopiedFrom"type="hidden" value="@Model.RoleCopiedFrom" />
+    }
+    
+    
+    <div class="clear"></div>
+
+    <div class="editDialogLeftColumn">
+        <div class="editDialogLeftColumnLabels">Username to copy from:</div>
+        <div class="editDialogLeftColumnInputs">
+            <input id="loginNameTextfield" type="text" value="@(Model != null ? Model.LoginCopiedFrom : "")"/>
+        </div>
+
+        <div class="editDialogLeftColumnLabels">Role:</div>
+        <div class="editDialogLeftColumnInputs">
+            <div id="roleSelectorContainer"></div>
+            <div><img id="roleLoadingSpinner" class="loadingspinner" src="@Url.Content("~/Content/images/wait_15.gif")" alt="Loading" /></div>
+        </div>
+
+        <div class="editDialogLeftColumnLabels">Description:</div>
+        <div class="editDialogLeftColumnInputs">
+            <textarea id="descriptionTextarea">@(Model != null ? Model.Description : "")</textarea>
+        </div>
+    </div>
+
+    <div class="editDialogRightColumn @(Model == null ? "editDialogRightColumn_createmode" : "editDialogRightColumn_editmode")">
+        
+        @if (Model != null)
+        {
+            <p class="dashboardTemplatePreviewHeadline">Current template for role "@Model.CachedRoleName":</p>
+            <p class="dashboardTemplatePreviewInfo">Originally copied from user @Model.LoginCopiedFrom.</p>
+            <div id="dashboardTemplatePreview">
+                @Html.Action("DashboardTemplatePreview", new {id = Model.Id})
+            </div>
+        }
+                
+        <p class="userDashboardPreviewHeadline">Dashboard of the selected user and role:</p>    
+        <div id="userDashboardPreview">
+            @if (Model != null)
+            {
+                @Html.Action("UserDashboardPreview", new {loginId = Model.LoginCopiedFrom, roleId = Model.RoleCopiedFrom})
+            }
+        </div>
+    </div>
+
+    <div class="clear"></div>
+
+    <p>
+        @if (Model == null) {
+            <button id="createTemplateButton">Create Template</button>
+        } else {
+            <button id="updateTemplateButton">Update Template</button>
+        }
+        <button id="cancelEditButton">Cancel</button>
+    </p>    
+
+</div>
+
+<style type="text/css">
+    .editDialog select {font-size: 1.0em;}
+</style>
+
+<script type="text/javascript"> @* IE 8-10 (11?) fix for the width of the <select> box *@
+    /*@@cc_on
+    $(".editDialog").append("<style type='text/css'>.editDialog select {margin-right:-6px;}</style>");
+    @@*/
+</script>

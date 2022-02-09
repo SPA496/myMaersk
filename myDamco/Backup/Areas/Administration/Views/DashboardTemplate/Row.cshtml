@@ -1,0 +1,30 @@
+﻿@using System.Globalization
+@using myDamco.Database
+@model myDamco.Database.DashboardTemplate
+@{
+    DashboardTemplate dashboardTemplate = Model;
+}
+
+<tr data-id="@dashboardTemplate.Id" data-roleid="@(dashboardTemplate.Role)">
+    <td>
+        <span class="edit-row ui-icon ui-icon-pencil"></span>
+    </td>
+    <td>
+        @(dashboardTemplate.CachedRoleName) @*(@(dashboardTemplate.Role))*@
+    </td>
+    <td>
+        @(dashboardTemplate.LoginCopiedFrom)
+    </td>
+    <td>
+        @(dashboardTemplate.UpdatedAt.ToString("MM/dd-yyyy HH:mm", CultureInfo.InvariantCulture)) UTC
+    </td>
+    <td>
+        @(dashboardTemplate.UpdatedBy)
+    </td>
+    <td>
+        @(dashboardTemplate.Description)
+    </td>
+    <td>
+        <span class="delete-row ui-icon ui-icon-trash"></span>
+    </td>
+</tr>

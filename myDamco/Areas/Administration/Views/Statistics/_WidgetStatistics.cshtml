@@ -1,0 +1,37 @@
+﻿@model myDamco.Areas.Administration.Models.WidgetStatisticsModel
+          
+<p style="font-size: smaller;">
+    @if (Model.from == Model.to)
+    {
+        <text>Widgets placed on any dashboard at @(Model.from) UTC:</text>
+    }
+    else
+    {
+        <text>Widgets which has been on any dashboard between @(Model.from) UTC and @(Model.to) UTC:</text>
+    }
+</p>
+<p>
+    <table>
+        <thead>
+            <tr>
+                <th>Widget</th>
+                <th>Count</th>
+                <th>Percentage</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{var sum = Model.widgetStats.Sum(x => x.count); }
+            @foreach (var widget in Model.widgetStats)
+            {
+                <tr>
+                    <td>@widget.widget.Title</td>
+                    <td>@widget.count</td>
+                    <td>@(sum == 0 ? "- " : Math.Round((double)widget.count/sum*100).ToString())%</td>
+                </tr>
+            }
+        
+        </tbody>
+    </table>
+</p>
+
+

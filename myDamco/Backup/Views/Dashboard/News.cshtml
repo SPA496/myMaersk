@@ -1,0 +1,49 @@
+﻿@model myDamco.Models.NewsPageModel
+
+@{
+    Html.Resource("~/Content/newspage.css");
+
+    ViewBag.Title = Model.newsItem == null
+        ? Model.newsCategory.Name
+        : Model.newsCategory.Name + " - " + Model.newsItem.Title;
+}           
+
+<div class="newspage" style="min-height:600px; _height:600px;">
+    <div class="newspage-left">
+
+        <h3>@Model.newsCategory.Name</h3>
+        <div class="newspagemenu">
+            @foreach (var item in Model.menuNewsItems)
+            {
+                var linkText = string.IsNullOrEmpty(item.Title) ? "(no title)" : item.Title; // This is done since Html.ActionLink throws an exception if the linkText is null or empty
+                <a href="@(item.Url)?showArchived=@(Model.showArchivedItemsInMenu)">@linkText</a>
+                <br />
+            }
+        </div>
+        <p style="padding-top:14px; font-size:smaller;">
+            @if (Model.showArchivedItemsInMenu)
+            {
+                if (Model.newsItem != null) {<a class="action" href="@(Model.newsItem.Url)">Hide archived news</a> @*@Html.ActionLink("Hide archived news", "News", new { id = Model.newsItem.Id })*@}
+                else                        {@Html.ActionLink("Hide archived news", "NewsFeed", new { id = Model.newsCategory.Id}, new { @class = "action" })}
+            }
+            else
+            {
+                if (Model.newsItem != null) {<a class="action" href="@(Model.newsItem.Url)?showArchived=true">Show archived news</a> @*@Html.ActionLink("Show archived news", "News", new { id = Model.newsItem.Id, showArchived = true })*@}
+                else                        {@Html.ActionLink("Show archived news", "NewsFeed", new { id = Model.newsCategory.Id, showArchived = true }, new { @class = "action" })}
+            }
+        </p>
+    </div>
+    <div class="newspage-right">
+        @if (Model.newsItem != null)
+        {
+            <h2>@Model.newsItem.Title</h2>
+            <div style="font-size: smaller;">
+                @Model.newsItem.From UTC
+                @(Model.newsItem.To == null ? "" : " - " + Model.newsItem.To.ToString() + " UTC")
+            </div>
+
+            @Html.Raw(Model.newsItem.Body)
+        }
+    </div>
+    <div class="clear"></div>
+</div>

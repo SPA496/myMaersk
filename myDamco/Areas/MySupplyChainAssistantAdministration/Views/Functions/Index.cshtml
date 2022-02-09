@@ -1,0 +1,89 @@
+@model IEnumerable<myDamco.Areas.MySupplyChainAssistantAdministration.Models.Function>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table>
+    <tr>
+        <th></th>
+        <th>
+            Name
+        </th>
+        <th>
+            Description
+        </th>
+        <th>
+            URL format
+        </th>
+        <th>
+            Fallback URL
+        </th>
+        <th>
+            Protocol
+        </th>
+        <th>
+            Host
+        </th>
+        <th>
+            Port
+        </th>
+        <th>
+            Path
+        </th>
+        <th>
+            Arguments
+        </th>
+        <th>
+            References
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.functionId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.functionId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.functionId })
+        </td>
+        <td>
+			@item.name
+        </td>
+        <td>
+			@item.description
+        </td>
+        <td>
+			@item.urlFormat
+        </td>
+        <td>
+			@item.fallbackUrl
+        </td>
+        <td>
+			@item.protocol
+        </td>
+        <td>
+			@item.host
+        </td>
+        <td>
+			@item.port
+        </td>
+        <td>
+			@item.path
+        </td>
+        <td>
+			@(item.arguments == null ? "None" : item.arguments.Count.ToString())
+        </td>
+        <td>
+			@(item.references == null ? "None" : item.references.Count().ToString())
+        </td>
+    </tr>
+}
+
+</table>
+
+

@@ -1,0 +1,7 @@
+﻿@model myDamco.Models.WidgetModel
+@{
+    Html.Resource("~/Content/dashboard.css");
+    Html.Resource("~/Scripts/dashboard.js");
+    Html.Resource("~/Scripts/widgets/recentsearches.js");
+}
+@Html.Partial("~/Views/Dashboard/WidgetInstances/_Shared_TabularData.cshtml", new string[] {}) 

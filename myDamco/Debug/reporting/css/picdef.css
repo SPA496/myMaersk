@@ -1,0 +1,334 @@
+.errorbox .illustra, .message .illustra {
+    height: 28px;
+    width: 28px;
+    background-position: 0 0;
+    margin-top: 2px;
+    position: relative;
+    left: -12px;
+    top: -4px;
+    z-index: 20;
+}
+
+.errorbox .illustra {
+    background-position: -30px 0;
+}
+
+.close {
+    background-position: 0 0;
+}
+
+.plus {
+    background-position: 0 -20px;
+}
+
+.minus {
+    background-position: 0 -40px;
+
+}
+
+.up {
+    background-position: 0 -60px;
+}
+
+.down {
+    background-position: 0 -80px;
+}
+
+.right, .run {
+    background-position: 0 -100px;
+}
+
+.left {
+    background-position: 0 -120px;
+}
+
+.first, .deselall {
+    background-position: 0 -140px;
+}
+
+.privious, .desel {
+    background-position: 0 -160px;
+}
+
+.end, .selall {
+    background-position: 0 -180px;
+}
+
+.next, .sel {
+    background-position: 0 -200px;
+
+}
+
+.move {
+    background-position: 0 -220px;
+}
+
+.search {
+    background-position: 0 -240px;
+}
+
+.edit {
+    background-position: 0 -260px;
+}
+
+.folder {
+    background-position: 0 -300px;
+
+}
+
+.utility {
+
+    background-position: 0 -320px;
+}
+
+.recent {
+    background-position: 0 -340px;
+
+}
+
+.recycle {
+    background-position: 0 -360px;
+}
+
+.report {
+    background-position: 0 -380px;
+
+}
+
+.trash {
+
+    background-position: 0 -400px;
+
+}
+
+.document {
+
+    background-position: 0 -420px;
+
+}
+
+.new {
+    background-position: 0 -440px;
+}
+
+.ok {
+    background-position: 0 -460px;
+}
+
+.printer {
+    background-position: 0 -480px;
+
+}
+
+.help {
+    background-position: 0 -500px;
+
+}
+
+.info {
+    background-position: 0 -520px;
+}
+
+.lock {
+    background-position: 0 -540px;
+}
+
+.univers {
+    background-position: 0 -560px;
+}
+
+.alert {
+    background-position: 0 -690px;
+
+}
+
+.delete {
+
+    background-position: 0 -710px;
+}
+
+.export {
+
+    background-position: 0 -580px;
+}
+
+.zip {
+
+    background-position: 0 -600px;
+}
+
+.send {
+
+    background-position: 0 -620px;
+}
+
+.personate {
+
+    background-position: 0 -640px;
+}
+.submitleft, .submitright{
+	width:16px;
+	height:16px;
+	border:1px solid #FFFFFF;
+	background-color:#FFFFFF;
+	background-repeat: no-repeat;
+	background-position: left top;
+}
+
+.data a {
+	padding-left: 10px;
+	background-image: url(../images/b_link.gif);
+	background-repeat: no-repeat;
+	background-position: left center;
+	text-decoration: none;
+	padding-right: 10px;
+	margin-left: 2px;
+}
+
+a:hover {
+    color: #3991CE;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+a.noicon {
+    padding-left: 0;
+    background-image: none;
+
+}
+
+a img {
+    margin-left: 4px;
+}
+
+.bar a, .pagebar a {
+	background-image: url(../images/allbut.gif);
+	background-repeat: no-repeat;
+	height: 15px;
+	border: none;
+	white-space: nowrap;
+	cursor: pointer;
+	margin-left: 14px;
+	color: #666666;
+	text-decoration: none;
+	padding-left: 18px;
+	font-size: 10px;
+	font-weight: bold;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	display: inline-block;
+	vertical-align: bottom;
+	padding-top: 2px;
+}
+
+.bar a.disabled{
+	text-decoration: line-through;
+	color: #999999;
+}
+.bar a.blue, .pagebar a.blue {
+	background-image: url(../images/allbut_blue.gif);
+	
+}
+
+.butlink, .but, .icon{
+    background-image: url(../images/allbut.gif);
+    background-repeat: no-repeat;
+    height: 15px;
+    line-height: 15px;
+    min-height: 15px;
+    height: auto !important;
+    margin-right: 2px;
+	display:inline-block;
+    padding-left: 18px;
+}
+.but, .icon{
+	padding: 0;
+	width: 15px;
+	margin-left:5px;
+    border:none;
+}
+.but{
+	cursor:pointer;
+}
+
+
+.bigrun{
+	background-image:url(../images/logorun.gif);
+	background-repeat:no-repeat;
+	background-position: top center;
+
+
+}
+
+
+.butlinkleft img {
+    padding-right: 18px;
+
+    background-position: right center;
+}
+
+.section-icon img, .int {
+    background-image: url(../images/allbut_int.gif);
+    background-repeat: no-repeat;
+    height: 15px;
+    width: 15px;
+}
+
+.blue {
+    background-image: url(../images/allbut_blue.gif);
+}
+
+a.dropmenu {
+	background-image: url(../images/g_down_big.gif);
+	background-repeat: no-repeat;
+	background-position: left center;
+	padding-left: 12px;
+}
+
+.bar a.empty {
+    padding-left: 1px;
+    background-image: none;
+    background-repeat: no-repeat;
+}
+
+.bar a.empty img {
+    vertical-align: text-bottom;
+
+}
+
+.header {
+    text-decoration: underline;
+    cursor: pointer;
+
+}
+
+.headerSortDown {
+
+    background-image: url(../images/sort_down.gif);
+    background-repeat: no-repeat;
+    background-position: right center;
+}
+
+.headerSortUp {
+
+    background-image: url(../images/sort_up.gif);
+    background-repeat: no-repeat;
+    background-position: right center;
+}
+
+.rightwait {
+    background-image: url(../images/wait_15.gif);
+    background-repeat: no-repeat;
+    background-position: right top;
+}
+
+.wait, .bar a.wait {
+    background-image: url(../images/wait_15.gif);
+    background-repeat: no-repeat;
+    background-position: left top;
+}
+
+.click, .section-icon img.click {
+    background-image: url(../images/click.gif);
+    background-repeat: no-repeat;
+    background-position: left top;
+}

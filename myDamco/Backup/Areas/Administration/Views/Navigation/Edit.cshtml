@@ -1,0 +1,47 @@
+﻿@model myDamco.Database.Navigation
+
+<tr @if (Model != null) {
+    @:data-pkey="@Model.Id"
+}>
+    <td align="center" class="selector" style="cursor: move;"><span class="ui-icon ui-icon-grip-dotted-vertical"></span></td>
+    <td>
+        @Html.EditorFor(model => model.UId)
+        @Html.ValidationMessageFor(model => model.UId)
+    </td>
+    <td>
+        @Html.EditorFor(model => model.Title)
+        @Html.ValidationMessageFor(model => model.Title)
+    </td>
+    <td>
+        @Html.EditorFor(model => model.Url)
+        @Html.ValidationMessageFor(model => model.Url)
+    </td>
+    <td>
+        @Html.EditorFor(model => model.Target)
+        @Html.ValidationMessageFor(model => model.Target)
+    </td>
+    <td>
+        @Html.EditorFor(model => model.IECompatibilityMode)
+        @Html.ValidationMessageFor(model => model.IECompatibilityMode)
+    </td>
+    <td>
+        @Html.EditorFor(model => model.UAMApplication)
+        @Html.ValidationMessageFor(model => model.UAMApplication)
+    </td>
+    <td>
+        @Html.EditorFor(model => model.UAMFunction)
+        @Html.ValidationMessageFor(model => model.UAMFunction)
+    </td>
+    <td>
+        @Html.EditorFor(model => model.NewTab)
+        @Html.ValidationMessageFor(model => model.NewTab)
+    </td>
+
+    <td>
+@if (ViewContext.RouteData.Values["Action"].ToString() == "Edit") {
+        <button class="editRow">Save</button><button class="cancelEditRow">Cancel</button>
+} else {
+        <button class="createRow">Create</button><button class="cancelCreateRow">Cancel</button>
+}
+    </td>
+</tr>

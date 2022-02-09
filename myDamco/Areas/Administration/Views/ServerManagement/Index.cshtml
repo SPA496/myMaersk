@@ -1,0 +1,35 @@
+﻿@using myDamco.Utils
+@{
+    ViewBag.Title = "Server Management";
+    var adminRouteValues = new { Area = "Administration" };
+    var sitepath = ControllerUtil.GetSitePathPath();
+}
+
+@if (ViewBag.Message != null) {
+    bool success = ViewBag.Success as bool? ?? false; 
+    <p style="color:@(success ? "green" : "red");">@(ViewBag.Message)</p>
+}
+
+<h2>ELMAH Error Log</h2>
+
+<p>Press the button below to delete all entries from the <a href="@(sitepath)elmah.axd" target="_blank">ELMAH error log</a>:</p>
+
+<p>
+    @using (Html.BeginForm("DeleteElmahLog", "ServerManagement", adminRouteValues)) 
+    {
+        <input type="submit" value="Delete ELMAH log" onclick="return confirm('Are you sure you want to delete the entire Elmah log?\nThis can not be undone!');" />        
+    }
+</p>
+
+<br />
+
+<h2>Caching</h2>
+
+<p>Press the button below to clear the JavaScript, CSS and Image cache:</p>
+
+<p>
+    @using (Html.BeginForm("DeleteResourceHelperCache", "ServerManagement", adminRouteValues)) 
+    {
+        <input type="submit" value="Clear JavaScript/CSS/Image cache."/>        
+    }
+</p>

@@ -1,0 +1,96 @@
+﻿@using myDamco.Config
+@model List<myDamco.Database.Setting>
+@{ViewBag.Title = "Settings";}
+<p style="font-size:smaller;float:right;">Note: Due to caching, there will be a delay before changes take effect on both servers.</p>
+<h2>Settings</h2>
+<br/>
+
+<!--
+    <p>a: @(Settings.Piwik.TrackingEnabled)</p>
+    <p>b: @(Settings.Piwik.SiteId)</p>
+    <p>c: @(Settings.Piwik.ServerUrl)</p>
+-->
+
+<div id="AjaxGridContainer">
+    <table id="AjaxGrid" class="admin-layout-table-theme">
+        <thead>
+            <tr>
+                <th data-column-name="Setting">
+                    <span>Setting</span>
+                </th>
+                <th data-column-name="Value">
+                    <span>Value</span>
+                </th>
+                <th data-column-name="Description">
+                    <span>Description</span>
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                @Html.Partial("Row", item)
+            }
+        </tbody>
+    </table>
+</div>
+
+<style type="text/css">
+    #AjaxGrid, #AjaxGrid input, #AjaxGrid button { clear: both; width: 100%; }
+    #AjaxGrid thead { white-space: nowrap; color: #222222;}
+    #AjaxGrid thead a, #AjaxGridContainer .AjaxGridNavigation a { text-decoration: none; }
+    #AjaxGrid .error { background-color: #f66; color: #000; }
+    #AjaxGridContainer .hidden { display: none; }
+    #AjaxGridContainer .AjaxGridNavigation input.pageNum { width: 2em; }
+    #AjaxGridContainer .AjaxGridNavigation .itemsPerPage { float: right; }
+</style>
+
+
+<!-- TODO: Put this in a js file -->
+<script type="text/javascript">
+    $(function () {
+        var container = $("#AjaxGridContainer");
+
+        container.on("click", "a.makeRowEditable", function (e) { // Edit button click listener
+            var $link = $(this);
+            makeRowEditable($link.closest('tr'));
+            e.preventDefault();
+        });
+
+        container.on("click", "button.saveRow", function () { // Save button click listener
+            var $button = $(this);
+            saveRow($button.closest('tr'));
+        });
+
+        container.on("click", "button.cancelEditRow", function () { // Cancel button click listener
+            var $button = $(this);
+            reloadRow($button.closest('tr'));
+        });
+
+        function makeRowEditable(row) {
+            $.get('@Html.Raw(Url.Action("RowEditable", new {id = "__ID__"}))'.replace(/__ID__/, row.data('pkey')), function (editableRowHtml) {
+                row.replaceWith(editableRowHtml);
+            });
+            //setUnloadWarning();
+        }
+        
+        function saveRow(row) {
+            $.post('@Html.Raw(Url.Action("Save", new { id = "__ID__" }))'.replace(/__ID__/, row.data('pkey')), {
+                value: $("input[name='Value']", row).val()
+            }).done(function (newRow) {
+                row.replaceWith(newRow);
+                //clearUnloadWarning();
+            }).fail(function () {
+                row.addClass('error');
+            });
+        }
+        
+        function reloadRow(row) {
+            $.get('@Html.Raw(Url.Action("Row", new {id = "__ID__"}))'.replace(/__ID__/, row.data('pkey')), function (editableRowHtml) {
+                row.replaceWith(editableRowHtml);
+            });
+            //clearUnloadWarning();
+        }        
+    });
+</script>

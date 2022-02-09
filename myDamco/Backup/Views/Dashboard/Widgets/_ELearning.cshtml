@@ -1,0 +1,31 @@
+﻿@model myDamco.Database.Widget
+@{
+    Html.Resource("~/Content/dashboard.css");
+    Html.Resource("~/Scripts/dashboard.js");
+    Html.Resource("~/Scripts/jquery.cookie.js");
+    Html.Resource("~/Scripts/jquery.flash.js");
+    Html.Resource("~/Scripts/widgets/elearning.js");
+}
+
+<!-- KV: TODO: Find good way to add this only once, even with several widgets -->
+<!-- Vertical centering found here: http://stackoverflow.com/questions/11193189/cant-align-vertically-a-swf-file-to-the-middle -->
+
+<div class="elearningdimdiv dim opacity noselection" style="display: none; ">
+    <div style="position:absolute; top:0; left:0; width:100%; height:100%;">  
+      <div style="height:100%; display:table; margin:0 auto;">  
+        <div style="vertical-align:middle; display:table-cell;" class="flashcenter">
+            <div id="" ></div>
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="elearningdimdiv dim noselection" style="display: none; ">
+    <div style="position:absolute; top:0; left:0; width:100%; height:100%;">  
+      <div style="height:100%; display:table; margin:0 auto;">  
+        <div style="vertical-align:middle; display:table-cell;" class="flashcenter">
+            <div id="elearningflashdiv" ></div>
+        </div>
+      </div>
+    </div>
+</div>

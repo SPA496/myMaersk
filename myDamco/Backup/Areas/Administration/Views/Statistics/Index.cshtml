@@ -1,0 +1,122 @@
+﻿@model myDamco.Areas.Administration.Models.StatisticsModel
+
+@{
+    ViewBag.Title = "Index";
+    Html.Resource("~/Areas/Administration/Scripts/TimeUtil.js");
+    Html.Resource("~/Areas/Administration/Scripts/Statistics.js");
+
+    int logicalProcessors = System.Environment.ProcessorCount;
+    int connectionLimit = System.Net.ServicePointManager.DefaultConnectionLimit;
+    int maxworkerThreads;
+    int maxportThreads;
+    System.Threading.ThreadPool.GetMaxThreads(out maxworkerThreads, out maxportThreads);
+    int minworkerThreads;
+    int minportThreads;
+    System.Threading.ThreadPool.GetMinThreads(out minworkerThreads, out minportThreads);
+    int availworkerThreads;
+    int availportThreads;
+    System.Threading.ThreadPool.GetAvailableThreads(out availworkerThreads, out availportThreads);
+
+    DateTime now = DateTime.UtcNow; // To make sure (from,to) doesn't differ at all.
+}
+
+<h2>Statistics</h2>
+
+<div id="widgetStats">
+    <div id="widgetStatsContainer">
+        @Html.Action("WidgetStatistics", new {from = now, to = now})
+    </div>
+    <div>
+        <div style="font-size: smaller; display: inline-block; vertical-align: middle;">
+            From: <input style="width: 110px;" id="widgetstats_from_picker">
+            to <input style="width: 110px;" id="widgetstats_to_picker">
+        </div>
+        <input type="button" id="widgetstats_update_button" value="update" style="vertical-align:middle;">
+        <img class="loadingspinner" style="display:none; vertical-align:middle;" src="@Url.Content("~/Content/images/wait_15.gif")" alt="Loading" />
+    </div>
+</div>
+
+<h2>Server information</h2>
+<p>
+<table>
+    <thead>
+        <tr>
+            <th>Description</th>
+            <th>Value</th>
+        </tr>
+    </thead>
+    <tbody>
+       <tr>
+           <td>Number of processors</td>
+           <td>@logicalProcessors</td>
+       </tr>
+       <tr>
+           <td>Connecting Limit</td>
+           <td>@connectionLimit</td>
+       </tr>
+       <tr>
+           <td>Max Worker Threads</td>
+           <td>@maxworkerThreads</td>
+       </tr>
+       <tr>
+           <td>Min Worker Threads</td>
+           <td>@minworkerThreads</td>
+       </tr>
+        <tr>
+           <td>Max Completion port Threads</td>
+           <td>@maxportThreads</td>
+       </tr>
+       <tr>
+           <td>Available worker Threads</td>
+           <td>@availworkerThreads</td>
+       </tr>
+        <tr>
+           <td>Available port Threads</td>
+           <td>@availportThreads</td>
+       </tr>
+    </tbody>
+</table>
+
+</p>
+
+<h2>Server Time Information</h2>
+<p>
+<table>
+    <thead>
+        <tr>
+            <th></th>
+            <th>UTC</th>
+            <th>Local Time</th>
+        </tr>
+    </thead>
+    <tbody>
+       <tr>
+           <td>Webserver</td>
+           <td>@Model.webserverTimeUtc</td>
+           <td>@Model.webserverTimeLocal</td>
+       </tr>
+       <tr>
+           <td>DB server</td>
+           <td>@Model.dbTimeUtc</td>
+           <td>@Model.dbTimeLocal</td>
+       </tr>
+       <tr>
+           <td>(Your browser)</td>
+           <td><span id="jsTimeUtc"></span></td>
+           <td><span id="jsTimeLocal"></span></td>
+       </tr>
+    </tbody>
+</table>
+</p>
+
+<p style="font-size:smaller;">Build time: @Model.buildTimeUtc UTC</p>
+
+<script type="text/javascript">
+    @* Insert the browser time in the Server Time Information table above *@
+    $(function () {
+        var jsTimeUtc = moment.utc().format("YYYY-MM-DD HH:mm:ss");
+        var jsTimeLocal = moment().format("YYYY-MM-DD HH:mm:ss UTCZ");
+        $("#jsTimeUtc").text(jsTimeUtc);
+        $("#jsTimeLocal").text(jsTimeLocal);
+    });
+</script>

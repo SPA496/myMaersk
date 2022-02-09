@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.bea.com/servers/wls/samples/net/mlog/edoc/webservice/edocwebservice/widget" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://www.bea.com/servers/wls/samples/net/mlog/edoc/webservice/edocwebservice/widget" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema targetNamespace="http://www.bea.com/servers/wls/samples/net/mlog/edoc/webservice/edocwebservice/widget">
+      <s:include schemaLocation="http://localhost:9015/DocumentManagement/RecentPouchWidgetWS.asmx?schema=schema1" />
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="getReleasedPouchDataSoapIn">
+    <wsdl:part name="parameters" element="tns:getReleasedPouchData" />
+  </wsdl:message>
+  <wsdl:message name="getReleasedPouchDataSoapOut">
+    <wsdl:part name="parameters" element="tns:getReleasedPouchDataResponse" />
+  </wsdl:message>
+  <wsdl:portType name="RecentPouchWidgetWSSoapBinding">
+    <wsdl:operation name="getReleasedPouchData">
+      <wsdl:input message="tns:getReleasedPouchDataSoapIn" />
+      <wsdl:output message="tns:getReleasedPouchDataSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="RecentPouchWidgetWSSoapBinding" type="tns:RecentPouchWidgetWSSoapBinding">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="getReleasedPouchData">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="RecentPouchWidgetWSSoapBinding1" type="tns:RecentPouchWidgetWSSoapBinding">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="getReleasedPouchData">
+      <soap12:operation soapAction="" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+</wsdl:definitions>
